@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 var ProfileSchema = new schema({
 	id_account: {
@@ -42,8 +41,6 @@ var ProfileSchema = new schema({
         default : undefined
     }
 });
-
-ProfileSchema.plugin(AutoIncrement, {inc_field: 'id_usrprofile'});
 
 ProfileSchema.pre('save',function(next){
     var currentDate = new Date();

@@ -27,9 +27,10 @@ test_script:
   - node --version
   - npm --version
   - yarn --version
-  - yarn install
-  - yarn build
-  - yarn test
+  - npm install
+  - cd client && yarn install
+  - cd client && yarn build
+  - cd client && yarn test
 
 cache:
   - node_modules

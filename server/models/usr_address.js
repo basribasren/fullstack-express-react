@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 var AddressSchema = new schema({
 	id_profile: {
@@ -42,8 +41,6 @@ var AddressSchema = new schema({
         default : undefined
     }
 });
-
-AddressSchema.plugin(AutoIncrement, {inc_field: 'id_usraddress'});
 
 AddressSchema.pre('save',function(next){
     var currentDate = new Date();

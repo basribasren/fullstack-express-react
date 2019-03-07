@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var AutoIncrement = require('mongoose-sequence')(mongoose);
 
 var ContactSchema = new schema({
 	id_profile: {
@@ -35,7 +34,6 @@ var ContactSchema = new schema({
     }
 });
 
-ContactSchema.plugin(AutoIncrement, {inc_field: 'id_usrcontact'});
 
 ContactSchema.pre('save',function(next){
     var currentDate = new Date();

@@ -23,14 +23,15 @@ before_install:
   - npm install -g yarn
 
 install:
-  - yarn install
+  - npm install
+  - cd client && yarn install
 
 script:
   - node --version
   - npm --version
   - yarn --version
-  - yarn build
-  - yarn test
+  - cd client && yarn build
+  - cd client && yarn test
 
 notifications:
   email:

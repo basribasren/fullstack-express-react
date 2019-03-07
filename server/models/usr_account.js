@@ -1,7 +1,5 @@
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var AutoIncrement = require('mongoose-sequence')(mongoose);
-
 
 var AccountSchema = new schema({
 	username: {
@@ -45,8 +43,6 @@ var AccountSchema = new schema({
     }
 });
 
-AccountSchema.plugin(AutoIncrement, {inc_field: 'id_usraccount'});
-
 AccountSchema.pre('save', function(next){
 	var currentDate = new Date();
 
@@ -58,10 +54,12 @@ AccountSchema.pre('save', function(next){
     	this.created_at = currentDate;
     next();
 });
+
 AccountSchema.pre('update', function(next) {
 	this.update({},{ 
   		$set: { updated_at: new Date() } 
   	});
   	next();
 });
+
 module.exports = mongoose.model('Account', AccountSchema);
