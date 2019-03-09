@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const Promise = require('promise')
-const bcrypt 		= require('bcryptjs')
+const bcrypt = require('bcryptjs')
 
-const account 	= require('../../models/usr_account')
+const account = require('../../models/usr_account')
 
 /** SIGN_IN:
  *		_POST 	get the username and password

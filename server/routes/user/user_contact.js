@@ -8,7 +8,11 @@ router.get('/contact/:username', (req, res) =>{
 	return new Promise((resolve, reject) => {
 		profile.findOne({username : req.params.username})
 			.then(profile => {
-				var contact = contact.findOne({id_profile : profile._id}).populate({ path: 'id_profile', select: '_id username email' })
+				var contact = contact.findOne({
+					id_profile : profile._id
+				}).populate({ 
+					path: 'id_profile', select: '_id username email' 
+				})
 				resolve(res.json({ 
 					contact: contact
 				}))
