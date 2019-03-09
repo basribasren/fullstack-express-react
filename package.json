@@ -10,8 +10,8 @@
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-prebuild": "npm install -g yarn webpack",
-    "heroku-postbuild": "cd client && yarn install --only=dev --no-shrinkwrap && yarn install && npm run build"
+    "heroku-prebuild": "npm install -g yarn && cd client && yarn install",
+    "heroku-postbuild": "cd client && npm run build"
   },
   "keywords": [
     "express",
