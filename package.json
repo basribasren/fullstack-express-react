@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-prebuild": "npm install -g yarn && cd client && yarn install",
+    "heroku-prebuild": "npm install -g yarn && cd client && yarn install --production=false",
     "heroku-postbuild": "cd client && npm run build"
   },
   "keywords": [
