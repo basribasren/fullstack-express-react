@@ -9,7 +9,7 @@
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "concurrently \"npm install\" \"cd client && yarn install && npm run build\""
+    "heroku-postbuild": "cd client && npm run build"
   },
   "keywords": [
     "express",
