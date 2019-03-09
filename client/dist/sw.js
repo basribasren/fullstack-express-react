@@ -1,4 +1,4 @@
-importScripts("/precache-manifest.5a605957323425c9ff19f2456a84442b.js", "/workbox-v4.0.0/workbox-sw.js");
+importScripts("/precache-manifest.842d53e6807d12a37d696a99c8d6b40e.js", "/workbox-v4.0.0/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/workbox-v4.0.0"});
 // alter the default cache names
 this.workbox.core.setCacheNameDetails({

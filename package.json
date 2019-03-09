@@ -4,12 +4,14 @@
   "description": "boilerplate for create web app using express js and react js",
   "main": "index.js",
   "scripts": {
+    "client-build": "cd client && npm run build",
     "client-dev": "npm start --prefix client",
     "server-dev": "nodemon server.js",
     "dev": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "npm install -g yarn && cd client && yarn install && npm run build"
+    "heroku-prebuild": "npm install -g yarn && cd client && yarn install",
+    "heroku-postbuild": "cd client && npm run build"
   },
   "keywords": [
     "express",
