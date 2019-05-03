@@ -26,11 +26,14 @@ install:
   - npm install
   - cd client && yarn install
 
+<<<<<<< HEAD
 # before_script:
 #   - cp .env.example .env
 #   - psql -c 'create database express_test;' -U postgres
 #   - npm run migrate
   
+=======
+>>>>>>> 022b08f555d7c028586ae0671f33c3b9c993b6c3
 script:
   - node --version
   - npm --version
@@ -55,4 +58,7 @@ notifications:
 # after_deploy:
 
 # after_script:
+<<<<<<< HEAD
 #   - npm run codecov
+=======
+>>>>>>> 022b08f555d7c028586ae0671f33c3b9c993b6c3
