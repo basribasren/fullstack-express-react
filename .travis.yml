@@ -1,0 +1,58 @@
+sudo: false
+
+addons:
+  chrome: stable
+
+language: node_js
+
+node_js:
+  - "8"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+# env:
+#   - DB=postgres
+
+# services:
+#   - mongodb
+
+before_install:
+  - npm install npm@latest -g
+  - npm install -g yarn
+
+install:
+  - npm install
+  - cd client && yarn install
+
+# before_script:
+#   - cp .env.example .env
+#   - psql -c 'create database express_test;' -U postgres
+#   - npm run migrate
+  
+script:
+  - node --version
+  - npm --version
+  - yarn --version
+  - cd client && yarn build
+  - cd client && yarn test
+
+notifications:
+  email:
+    recipients:
+      - basri.official.acc@gmail.com
+      - basri.basreen@gmail.com
+    on_success: never # default: change
+    on_failure: always # default: always
+
+# after_success:
+
+# before_deploy:
+
+# deploy:
+
+# after_deploy:
+
+# after_script:
+#   - npm run codecov

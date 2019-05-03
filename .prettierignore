@@ -1,0 +1,16 @@
+# dependencies
+/node_modules/
+
+# testing
+/coverage
+/test
+
+# production
+/build
+/dist
+
+package-lock.json
+
+yarn.lock
+
+package.json
