@@ -1,6 +1,5 @@
 # fullstack-express-react
 
-<<<<<<< HEAD
 [![Build Status](https://travis-ci.org/basribasren/boilerplate-react-redux.svg?branch=master)](https://travis-ci.org/basribasren/boilerplate-react-redux) [![Build status](https://ci.appveyor.com/api/projects/status/weuboxr8dwbpp0q2?svg=true)](https://ci.appveyor.com/project/basribasren/boilerplate-react-redux) [![dependencies Status](https://david-dm.org/basribasren/boilerplate-react-redux/status.svg)](https://david-dm.org/basribasren/boilerplate-react-redux) ![GitHub All Releases](https://img.shields.io/github/downloads/basribasren/boilerplate-react-redux/total.svg) [![GitHub license](https://img.shields.io/github/license/basribasren/boilerplate-react-redux.svg)](https://github.com/basribasren/boilerplate-react-redux/blob/master/LICENSE) [![GitHub last commit](https://img.shields.io/github/last-commit/basribasren/boilerplate-react-redux.svg)](https://github.com/basribasren/boilerplate-react-redux/commits/master)
 
 boilerplate for create web or progressive web app using react and redux.
@@ -109,8 +108,6 @@ Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 Runs the app in production mode and get detail bundles `webpack-bundle-analyzer`<br>
 Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
 
-=======
->>>>>>> 022b08f555d7c028586ae0671f33c3b9c993b6c3
 ## Maintainers
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
