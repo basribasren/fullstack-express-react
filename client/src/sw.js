@@ -61,8 +61,7 @@ this.workbox.routing.registerRoute(
 )
 
 const bgSyncPlugin = new this.workbox.backgroundSync.Plugin(
-	'cache-for-failed',
-	{
+	'cache-for-failed', {
 		maxRetentionTime: 24 * 60 // Retry for max of 24 Hours
 	}
 )

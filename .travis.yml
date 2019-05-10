@@ -20,11 +20,10 @@ cache:
 
 before_install:
   - npm install npm@latest -g
-  - npm install -g yarn
 
 install:
   - npm install
-  - cd client && yarn install
+  - cd client && npm install
 
 # before_script:
 #   - cp .env.example .env
@@ -34,9 +33,8 @@ install:
 script:
   - node --version
   - npm --version
-  - yarn --version
-  - cd client && yarn build
-  - cd client && yarn test
+  - cd client && npm run build
+  - cd client && npm run test
 
 notifications:
   email:

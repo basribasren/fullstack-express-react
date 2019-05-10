@@ -13,7 +13,6 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version $env:platform
   - npm install npm@latest -g
-  - npm install yarn -g
 
 # Finish on first failed build
 matrix:
@@ -26,11 +25,10 @@ deploy: off
 test_script:
   - node --version
   - npm --version
-  - yarn --version
   - npm install
-  - cd client && yarn install
-  - cd client && yarn build
-  - cd client && yarn test
+  - cd client && npm run install
+  - cd client && npm run build
+  - cd client && npm run test
 
 cache:
   - node_modules

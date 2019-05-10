@@ -112,12 +112,12 @@ class AppShell extends React.Component {
 
 		if (authentication.isAuthenticated) {
 			if (authentication.role === 'kasir') {
-				content = <div className={classes.map}>{kasirSwitch}</div> 
+				content = <div className={classes.map}>{kasirSwitch}</div>
 			} else {
-				content = <div className={classes.map}>{pelayanSwitch}</div> 
+				content = <div className={classes.map}>{pelayanSwitch}</div>
 			}
 		} else {
-			content = <div className={classes.map}>{publicSwitch}</div> 
+			content = <div className={classes.map}>{publicSwitch}</div>
 		}
 
 		return (

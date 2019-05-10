@@ -26,7 +26,7 @@ const swaggerOptions = {
 		path.join(__dirname, '../docs/*.js'),
 		path.join(__dirname, '../docs/*.yml'),
 		path.join(__dirname, '../docs/*.yaml'),
-	]
+	],
 }
 
 /**

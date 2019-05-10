@@ -10,7 +10,7 @@
     "development": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-prebuild": "npm install -g yarn && cd client && yarn install --production=false",
+    "heroku-prebuild": "npm install npm@latest -g && cd client && npm install --production=false",
     "heroku-postbuild": "npm run client-build"
   },
   "keywords": [
@@ -42,17 +42,7 @@
     "swagger-ui": "^3.22.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
-    "@babel/plugin-transform-arrow-functions": "^7.2.0",
-    "@babel/plugin-transform-runtime": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
     "babel-eslint": "^10.0.1",
-    "babel-plugin-import-rename": "^1.0.1",
-    "babel-plugin-module-resolver": "^3.2.0",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
@@ -62,7 +52,6 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "nodemon": "^1.18.10",
-    "prettier": "^1.17.0",
-    "rimraf": "^2.6.3"
+    "prettier": "^1.17.0"
   }
 }

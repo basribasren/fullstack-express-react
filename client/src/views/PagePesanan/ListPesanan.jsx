@@ -28,9 +28,9 @@ const styles = theme => ({
 	},
 })
 
-function ListPesanan({...props}){
+function ListPesanan({ ...props }) {
 	const { classes, item } = props
-	return (			
+	return (
 		<ListItem alignItems='flex-start'>
 			<ListItemIcon>
 				{item.jenis_menu === 'makanan' ? (
