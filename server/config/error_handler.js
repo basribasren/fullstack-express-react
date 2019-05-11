@@ -1,4 +1,4 @@
-module.exports = function(app) {
+const error_handler = app => {
 	app.use(function(err, req, res, next) {
 		if (err.code !== 'EBADCSRFTOKEN') return next(err)
 
@@ -21,3 +21,5 @@ module.exports = function(app) {
 		res.send(500)
 	})
 }
+
+export default error_handler

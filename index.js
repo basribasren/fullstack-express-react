@@ -1,50 +1,72 @@
-const express = require('express')
-const path = require('path')
-const favicon = require('serve-favicon')
-const mongoose = require('mongoose')
-const handler = require('./server/config/error_handler.js')
-const routes = require('./server/main/routes/index.js')
+import express from 'express'
+import path from 'path'
+import favicon from 'serve-favicon'
+import mongoose from 'mongoose'
+import cluster from 'cluster'
+// const routes = require('./server/main/routes/index.js')
+import dotenv from 'dotenv'
 
+import mongoose_setting from 'config/mongoose_config.js'
+import logger_config from 'config/logger_config.js'
+import express_config from 'config/express_config.js'
+import error_handler from 'config/error_handler.js'
+
+const numCPUs = require('os').cpus().length
 const app = express()
-require('dotenv').config()
-/**
- * [if in development mode, use logger]
- * @param  {[type]} process.env.APP_ENV [description]
- * @return {[type]}                     [description]
- */
+
+dotenv.config()
+// /**
+//  * [if in development mode, use logger]
+//  * @param  {[type]} process.env.APP_ENV [description]
+//  * @return {[type]}                     [description]
+//  */
 if (process.env.APP_ENV === 'development') {
-	require('./server/config/logger_config.js')(app)
+	logger_config(app)
 	mongoose.set('debug', true)
 }
-/**
- * connnection to database mongodb using mongoose
- */
-require('./server/config/mongoose_config.js')(mongoose)
 
-/**
- * express default configuration
- */
+// /**
+//  * connnection to database mongodb using mongoose
+//  */
+mongoose_setting(mongoose)
+
+// /**
+//  * express default configuration
+//  */
 app.use(express.static(path.join(__dirname, 'client/dist')))
 app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
-require('./server/config/express_config.js')(app)
+express_config(app)
 
-/**
- * routes API
- */
-app.use('/api', routes)
+// /**
+//  * routes API
+//  */
+// app.use('/api', routes)
 
-/**
- * send the user to index html page inspite of the url
- */
+// /**
+//  * send the user to index html page inspite of the url
+//  */
 app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
 })
 
-/**
- * the default error handler, at the last
- */
-require('./server/config/error_handler.js')(app)
+// /**
+//  * the default error handler, at the last
+//  */
+error_handler(app)
 
-app.listen(app.get('port'), app.get('host'), () => {
-	console.log(`Server started at http://${app.get('host')}:${app.get('port')}/api`)
-})
+if (cluster.isMaster) {
+	console.log(`Master ${process.pid} is running`)
+	// Fork workers.
+	for (let i = 0; i < numCPUs; i++) {
+		cluster.fork()
+	}
+
+	cluster.on('exit', (worker, code, signal) => {
+		console.log(`worker ${worker.process.pid} died`)
+	})
+} else {
+	app.listen(app.get('port'), app.get('host'), () => {
+		console.log(`Server started at http://${app.get('host')}:${app.get('port')}/api`)
+	})
+	console.log(`Worker ${process.pid} started`)
+}

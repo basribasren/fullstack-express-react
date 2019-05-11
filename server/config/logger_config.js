@@ -1,8 +1,8 @@
-const morgan = require('morgan')
-const fs = require('fs')
-const path = require('path')
+import morgan from 'morgan'
+import fs from 'fs'
+import path from 'path'
 
-module.exports = function(app) {
+const logger_config = app => {
 	// log only 4xx and 5xx responses to console
 	app.use(
 		morgan('dev', {
@@ -15,11 +15,12 @@ module.exports = function(app) {
 	app.use(
 		morgan('common', {
 			stream: fs.createWriteStream(
-				path.join(__dirname, '..', '/log/access.log'),
-				{
+				path.join(__dirname, '..', '/log/access.log'), {
 					flags: 'a',
 				}
 			),
 		})
 	)
 }
+
+export default logger_config

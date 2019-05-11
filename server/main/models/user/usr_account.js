@@ -63,9 +63,12 @@ AccountSchema.pre('save', function(next) {
 })
 
 AccountSchema.pre('update', function(next) {
-	this.update({}, {
-		$set: { updated_at: new Date() },
-	})
+	this.update(
+		{},
+		{
+			$set: { updated_at: new Date() },
+		}
+	)
 	next()
 })
 

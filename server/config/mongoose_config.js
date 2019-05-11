@@ -1,4 +1,4 @@
-module.exports = function(mongoose) {
+const mongoose_setting = mongoose => {
 	mongoose.connect(process.env.DB_MONGOODB_URI, {
 		useNewUrlParser: true,
 		socketTimeoutMS: 0,
@@ -11,3 +11,4 @@ module.exports = function(mongoose) {
 		console.log('Successfully connected to database')
 	})
 }
+export default mongoose_setting
