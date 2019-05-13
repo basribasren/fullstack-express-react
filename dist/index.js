@@ -20,9 +20,10 @@ var _express_config = _interopRequireDefault(require("./server/config/express_co
 
 var _error_handler = _interopRequireDefault(require("./server/config/error_handler.js"));
 
+var _index = _interopRequireDefault(require("./server/main/routes/index.js"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-// const routes = require('./server/main/routes/index.js')
 var numCPUs = require('os').cpus().length;
 
 var app = (0, _express["default"])();
@@ -52,8 +53,8 @@ app.use((0, _serveFavicon["default"])(_path["default"].join(__dirname, 'client/d
 (0, _express_config["default"])(app); // /**
 //  * routes API
 //  */
-// app.use('/api', routes)
-// /**
+
+app.use('/api', _index["default"]); // /**
 //  * send the user to index html page inspite of the url
 //  */
 

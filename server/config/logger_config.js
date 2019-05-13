@@ -21,6 +21,7 @@ const logger_config = app => {
 			),
 		})
 	)
+	console.log(path.join(__dirname, '/log/access.log'))
 }
 
 export default logger_config

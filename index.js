@@ -2,16 +2,17 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import mongoose from 'mongoose'
-import cluster from 'cluster'
-// const routes = require('./server/main/routes/index.js')
+// import cluster from 'cluster'
 import dotenv from 'dotenv'
 
-import mongoose_setting from 'config/mongoose_config.js'
-import logger_config from 'config/logger_config.js'
-import express_config from 'config/express_config.js'
-import error_handler from 'config/error_handler.js'
+import mongoose_setting from '@/config/mongoose_config.js'
+import logger_config from '@/config/logger_config.js'
+import express_config from '@/config/express_config.js'
+import error_handler from '@/config/error_handler.js'
 
-const numCPUs = require('os').cpus().length
+import routes from '@/main/routes/index.js'
+
+// const numCPUs = require('os').cpus().length
 const app = express()
 
 dotenv.config()
@@ -40,7 +41,7 @@ express_config(app)
 // /**
 //  * routes API
 //  */
-// app.use('/api', routes)
+app.use('/api', routes)
 
 // /**
 //  * send the user to index html page inspite of the url
@@ -54,19 +55,19 @@ app.get('*', (req, res) => {
 //  */
 error_handler(app)
 
-if (cluster.isMaster) {
-	console.log(`Master ${process.pid} is running`)
-	// Fork workers.
-	for (let i = 0; i < numCPUs; i++) {
-		cluster.fork()
-	}
+// if (cluster.isMaster) {
+// 	console.log(`Master ${process.pid} is running`)
+// 	// Fork workers.
+// 	for (let i = 0; i < numCPUs; i++) {
+// 		cluster.fork()
+// 	}
 
-	cluster.on('exit', (worker, code, signal) => {
-		console.log(`worker ${worker.process.pid} died`)
-	})
-} else {
-	app.listen(app.get('port'), app.get('host'), () => {
-		console.log(`Server started at http://${app.get('host')}:${app.get('port')}/api`)
-	})
-	console.log(`Worker ${process.pid} started`)
-}
+// 	cluster.on('exit', (worker, code, signal) => {
+// 		console.log(`worker ${worker.process.pid} died`)
+// 	})
+// } else {
+app.listen(app.get('port'), app.get('host'), () => {
+	console.log(`Server started at http://${app.get('host')}:${app.get('port')}/api`)
+})
+// 	console.log(`Worker ${process.pid} started`)
+// }

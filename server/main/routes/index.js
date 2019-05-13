@@ -1,16 +1,18 @@
-const express = require('express')
-const router = express.Router()
+import { Router } from 'express'
 
-const swaggerSpec = require('../../config/swagger_config')
-const auth = require('./user/user_auth')
-const profile = require('./user/user_profile')
+// const swaggerSpec = require('../../config/swagger_config')
+// const profile = require('./user/user_profile')
+
+import auth from './user/accountRoutes.js'
+
+const router = Router()
 
 /**
  * GET /api/swagger.json
  */
-router.get('/docs', (req, res) => {
-	res.json(swaggerSpec)
-})
+// router.get('/docs', (req, res) => {
+// 	res.json(swaggerSpec)
+// })
 
 router.get('/customers', (req, res) => {
 	const customers = [
@@ -23,6 +25,7 @@ router.get('/customers', (req, res) => {
 })
 
 router.use('/auth', auth)
-router.use('/profile', profile)
+// router.use('/profile', profile)
 
-module.exports = router
+
+export default router

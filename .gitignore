@@ -2,6 +2,7 @@
 # Edit at https://www.gitignore.io/?templates=node
 
 #Production
+dist/
 client/dist/
 client/node_modules/
 

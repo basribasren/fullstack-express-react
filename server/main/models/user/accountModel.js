@@ -1,7 +1,7 @@
-var mongoose = require('mongoose')
-var schema = mongoose.Schema
+import mongoose from 'mongoose'
+const schema = mongoose.Schema
 
-var AccountSchema = new schema({
+const AccountSchema = new schema({
 	username: {
 		type: String,
 		lowercase: true,
@@ -50,11 +50,9 @@ var AccountSchema = new schema({
 })
 
 AccountSchema.pre('save', function(next) {
-	var currentDate = new Date()
-
+	const currentDate = new Date()
 	// change the updated_at field to current date
 	this.updated_at = currentDate
-
 	// if created_at doesn't exist, add to that field
 	if (!this.created_at) {
 		this.created_at = currentDate
@@ -63,13 +61,12 @@ AccountSchema.pre('save', function(next) {
 })
 
 AccountSchema.pre('update', function(next) {
-	this.update(
-		{},
-		{
-			$set: { updated_at: new Date() },
-		}
-	)
+	this.update({}, {
+		$set: { updated_at: new Date() },
+	})
 	next()
 })
 
-module.exports = mongoose.model('Account', AccountSchema)
+const AccountModel = mongoose.model('Account', AccountSchema)
+
+export default AccountModel
