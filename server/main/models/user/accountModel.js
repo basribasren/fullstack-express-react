@@ -5,22 +5,19 @@ const AccountSchema = new schema({
 	username: {
 		type: String,
 		lowercase: true,
+		trim: true,
 		unique: [true, 'Username has already been taken'],
 		required: [true, 'Username is required'],
 	},
 	password: {
 		type: String,
-		validate: [
-			/^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/,
-			'street number required',
-		],
 		required: [true, 'Password is required'],
 	},
 	email: {
 		type: String,
 		lowercase: true,
 		validate: [
-			/^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+			/^([A-Z|a-z|0-9](\.|_){0,1})+[A-Z|a-z|0-9]\@([A-Z|a-z|0-9])+((\.){0,1}[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/,
 			'please input the right email',
 		],
 		unique: [true, 'Email has already exist'],
@@ -29,20 +26,24 @@ const AccountSchema = new schema({
 	role: {
 		type: String,
 		enum: ['user', 'admin'],
+		lowercase: true,
 		required: [true, 'Role is required'],
 		default: 'user',
 	},
 	status: {
 		type: String,
+		lowercase: true,
 		enum: ['active', 'unactive', 'delete'],
 		required: [true, 'Status is required'],
 		default: 'unactive',
 	},
 	created_at: {
 		type: Date,
+		default: Date.now,
 	},
 	updated_at: {
 		type: Date,
+		default: Date.now,
 	},
 	deleted_at: {
 		type: Date,
@@ -50,23 +51,15 @@ const AccountSchema = new schema({
 })
 
 AccountSchema.pre('save', function(next) {
-	const currentDate = new Date()
-	// change the updated_at field to current date
-	this.updated_at = currentDate
-	// if created_at doesn't exist, add to that field
-	if (!this.created_at) {
-		this.created_at = currentDate
-	}
+	console.log('pre save')
 	next()
 })
 
-AccountSchema.pre('update', function(next) {
-	this.update({}, {
-		$set: { updated_at: new Date() },
-	})
+AccountSchema.pre('findOneAndUpdate', function(next) {
+	console.log('pre update')
+	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })
-
-const AccountModel = mongoose.model('Account', AccountSchema)
+const AccountModel = mongoose.model('AccountModel', AccountSchema)
 
 export default AccountModel

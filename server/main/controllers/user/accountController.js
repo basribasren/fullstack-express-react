@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs'
 
 import * as accountService from '@/main/services/user/accountService.js'
 
-export const generatePassword = (password) => {
+export const generatePassword = password => {
 	let hash = bcrypt
 		.genSalt(10)
 		.then(salt => {
@@ -12,6 +12,24 @@ export const generatePassword = (password) => {
 			return err
 		})
 	return hash
+}
+
+export const generateData = data => {
+	let result = generatePassword(data.password)
+		.then(hash => {
+			result = {
+				username: data.username,
+				password: hash,
+				email: data.email,
+				role: data.role,
+				status: data.status,
+			}
+			return result
+		})
+		.catch(err => {
+			return err
+		})
+	return result
 }
 
 export const fetchAll = (req, res, next) => {
@@ -47,21 +65,9 @@ export const login = (req, res, next) => {
 }
 
 export const create = (req, res, next) => {
-	let data
-	generatePassword(req.body.password)
-		.then(result => {
-			let data = {
-				username: req.body.username,
-				password: result,
-				email: req.body.email,
-				role: req.body.role,
-				status: req.body.status,
-			}
-			return data
-		})
+	generateData(req.body)
 		.then(data => {
-			let result = accountService.createAccount(data)
-			return result
+			return accountService.createAccount(data)
 		})
 		.then(result => {
 			res.status(200).json({
@@ -74,9 +80,11 @@ export const create = (req, res, next) => {
 }
 
 export const update = (req, res, next) => {
-	accountService
-		.updateAccount(req.params.id, req.body)
-		.then(data => res.json({ data }))
+	generateData(req.body)
+		.then(data => {
+			return accountService.updateAccount(req.params.id, data)
+		})
+		.then(result => res.json({ result }))
 		.catch(err => next(err))
 }
 

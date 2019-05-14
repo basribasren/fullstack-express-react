@@ -1,6 +1,8 @@
 const mongoose_setting = mongoose => {
 	mongoose.connect(process.env.DB_MONGOODB_URI, {
+		useFindAndModify: false,
 		useNewUrlParser: true,
+		useCreateIndex: true,
 		socketTimeoutMS: 0,
 		keepAlive: true,
 		reconnectTries: 30,
