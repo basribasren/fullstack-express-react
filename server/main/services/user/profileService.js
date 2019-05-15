@@ -1,5 +1,9 @@
 import profileModel from '@/main/models/user/profileModel.js'
 
+/**
+ * get all list profile
+ * @return {[type]} [description]
+ */
 export const getAll = () => {
 	return profileModel
 		.find()
@@ -11,6 +15,11 @@ export const getAll = () => {
 		})
 }
 
+/**
+ * get profile by username
+ * @param  {String} username [description]
+ * @return {[type]}          [description]
+ */
 export const getByUsername = username => {
 	return profileModel
 		.findOne({ username: username })
@@ -22,6 +31,11 @@ export const getByUsername = username => {
 		})
 }
 
+/**
+ * get profile by id
+ * @param  {ObjectId} id [description]
+ * @return {[type]}    [description]
+ */
 export const getById = id => {
 	return profileModel
 		.findOne({ _id: id })
@@ -33,8 +47,12 @@ export const getById = id => {
 		})
 }
 
-export const create = (username, data) => {
-	// how to passing the username to hooks
+/**
+ * create profile
+ * @param  {Object} data [description]
+ * @return {[type]}      [description]
+ */
+export const create = data => {
 	return profileModel
 		.create(data)
 		.then(result => {
@@ -45,6 +63,12 @@ export const create = (username, data) => {
 		})
 }
 
+/**
+ * update profile by username
+ * @param  {String} username [description]
+ * @param  {Object} data     [description]
+ * @return {[type]}          [description]
+ */
 export const update = (username, data) => {
 	return profileModel
 		.findOneAndUpdate({ username: username }, { $set: data })
@@ -56,6 +80,11 @@ export const update = (username, data) => {
 		})
 }
 
+/**
+ * delete profile by username
+ * @param  {String} username [description]
+ * @return {[type]}          [description]
+ */
 export const remove = username => {
 	return profileModel
 		.findOneAndDelete({ username: username })

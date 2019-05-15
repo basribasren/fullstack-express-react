@@ -1,31 +1,49 @@
 import mongoose from 'mongoose'
 const schema = mongoose.Schema
 
-var ProfileSchema = new schema({
+/* eslint-disable prettier/prettier */
+const Contact = new schema({
+	contact: {
+		type: String,
+		default: '',
+	},
+	category: {
+		type: String,
+		default: '',
+	},
+}, { _id: false })
+
+const ProfileSchema = new schema({
 	id_account: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Account',
+		unique: [true, 'id has already been taken'],
+		required: [true, 'id is required'],
 	},
 	username: {
 		type: mongoose.Schema.Types.String,
 		ref: 'Account',
+		unique: [true, 'username has already been taken'],
+		required: [true, 'username is required'],
 	},
 	email: {
 		type: mongoose.Schema.Types.String,
 		ref: 'Account',
+		unique: [true, 'email has already been taken'],
+		required: [true, 'email is required'],
 	},
 	name: {
 		type: String,
 		default: '',
 		required: [true, 'Full Name is required'],
 	},
-	logo_picture: {
+	logo_image: {
 		type: String,
-		default: 'Logo picture not available',
+		default: 'Logo image not available',
 	},
-	cover_picture: {
+	cover_image: {
 		type: String,
-		default: 'Cover picture not available',
+		default: 'Cover image not available',
 	},
 	description: {
 		type: String,
@@ -35,6 +53,7 @@ var ProfileSchema = new schema({
 		type: [String],
 		default: [],
 	},
+	contacts: [Contact],
 	created_at: {
 		type: Date,
 		default: Date.now,
@@ -58,6 +77,6 @@ ProfileSchema.pre('findOneAndUpdate', function(next) {
 	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })
-const ProfileModel = mongoose.model('ProfileModel', ProfileSchema)
+const ProfileModel = mongoose.model('Profile', ProfileSchema)
 
 export default ProfileModel

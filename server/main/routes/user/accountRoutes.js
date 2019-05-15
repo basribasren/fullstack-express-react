@@ -1,16 +1,16 @@
 import { Router } from 'express'
-
 import * as accountController from '@/main/controllers/user/accountController.js'
-// import { findUser, userValidator } from '../validators/userValidator'
 
 const router = Router()
-/**
- * GET /api/auth
- */
+// GET /api/auth
 router.get('/', accountController.fetchAll)
+// GET /api/auth/sign-in
 router.post('/sign-in', accountController.login)
+// GET /api/auth/sign-up
 router.post('/sign-up', accountController.create)
-router.put('/update/:id', accountController.update)
-router.delete('/delete/:id', accountController.remove)
+// GET /api/auth/:id/update
+router.put('/:id/update', accountController.update)
+// GET /api/auth/:id/delete
+router.delete('/:id/delete', accountController.remove)
 
 export default router

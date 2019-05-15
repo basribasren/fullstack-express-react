@@ -60,6 +60,6 @@ AccountSchema.pre('findOneAndUpdate', function(next) {
 	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })
-const AccountModel = mongoose.model('AccountModel', AccountSchema)
+const AccountModel = mongoose.model('Account', AccountSchema)
 
 export default AccountModel

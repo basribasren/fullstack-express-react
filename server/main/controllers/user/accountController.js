@@ -1,7 +1,11 @@
 import bcrypt from 'bcryptjs'
-
 import * as accountService from '@/main/services/user/accountService.js'
 
+/**
+ * generate hash of password
+ * @param  {String} password [description]
+ * @return {[type]}          [description]
+ */
 export const generatePassword = password => {
 	let hash = bcrypt
 		.genSalt(10)
@@ -14,6 +18,11 @@ export const generatePassword = password => {
 	return hash
 }
 
+/**
+ * generate data
+ * @param  {Object} data [description]
+ * @return {[type]}      [description]
+ */
 export const generateData = data => {
 	let result = generatePassword(data.password)
 		.then(hash => {
@@ -32,6 +41,13 @@ export const generateData = data => {
 	return result
 }
 
+/**
+ * get list account
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 export const fetchAll = (req, res, next) => {
 	accountService
 		.getAllAccount()
@@ -39,6 +55,13 @@ export const fetchAll = (req, res, next) => {
 		.catch(err => next(err))
 }
 
+/**
+ * login
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 export const login = (req, res, next) => {
 	accountService
 		.getByUsername(req.body.username)
@@ -64,6 +87,13 @@ export const login = (req, res, next) => {
 		.catch(err => next(err))
 }
 
+/**
+ * create account
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 export const create = (req, res, next) => {
 	generateData(req.body)
 		.then(data => {
@@ -79,6 +109,13 @@ export const create = (req, res, next) => {
 		})
 }
 
+/**
+ * update account
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 export const update = (req, res, next) => {
 	generateData(req.body)
 		.then(data => {
@@ -88,6 +125,13 @@ export const update = (req, res, next) => {
 		.catch(err => next(err))
 }
 
+/**
+ * delete account
+ * @param  {[type]}   req  [description]
+ * @param  {[type]}   res  [description]
+ * @param  {Function} next [description]
+ * @return {[type]}        [description]
+ */
 export const remove = (req, res, next) => {
 	accountService
 		.deleteAccount(req.params.id)

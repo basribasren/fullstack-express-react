@@ -1,9 +1,9 @@
 import { Router } from 'express'
 
 // const swaggerSpec = require('../../config/swagger_config')
-// const profile = require('./user/user_profile')
 
 import auth from './user/accountRoutes.js'
+import profile from './user/profileRoutes.js'
 
 const router = Router()
 
@@ -25,7 +25,7 @@ router.get('/customers', (req, res) => {
 })
 
 router.use('/auth', auth)
-// router.use('/profile', profile)
+router.use('/profile', profile)
 
 
 export default router

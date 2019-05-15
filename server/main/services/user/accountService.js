@@ -1,5 +1,9 @@
 import accountModel from '@/main/models/user/accountModel.js'
 
+/**
+ * get all list account
+ * @return {[type]} [description]
+ */
 export const getAllAccount = () => {
 	return accountModel
 		.find()
@@ -11,9 +15,14 @@ export const getAllAccount = () => {
 		})
 }
 
+/**
+ * get account by username
+ * @param  {String} username [description]
+ * @return {[type]}      [description]
+ */
 export const getByUsername = username => {
 	return accountModel
-		.findOne({ username: username })
+		.findOne({ 'username': username }, 'id username email role status')
 		.then(result => {
 			return result
 		})
@@ -22,6 +31,11 @@ export const getByUsername = username => {
 		})
 }
 
+/**
+ * create account
+ * @param  {Object} data [description]
+ * @return {[type]}      [description]
+ */
 export const createAccount = data => {
 	return accountModel
 		.create(data)
@@ -33,6 +47,12 @@ export const createAccount = data => {
 		})
 }
 
+/**
+ * update account by _id
+ * @param  {ObjectId} id   [description]
+ * @param  {Object} data [description]
+ * @return {[type]}      [description]
+ */
 export const updateAccount = (id, data) => {
 	let newData = {
 		password: data.password,
@@ -48,6 +68,11 @@ export const updateAccount = (id, data) => {
 		})
 }
 
+/**
+ * delete account by _id
+ * @param  {ObjectId} id [description]
+ * @return {[type]}    [description]
+ */
 export const deleteAccount = id => {
 	return accountModel
 		.findOneAndDelete({ _id: id })
