@@ -1,7 +1,11 @@
+/* eslint-disable prettier/prettier */
 import mongoose from 'mongoose'
 const schema = mongoose.Schema
 
-/* eslint-disable prettier/prettier */
+/**
+ * Contact Schema
+ * @type {schema}
+ */
 const Contact = new schema({
 	contact: {
 		type: String,
@@ -13,6 +17,59 @@ const Contact = new schema({
 	},
 }, { _id: false })
 
+/**
+ * Milestone Schema
+ * @type {schema}
+ */
+const Milestone = new schema({
+	since: {
+		type: Date,
+	},
+	region: {
+		type: String,
+		default: 'indonesia',
+	},
+	location: {
+		lang: Number,
+		lat: Number,
+	},
+}, { _id: false })
+
+/**
+ * Address Schema
+ * @type {schema}
+ */
+const Address = new schema({
+	province: {
+		type: String,
+		default: '',
+	},
+	city: {
+		type: String,
+		default: '',
+	},
+	subdistrict1: {
+		type: String,
+		default: '',
+	},
+	subdistrict2: {
+		type: String,
+		default: '',
+	},
+	street: {
+		type: String,
+		default: '',
+	},
+	postal_code: {
+		type: String,
+		default: '',
+	},
+}, { _id: false })
+
+/**
+ * Profile Schema
+ * @type {schema}
+ */
 const ProfileSchema = new schema({
 	id_account: {
 		type: mongoose.Schema.Types.ObjectId,
@@ -54,6 +111,8 @@ const ProfileSchema = new schema({
 		default: [],
 	},
 	contacts: [Contact],
+	address: [Address],
+	milestones: [Milestone],
 	created_at: {
 		type: Date,
 		default: Date.now,

@@ -19,7 +19,9 @@ export const generateData = (account, data) => {
 			cover_image: data.cover_image,
 			description: data.description,
 			features: data.features,
-			contacts: data.contacts
+			contacts: data.contacts,
+			address: data.address,
+			milestones: data.milestones,
 		}
 		resolve(result)
 	})
