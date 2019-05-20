@@ -1,37 +1,38 @@
 import {
 	DO_LOGIN,
-	DO_LOGOUT
+	DO_LOGOUT,
 } from 'redux/constants'
 
 import axios from 'axios'
 
 export const login = (username, password) => dispatch => {
+	console.log(username)
 	return axios
 		.request({
 			method: 'post',
-			url: process.env.API_PATH + 'api/accounts/login?include=user',
+			url: process.env.API_PATH + 'auth/sign-in',
 			data: {
 				username: username,
-				password: password
+				password: password,
 			}
 		})
 		.then(response => {
 			dispatch({
 				type: DO_LOGIN,
-				payload: response.data
+				payload: response.data,
 			})
 			return response.data
 		})
 		.catch(error => {
-			return error
+			throw new Error(error)
 		})
 }
 
-export const logout = access_token => dispatch =>{
+export const logout = access_token => dispatch => {
 	return axios
 		.request({
 			method: 'post',
-			url: process.env.API_PATH + `api/accounts/logout?access_token=${access_token}`
+			url: process.env.API_PATH + `auth/logout?access_token=${access_token}`
 		})
 		.then(response => {
 			dispatch({

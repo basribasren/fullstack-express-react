@@ -14,9 +14,11 @@ import TextField from '@material-ui/core/TextField'
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import Lock from '@material-ui/icons/Lock'
 
-import Snackbar from 'components/Snackbar/Snackbar'
 import { login } from 'redux/action/actionLogin'
-import { create_log } from 'redux/action/actionLog'
+import {
+	showSnackbar,
+	closeSnackbar,
+} from 'redux/action/actionSnackbar'
 
 const styles = theme => ({
 	root: {
@@ -60,8 +62,6 @@ class PageLogin extends Component {
 			username: false,
 			password: false
 		},
-		message:'',
-		isSnackbarOpen: false
 	}
 
 	handleInputChange = (event) => {
@@ -75,16 +75,15 @@ class PageLogin extends Component {
 		})
 	}
 
-	handleSnackbarShow = (message) =>{
-		this.setState({ isSnackbarOpen: true, message: message })
+	handleCloseSnackbar() {
 		setTimeout(
 			function() {
-				this.setState({ isSnackbarOpen: false, message: '' })
+				this.props.closeSnackbar()
 			}.bind(this),
 			6000
 		)
 	}
-	
+
 	handleValidate = (username, password) => {
 		const errors = {}
 		if (!username) errors.username = true
@@ -92,47 +91,85 @@ class PageLogin extends Component {
 		return errors
 	}
 
+	handleSetLog = (result) => {
+		const data = {
+			username: result.username,
+			id_account: result._id,
+			keterangan: 'Login ke dalam sistem'
+		}
+		return data
+	}
+
+	handleSetError = (message) => {
+		this.setState({
+			errors: {
+				username: true,
+				password: true,
+			}
+		})
+		return this.props.showSnackbar('', message)
+	}
+
 	handleLogin = () => {
-		const errors = this.handleValidate(this.state.username, this.state.password)
+		const { username, password } = this.state
+		const errors = this.handleValidate(username, password)
 		this.setState({ errors })
 
 		if (Object.keys(errors).length === 0) {
-			this.props.login(this.state.username, this.state.password)
+			this.props.login(username, password)
 				.then(result => {
-					{/*
-						created: '2019-04-25T14:25:58.100Z'
-						id: 'RKDFbDt76cxmSzxVTVCbO5df66BvtQ3WymEW6bfimG81SO5NBeCjekdPKu8GCBkh'
-						ttl: 1209600
-						user:
-							email: 'admin@gmail.com'
-							id: '5c8525546e3b3b328cb42e07'
-							realm: 'admin'
-							username: 'admin'
-						__proto__: Object
-						userId: '5c859asdh3249adasd24k'
-					*/}
-					const keterangan = `Login ke Dalam Sistem`
-					const data = {
-						username: result.user.username,
-						id_account: result.userId 
-					}
-					this.props.create_log(result.id, data, keterangan)
+					let log = this.handleSetLog(result)
+					return log
 				})
 				.catch(error => {
-					this.setState({
-						errors: {
-							username: true,
-							password: true
-						}
-					})
-					this.handleSnackbarShow(`Login Failed with error message: ${error.message}`)
+					let message = `Login Failed with error message: ${error.message}`
+					this.handleSetError(message)
 				})
 		}
 	}
 
 	render() {
 		const { classes } = this.props
-		const { errors, isSnackbarOpen } = this.state
+		const { errors } = this.state
+
+		const textFieldUsername = <TextField
+			error={errors.username}
+			id='username'
+			label='username'
+			className={classes.textField}
+			margin='normal'
+			fullWidth
+			variant='outlined'
+			InputProps={{
+				value: this.state.username,
+				onChange: this.handleInputChange,
+				startAdornment: (
+					<InputAdornment position='start'>
+						<AccountCircle />
+					</InputAdornment>
+				),
+			}}
+		/>
+		const textFieldPassword = <TextField
+			error={errors.password}
+			id='password'
+			label='Password'
+			className={classes.textField}
+			autoComplete='current-password'
+			margin='normal'
+			fullWidth
+			variant='outlined'
+			InputProps={{
+				value: this.state.password,
+				onChange: this.handleInputChange,
+				type: 'password',
+				startAdornment: (
+					<InputAdornment position='start'>
+						<Lock />
+					</InputAdornment>
+				),
+			}}
+		/>
 		return (
 			<Grid container justify='center'>
 				<Grid item xs={12} sm={4} md={4}>
@@ -141,56 +178,12 @@ class PageLogin extends Component {
 							Login
 						</Typography>
 						<form className={classes.container} noValidate autoComplete='off'>
-							<TextField
-								error={errors.username}
-								id='username'
-								label='username'
-								className={classes.textField}
-								margin='normal'
-								fullWidth
-								variant='outlined'
-								InputProps={{
-									value: this.state.username,
-									onChange: this.handleInputChange,
-									startAdornment: (
-										<InputAdornment position='start'>
-											<AccountCircle />
-										</InputAdornment>
-									),
-								}}
-							/>
-							<TextField
-								error={errors.password}
-								id='password'
-								label='Password'
-								className={classes.textField}
-								autoComplete='current-password'
-								margin='normal'
-								fullWidth
-								variant='outlined'
-								InputProps={{
-									value: this.state.password,
-									onChange: this.handleInputChange,
-									type: 'password',
-									startAdornment: (
-										<InputAdornment position='start'>
-											<Lock />
-										</InputAdornment>
-									),
-								}}
-							/>
+							{textFieldUsername}
+							{textFieldPassword}
 							<Button variant='contained' color='primary' onClick={this.handleLogin}>
 								Masuk
 							</Button>
 						</form>
-												
-						<Snackbar
-							place='tr'
-							icon={'add_alert'}
-							message={this.state.message}
-							isSnackbarOpen={isSnackbarOpen}
-							closeNotification={() => this.setState({ isSnackbarOpen: false })}
-						/>
 					</Paper>
 				</Grid>
 			</Grid>
@@ -200,9 +193,14 @@ class PageLogin extends Component {
 
 PageLogin.propTypes = {
 	classes: PropTypes.object.isRequired,
+	snackbar: state.snackbar,
 }
 
 export default compose(
 	withStyles(styles, { withTheme: true }),
-	connect( null, { login, create_log })
+	connect(null, {
+		login,
+		showSnackbar,
+		closeSnackbar,
+	})
 )(PageLogin)

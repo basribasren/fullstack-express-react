@@ -22,7 +22,7 @@ export const getAllAccount = () => {
  */
 export const getByUsername = username => {
 	return accountModel
-		.findOne({ 'username': username }, 'id username email role status')
+		.findOne({ username: username })
 		.then(result => {
 			return result
 		})

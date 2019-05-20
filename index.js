@@ -16,43 +16,45 @@ import routes from '@/main/routes/index.js'
 const app = express()
 
 dotenv.config()
-// /**
-//  * [if in development mode, use logger]
-//  * @param  {[type]} process.env.APP_ENV [description]
-//  * @return {[type]}                     [description]
-//  */
+/**
+ * [if in development mode, use logger]
+ * @param  {[type]} process.env.APP_ENV [description]
+ * @return {[type]}                     [description]
+ */
 if (process.env.APP_ENV === 'development') {
 	logger_config(app)
 	mongoose.set('debug', true)
 }
 
-// /**
-//  * connnection to database mongodb using mongoose
-//  */
+/**
+ * connnection to database mongodb using mongoose
+ */
 mongoose_setting(mongoose)
 
-// /**
-//  * express default configuration
-//  */
+/**
+ * express default configuration
+ */
 app.use(express.static(path.join(__dirname, 'client/dist')))
-app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
+if (process.env.APP_ENV === 'production') {
+	app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
+}
 express_config(app)
 
-// /**
-//  * routes API
-//  */
+/**
+ * routes API
+ */
 app.use('/api', routes)
 
-// /**
-//  * send the user to index html page inspite of the url
-//  */
+/**
+ * send the user to index html page inspite of the url
+ */
 app.get('*', (req, res) => {
 	res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
 })
 
-// /**
-//  * the default error handler, at the last
-//  */
+/**
+ * the default error handler, at the last
+ */
 error_handler(app)
 
 // if (cluster.isMaster) {

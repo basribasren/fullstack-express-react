@@ -30,12 +30,11 @@ const AccountSchema = new schema({
 		required: [true, 'Role is required'],
 		default: 'user',
 	},
-	status: {
-		type: String,
+	active: {
+		type: Boolean,
 		lowercase: true,
-		enum: ['active', 'unactive', 'delete'],
 		required: [true, 'Status is required'],
-		default: 'unactive',
+		default: false,
 	},
 	created_at: {
 		type: Date,

@@ -7,7 +7,13 @@ import profileModel from '@/main/models/user/profileModel.js'
 export const getAll = () => {
 	return profileModel
 		.find()
+		.sort({ date_created: -1 })
+		.skip(0)
+		.limit(1000)
+		.toArray()
 		.then(result => {
+			//give more info like total count of result
+			// and total count left data
 			return result
 		})
 		.catch(err => {

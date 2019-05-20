@@ -45,7 +45,7 @@ const styles = theme => ({
 })
 
 class Header extends React.Component {
-	render () {
+	render() {
 		const { classes, data } = this.props
 		return (
 			<AppBar
@@ -69,7 +69,7 @@ class Header extends React.Component {
 
 					{/* Header - Title goes here */}
 					<Typography variant='h6' color='inherit' noWrap>
-						Sistem Kasir {data.role}
+						{this.props.brand} {data.role}
 					</Typography>
 
 					{/* Header - Logout goes here */}

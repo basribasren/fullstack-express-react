@@ -1,8 +1,6 @@
-// import { AsyncStorage } from 'react-native'
 import localforage from 'localforage'
 import { createStore, applyMiddleware } from 'redux'
 import { persistStore, persistReducer } from 'redux-persist'
-// import storage from 'redux-persist/lib/storage'
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger'
 import { composeWithDevTools } from 'redux-devtools-extension'
@@ -13,13 +11,13 @@ import rootReducer from '../reducer'
 export default function configureStore(initialState) {
 	localforage.config({
 		driver: localforage.INDEXEDDB,
-		name: 'boilerplate-redux-store'
+		name: 'boilerplate-redux-store',
 	})
 	// choose driver and set name for localforage
 	const persistConfig = {
 		key: 'root',
 		storage: localforage,
-		stateReconciler: autoMergeLevel2
+		stateReconciler: autoMergeLevel2,
 	}
 	// setting local storage that used
 	const persistedReducer = persistReducer(persistConfig, rootReducer)

@@ -5,6 +5,7 @@ import methodOverride from 'method-override'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
+import sessionStore from 'connect-mongodb-session'
 
 const express_config = app => {
 	// parse application/json
@@ -19,18 +20,25 @@ const express_config = app => {
 	app.set('trust proxy', 1)
 	// Create a session middleware with the given options.
 	const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
-	app.use(
-		session({
-			secret: 'keyboard cat',
-			resave: true,
-			saveUninitialized: true,
-			cookie: {
-				secure: false,
-				maxAge: expiryDate,
-				httpOnly: true,
-			},
-		})
-	)
+	const MongoStore = sessionStore(session)
+	// session store
+	const store = new MongoStore({
+		uri: process.env.DB_MONGOODB_URI,
+		collection: 'sessions',
+	})
+
+	app.use(session({
+		secret: 'what the secret',
+		resave: true,
+		saveUninitialized: true,
+		cookie: {
+			path: '/',
+			secure: false,
+			maxAge: expiryDate,
+			httpOnly: true,
+		},
+		store: store
+	}))
 	// Allows cross-domain communication from the browser
 	app.use(cors())
 	// override with the X-HTTP-Method-Override header in the request

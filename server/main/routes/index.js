@@ -4,6 +4,9 @@ import { Router } from 'express'
 
 import auth from './user/accountRoutes.js'
 import profile from './user/profileRoutes.js'
+import game from './game/gameRoutes.js'
+import info from './game/infoRoutes.js'
+import list from './game/listRoutes.js'
 
 const router = Router()
 
@@ -26,6 +29,8 @@ router.get('/customers', (req, res) => {
 
 router.use('/auth', auth)
 router.use('/profile', profile)
-
+router.use('/game', game)
+router.use('/info', info)
+router.use('/list', list)
 
 export default router

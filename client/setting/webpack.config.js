@@ -39,10 +39,10 @@ module.exports = merge(baseWebpackConfig, {
 		// 		reload: false
 		// 	}
 		// ),
-		
+
 		new webpack.DefinePlugin({
 			'process.env': {
-				API_PATH: JSON.stringify('http://localhost:3000/api')
+				API_PATH: JSON.stringify('http://localhost:3000/api/')
 			}
 		}),
 		new FriendlyErrorsPlugin(),

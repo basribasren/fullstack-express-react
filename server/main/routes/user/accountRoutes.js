@@ -1,9 +1,10 @@
 import { Router } from 'express'
 import * as accountController from '@/main/controllers/user/accountController.js'
+import { verifyToken } from '@/main/middlewares/token-config.js'
 
 const router = Router()
 // GET /api/auth
-router.get('/', accountController.fetchAll)
+router.get('/', verifyToken, accountController.fetchAll)
 // GET /api/auth/sign-in
 router.post('/sign-in', accountController.login)
 // GET /api/auth/sign-up

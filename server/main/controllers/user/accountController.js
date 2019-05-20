@@ -1,22 +1,6 @@
-import bcrypt from 'bcryptjs'
 import * as accountService from '@/main/services/user/accountService.js'
-
-/**
- * generate hash of password
- * @param  {String} password [description]
- * @return {[type]}          [description]
- */
-export const generatePassword = password => {
-	let hash = bcrypt
-		.genSalt(10)
-		.then(salt => {
-			return bcrypt.hash(password, salt)
-		})
-		.catch(err => {
-			return err
-		})
-	return hash
-}
+import { generatePassword, comparePassword } from '@/main/middlewares/password-config.js'
+import { generateToken } from '@/main/middlewares/token-config.js'
 
 /**
  * generate data
@@ -31,7 +15,6 @@ export const generateData = data => {
 				password: hash,
 				email: data.email,
 				role: data.role,
-				status: data.status,
 			}
 			return result
 		})
@@ -66,27 +49,18 @@ export const login = (req, res, next) => {
 	accountService
 		.getByUsername(req.body.username)
 		.then(data => {
-			return bcrypt.compare(req.body.password, data.password)
-		})
-		.then(isMatch => {
-			if (isMatch === true) {
-				req.session.account = {
-					username: req.body.username,
-					email: req.body.email,
-				}
-				res.json({
-					message: 'Hey welcome you verified',
-					session: req.session,
-				})
+			let isMatch = comparePassword(req.body.password, data.password)
+			if (isMatch) {
+				let token = generateToken(data)
+				res.status(200).json({ data: data, token: token })
 			} else {
 				res.status(400).json({
-					message: 'Error: The password not match',
+					message: 'Password not match',
 				})
 			}
 		})
 		.catch(err => next(err))
 }
-
 /**
  * create account
  * @param  {[type]}   req  [description]

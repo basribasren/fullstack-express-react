@@ -1,3 +1,15 @@
+const onClose = () => {
+	console.log('MongoDB connection was closed')
+}
+
+const onReconnect = () => {
+	console.log('MongoDB reconnected')
+}
+
+const onOpen = () => {
+	console.log('Successfully connected to database')
+}
+
 const mongoose_setting = mongoose => {
 	mongoose.connect(process.env.DB_MONGOODB_URI, {
 		useFindAndModify: false,
@@ -9,8 +21,8 @@ const mongoose_setting = mongoose => {
 	})
 	const connection = mongoose.connection
 	connection.on('error', console.error.bind(console, 'connection error:'))
-	connection.once('open', function() {
-		console.log('Successfully connected to database')
-	})
+	connection.once('close', onClose)
+	connection.once('reconnect', onReconnect)
+	connection.once('open', onOpen)
 }
 export default mongoose_setting

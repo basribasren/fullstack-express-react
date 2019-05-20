@@ -1,27 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-// import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import { connect } from 'react-redux'
 import compose from 'recompose/compose'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Button from '@material-ui/core/Button'
-import Snackbar from '@material-ui/core/Snackbar'
 import Fade from '@material-ui/core/Fade'
 import Icon from '@material-ui/core/Icon'
 
 import Header from 'components/Header/Header'
 import Sidebar from 'components/Sidebar/Sidebar'
+import Snackbar from 'components/Snackbar/Snackbar'
 
 import publicSwitch from 'switch/public'
-import kasirSwitch from 'switch/kasir'
-import pelayanSwitch from 'switch/pelayan'
-
 import {
 	getStatusConnection,
-	getMetadataConnection
+	getMetadataConnection,
 } from 'redux/action/actionLayout'
+import {
+	showSnackbar,
+	closeSnackbar,
+} from 'redux/action/actionSnackbar'
 
 const styles = theme => ({
 	root: {
@@ -49,7 +49,6 @@ const styles = theme => ({
 class AppShell extends React.Component {
 	state = {
 		isDrawerOpen: false,
-		isSnackbarOpen: false
 	}
 
 	handleDrawerOpen = () => {
@@ -60,19 +59,13 @@ class AppShell extends React.Component {
 		this.setState({ isDrawerOpen: false })
 	}
 
-	handleSnackbarShow(status) {
-		this.props.getStatusConnection(status)
-		this.setState({ isSnackbarOpen: true })
+	handleCloseSnackbar() {
 		setTimeout(
 			function() {
-				this.handleSnackbarClose()
+				this.props.closeSnackbar()
 			}.bind(this),
 			6000
 		)
-	}
-
-	handleSnackbarClose = () => {
-		this.setState({ isSnackbarOpen: false })
 	}
 
 	getConnection() {
@@ -91,34 +84,23 @@ class AppShell extends React.Component {
 		}
 
 		window.addEventListener('online', () => {
-			this.handleSnackbarShow(true)
+			this.props.getStatusConnection(true)
 		})
 		window.addEventListener('offline', () => {
-			this.handleSnackbarShow(false)
+			this.props.getStatusConnection(true)
 		})
 		if (navigator.onLine) {
-			this.handleSnackbarShow(true)
+			this.props.showSnackbar('signal_wifi_3_bar', 'Online')
+			this.handleCloseSnackbar()
 		} else {
-			this.handleSnackbarShow(false)
+			this.props.showSnackbar('signal_wifi_off', 'Offline')
+			this.handleCloseSnackbar()
 		}
 	}
 
 	render() {
-		const { classes, connection, authentication, ...rest } = this.props
-		const message = connection.online ? 'Online' : 'Offline'
-		// const color = connection.online ? 'success' : 'danger'
-		const icon = connection.online ? 'signal_wifi_3_bar' : 'signal_wifi_off'
-		let content
-
-		if (authentication.isAuthenticated) {
-			if (authentication.role === 'kasir') {
-				content = <div className={classes.map}>{kasirSwitch}</div>
-			} else {
-				content = <div className={classes.map}>{pelayanSwitch}</div>
-			}
-		} else {
-			content = <div className={classes.map}>{publicSwitch}</div>
-		}
+		const { classes, connection, authentication, snackbar, ...rest } = this.props
+		let content = <div className={classes.map}>{publicSwitch}</div>
 
 		return (
 			<div className={classes.root}>
@@ -127,6 +109,7 @@ class AppShell extends React.Component {
 				<Header 
 					isDrawerOpen={this.state.isDrawerOpen}
 					data={authentication}
+					brand="GC-STRORE"
 					handleDrawerOpen={this.handleDrawerOpen}
 				/>
 				{/* Sidebar/Drawer goes here */}
@@ -141,26 +124,14 @@ class AppShell extends React.Component {
 					<div className={classes.toolbar} />
 					{content}
 				</main>
+				{/* Notification goes here*/}
 				<Snackbar
+					place='tr'
 					className={classes.snackbar}
-					open={this.state.isSnackbarOpen}
-					onClose={()=>this.handleSnackbarClose}
-					TransitionComponent={Fade}
-					ContentProps={{
-						'aria-describedby': 'message-id',
-						className: classes.snackbarContent,
-					}}
-					action={
-						<Button color='inherit' size='small' onClick={this.handleSnackbarClose}>
-							{message}
-						</Button>
-					}
-					message={
-						<div>
-							{icon !== undefined ? <Icon>{icon}</Icon> : null}
-							<span id='message-id'>{message}</span>
-						</div>
-					}
+					isSnackbarOpen={snackbar.isSnackbarOpen}
+					closeNotification={this.props.closeSnackbar}
+					icon={snackbar.icon}
+					message={snackbar.message}
 				/>
 			</div>
 		)
@@ -173,7 +144,8 @@ AppShell.propTypes = {
 
 const mapStateToProps = state => ({
 	connection: state.layout,
-	authentication: state.login
+	authentication: state.login,
+	snackbar: state.snackbar,
 })
 
 export default compose(
@@ -181,7 +153,9 @@ export default compose(
 	connect(
 		mapStateToProps, {
 			getStatusConnection,
-			getMetadataConnection
+			getMetadataConnection,
+			showSnackbar,
+			closeSnackbar,
 		}
 	)
 )(AppShell)

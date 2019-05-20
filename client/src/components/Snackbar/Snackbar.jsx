@@ -17,34 +17,34 @@ const styles = {
 		width: 360,
 	},
 	close: {
-	    width: '11px',
-	    height: '11px'
+		width: '11px',
+		height: '11px'
 	},
 	iconButton: {
-	    width: '24px',
-	    height: '24px',
-	    padding: '0px'
+		width: '24px',
+		height: '24px',
+		padding: '0px'
 	},
 	icon: {
-	    display: 'block',
-	    left: '15px',
-	    position: 'absolute',
-	    top: '50%',
-	    marginTop: '-15px',
-	    width: '30px',
-	    height: '30px'
+		display: 'block',
+		left: '15px',
+		position: 'absolute',
+		top: '50%',
+		marginTop: '-15px',
+		width: '30px',
+		height: '30px'
 	},
 	message: {
-	    padding: '0 10px 0 30px',
-	    display: 'block',
-	    maxWidth: '89%'
+		padding: '0 10px 0 30px',
+		display: 'block',
+		maxWidth: '89%'
 	},
 }
 
-function Snackbar({...props}) {
+function Snackbar({ ...props }) {
 	const { classes, place, isSnackbarOpen, message, icon } = props
 	return (
-		<Snack
+			<Snack
 			anchorOrigin={{
 				vertical: place.indexOf('t') === -1 ? 'bottom' : 'top',
 				horizontal:

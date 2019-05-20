@@ -13,12 +13,8 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import publicRoutes from 'routes/public'
-import kasirRoutes from 'routes/kasir'
-import pelayanRoutes from 'routes/pelayan'
-
 import SidebarLink from './SidebarLink'
 import { logout } from 'redux/action/actionLogin'
-import { create_log } from 'redux/action/actionLog'
 
 const drawerWidth = 240
 
@@ -59,48 +55,22 @@ const styles = theme => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing.unit * 3,
-	}
+	},
 })
 
 class Sidebar extends React.Component {
 	handleLogout = () => {
 		const { data } = this.props
-		this.props.logout(data.token)
-			.then(() => {
-				const keterangan = `Logout dari Sistem`
-				this.props.create_log(data.token, data, keterangan)
-			}).catch(error => {
-				console.log(error)
-			})
+		return this.props.logout(data.token)
 	}
 
-	render () {
+	render() {
 		const { classes, theme, data, ...rest } = this.props
-		let SidebarMenu
-
-		if (data.isAuthenticated) {
-			if (data.role === 'kasir') {
-				SidebarMenu = <SidebarLink 
-					link={kasirRoutes}
-					color="blue"
-					handleLogout={()=>this.handleLogout()}
-					{...rest}
-				/>
-			} else {
-				SidebarMenu = <SidebarLink 
-					link={pelayanRoutes}
-					color="blue"
-					handleLogout={()=>this.handleLogout()}
-					{...rest}
-				/>
-			}
-		} else {
-			SidebarMenu = <SidebarLink 
+		let SidebarMenu = <SidebarLink 
 				link={publicRoutes}
 				color="blue"
 				{...rest}
 			/>
-		}
 		return (
 			<div>
 				<Drawer
@@ -136,6 +106,6 @@ Sidebar.propTypes = {
 }
 
 export default compose(
-  withStyles(styles, { withTheme: true }),
-  connect(null, { logout, create_log })
+	withStyles(styles, { withTheme: true }),
+	connect(null, { logout })
 )(Sidebar)
