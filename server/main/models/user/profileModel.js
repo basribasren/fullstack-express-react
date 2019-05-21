@@ -40,6 +40,10 @@ const Milestone = new schema({
  * @type {schema}
  */
 const Address = new schema({
+	country: {
+		type: String,
+		default: '',
+	},
 	province: {
 		type: String,
 		default: '',

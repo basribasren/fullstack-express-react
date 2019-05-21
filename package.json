@@ -37,6 +37,7 @@
     "mongoose": "^5.4.17",
     "morgan": "^1.9.1",
     "promise": "^8.0.2",
+    "response-time": "^2.3.2",
     "serve-favicon": "^2.5.0",
     "serve-static": "^1.13.2",
     "swagger-jsdoc": "^3.2.9",
@@ -45,6 +46,7 @@
   "devDependencies": {
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.4",
+    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/register": "^7.4.4",
     "babel-eslint": "^10.0.1",

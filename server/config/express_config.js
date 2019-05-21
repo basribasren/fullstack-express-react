@@ -6,6 +6,7 @@ import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
 import session from 'express-session'
 import sessionStore from 'connect-mongodb-session'
+import responseTime from 'response-time'
 
 const express_config = app => {
 	// parse application/json
@@ -45,6 +46,9 @@ const express_config = app => {
 	app.use(methodOverride('X-HTTP-Method-Override'))
 	// Help secure Express apps with various HTTP headers
 	app.use(helmet())
+	// records the response time for requests in HTTP servers {x-response-time →376.293ms}
+	app.use(responseTime())
+
 	// Set Port
 	app.set('host', process.env.APP_HOST || 'localhost')
 	app.set('port', process.env.APP_PORT || 3000)

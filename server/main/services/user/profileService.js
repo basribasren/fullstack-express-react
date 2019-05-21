@@ -101,3 +101,15 @@ export const remove = username => {
 			throw new Error(err)
 		})
 }
+
+export const dropProfile = () => {
+	return profileModel.collection
+		.drop()
+		.then(() => {
+			console.log('drop collection success')
+			return
+		})
+		.catch(err => {
+			return err
+		})
+}

@@ -13,7 +13,24 @@ export const generatePassword = password => {
 		.catch(err => {
 			return err
 		})
+	//this return promises pending
 	return hash
+}
+
+export const generatePassword2 = async password => {
+	try {
+		let hash = bcrypt
+			.genSalt(10)
+			.then(salt => {
+				return bcrypt.hash(password, salt)
+			})
+			.catch(err => {
+				return err
+			})
+		return await hash
+	} catch (err) {
+		return err
+	}
 }
 
 /**

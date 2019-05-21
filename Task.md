@@ -23,3 +23,7 @@ Cek jwt sign
 const TOKEN_PAYLOAD = { email: 'store', scopes: ['admin'] };
 const STORE_ACCESS_TOKEN = jwt.sign(TOKEN_PAYLOAD, serverSettings.jwtSecretKey);
 
+Cek about migration
+
+Cek about seeder
+

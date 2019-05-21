@@ -4,12 +4,12 @@ import favicon from 'serve-favicon'
 import mongoose from 'mongoose'
 // import cluster from 'cluster'
 import dotenv from 'dotenv'
-
+// import configuration
 import mongoose_setting from '@/config/mongoose_config.js'
 import logger_config from '@/config/logger_config.js'
 import express_config from '@/config/express_config.js'
 import error_handler from '@/config/error_handler.js'
-
+// import routes
 import routes from '@/main/routes/index.js'
 
 // const numCPUs = require('os').cpus().length

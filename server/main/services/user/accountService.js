@@ -83,3 +83,15 @@ export const deleteAccount = id => {
 			throw new Error(err)
 		})
 }
+
+export const dropAccount = () => {
+	return accountModel.collection
+		.drop()
+		.then(() => {
+			console.log('drop collection success')
+			return
+		})
+		.catch(err => {
+			return err
+		})
+}
