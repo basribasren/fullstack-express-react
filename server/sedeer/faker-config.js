@@ -2,8 +2,8 @@ import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import faker from 'faker'
 import mongoose_setting from '@/config/mongoose_config.js'
-import seedAccount from './faker-account.js'
-import seedProfile from './faker-profile.js'
+import seedAccount from './user/faker-account.js'
+import seedProfile from './user/faker-profile.js'
 
 faker.locale = 'id_ID'
 
@@ -21,5 +21,9 @@ mongoose_setting(mongoose)
 /**
  * generate data account
  */
-// seedAccount(faker, 10)
-seedProfile(faker, 10)
+const seedUser = async () => {
+	await seedAccount(faker, 10)
+	await seedProfile(faker, 10)
+	return process.exit(1)
+}
+seedUser()

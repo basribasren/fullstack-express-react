@@ -3,7 +3,7 @@ import { createAccount, dropAccount } from '@/main/services/user/accountService.
 
 const seedAccount = async (faker, number) => {
 	try {
-		let drop = await dropAccount()
+		await dropAccount()
 		let hashPassword = await generatePassword('helloworld')
 		for (var i = 0; i < number; i++) {
 			const account = {
@@ -13,7 +13,7 @@ const seedAccount = async (faker, number) => {
 				role: 'admin',
 				active: faker.random.boolean(),
 			}
-			let data = await createAccount(account)
+			await createAccount(account)
 		}
 		return
 	} catch (err) {
