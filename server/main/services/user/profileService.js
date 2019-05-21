@@ -21,6 +21,18 @@ export const getAll = () => {
 		})
 }
 
+export const getRandomOne = () => {
+	return profileModel
+		.find()
+		.limit(1)
+		.then(result => {
+			return result
+		})
+		.catch(err => {
+			throw new Error(err)
+		})
+}
+
 /**
  * get profile by username
  * @param  {String} username [description]

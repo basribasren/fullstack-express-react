@@ -80,3 +80,15 @@ export const remove = id => {
 			throw new Error(err)
 		})
 }
+
+export const trash = () => {
+	return infoModel.collection
+		.drop()
+		.then(() => {
+			console.log('drop collection success')
+			return
+		})
+		.catch(err => {
+			return err
+		})
+}
