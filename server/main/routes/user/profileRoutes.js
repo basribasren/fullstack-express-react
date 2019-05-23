@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as profileController from '@/main/controllers/user/profileController.js'
+import * as profileController from '@controllers/user/profileController.js'
 
 const router = Router()
 // GET /api/profile

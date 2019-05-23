@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import * as listController from '@/main/controllers/game/listController.js'
+import * as listController from '@controllers/game/listController.js'
 
 const router = Router()
 // GET /api/list

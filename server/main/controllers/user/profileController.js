@@ -1,5 +1,5 @@
-import * as profileService from '@/main/services/user/profileService.js'
-import { getByUsername } from '@/main/services/user/accountService.js'
+import * as profileService from '@services/user/profileService.js'
+import { getByUsername } from '@services/user/accountService.js'
 
 /**
  * generate data profile

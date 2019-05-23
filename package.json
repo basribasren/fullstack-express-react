@@ -6,10 +6,10 @@
   "scripts": {
     "client-build": "cd client && npm run build",
     "client-dev": "npm run serve --prefix client",
-    "server-build": "rimraf dist && mkdir dist && babel index.js --out-dir dist",
+    "server-build": "rimraf dist && mkdir dist && babel index.js --out-dir server/dist",
     "server-dev": "nodemon .",
     "development": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
-    "start": "node dist/index.js",
+    "start": "node server/dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-prebuild": "npm install npm@latest -g && cd client && npm install --production=false",
     "heroku-postbuild": "npm run client-build"
@@ -23,6 +23,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "chalk": "^2.4.2",
     "compression": "^1.7.3",
     "connect-rid": "0.0.1",
     "cookie-parser": "^1.4.3",

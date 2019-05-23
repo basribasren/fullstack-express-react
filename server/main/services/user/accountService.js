@@ -1,4 +1,4 @@
-import accountModel from '@/main/models/user/accountModel.js'
+import accountModel from '@models/user/accountModel.js'
 
 /**
  * get all list account
@@ -7,6 +7,8 @@ import accountModel from '@/main/models/user/accountModel.js'
 export const getAllAccount = () => {
 	return accountModel
 		.find()
+		.sort({ date_created: -1 })
+		.limit(1000)
 		.then(result => {
 			return result
 		})
@@ -84,6 +86,10 @@ export const deleteAccount = id => {
 		})
 }
 
+/**
+ * delete collection on database
+ * @return {[type]} [description]
+ */
 export const dropAccount = () => {
 	return accountModel.collection
 		.drop()

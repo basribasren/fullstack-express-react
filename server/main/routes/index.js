@@ -17,20 +17,10 @@ const router = Router()
 // 	res.json(swaggerSpec)
 // })
 
-router.get('/customers', (req, res) => {
-	const customers = [
-		{ id: 1, firstName: 'John', lastName: 'Doe' },
-		{ id: 2, firstName: 'Brad', lastName: 'Traversy' },
-		{ id: 3, firstName: 'Mary', lastName: 'Swanson' },
-	]
-
-	res.json(customers)
-})
-
-router.use('/auth', auth)
-router.use('/profile', profile)
-router.use('/game', game)
-router.use('/info', info)
-router.use('/list', list)
+router.use('/v1/auth', auth)
+router.use('/v1/profile', profile)
+router.use('/v1/game', game)
+router.use('/v1/info', info)
+router.use('/v1/list', list)
 
 export default router

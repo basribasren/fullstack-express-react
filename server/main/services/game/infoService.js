@@ -1,4 +1,4 @@
-import infoModel from '@/main/models/game/infoModel.js'
+import infoModel from '@models/game/infoModel.js'
 
 /**
  * get all list info
@@ -81,6 +81,10 @@ export const remove = id => {
 		})
 }
 
+/**
+ * delete the collection on database
+ * @return {[type]} [description]
+ */
 export const trash = () => {
 	return infoModel.collection
 		.drop()

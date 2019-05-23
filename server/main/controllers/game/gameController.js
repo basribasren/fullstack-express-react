@@ -1,8 +1,8 @@
-import * as gameService from '@/main/services/game/gameService.js'
+import * as gameService from '@services/game/gameService.js'
 import {
 	create as createInfo,
 	remove as removeInfo,
-} from '@/main/services/game/infoService.js'
+} from '@services/game/infoService.js'
 
 /**
  * generate data game
@@ -23,6 +23,12 @@ export const generateDataGame = data => {
 	})
 }
 
+/**
+ * generate data info
+ * @param  {[type]} id   [description]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
+ */
 export const generateDataInfo = (id, data) => {
 	let info
 	info = {
@@ -87,7 +93,7 @@ export const create = (req, res, next) => {
 			return gameService.udpateIdInfo(info.id_game, info._id)
 		})
 		.then(result => {
-			res.status(200).json({
+			res.status(201).json({
 				message: `game ${result.title} has been Created`,
 			})
 		})
@@ -123,9 +129,6 @@ export const remove = (req, res, next) => {
 	gameService
 		.remove(req.params.id)
 		.then(result => {
-			// cek this result okeyyy
-			console.log(result.id_info)
-			//remove info
 			return removeInfo(result.id_info)
 		})
 		.then(data => res.status(204).json({ data }))

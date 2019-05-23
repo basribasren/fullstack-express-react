@@ -4,11 +4,12 @@ import favicon from 'serve-favicon'
 import mongoose from 'mongoose'
 // import cluster from 'cluster'
 import dotenv from 'dotenv'
+import chalk from 'chalk'
 // import configuration
-import mongoose_setting from '@/config/mongoose_config.js'
-import logger_config from '@/config/logger_config.js'
-import express_config from '@/config/express_config.js'
-import error_handler from '@/config/error_handler.js'
+import mongooseConfig from '@config/mongooseConfig.js'
+import loggerConfig from '@config/loggerConfig.js'
+import expressConfig from '@config/expressConfig.js'
+import { errorHandler } from '@config/errorHandler.js'
 // import routes
 import routes from '@/main/routes/index.js'
 
@@ -22,23 +23,26 @@ dotenv.config()
  * @return {[type]}                     [description]
  */
 if (process.env.APP_ENV === 'development') {
-	logger_config(app)
-	mongoose.set('debug', true)
+	loggerConfig(app)
 }
 
 /**
  * connnection to database mongodb using mongoose
  */
-mongoose_setting(mongoose)
+mongooseConfig(mongoose)
 
 /**
  * express default configuration
+ */
+expressConfig(app)
+
+/**
+ * Setting the app static folder
  */
 app.use(express.static(path.join(__dirname, 'client/dist')))
 if (process.env.APP_ENV === 'production') {
 	app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
 }
-express_config(app)
 
 /**
  * routes API
@@ -55,7 +59,7 @@ app.get('*', (req, res) => {
 /**
  * the default error handler, at the last
  */
-error_handler(app)
+errorHandler(app)
 
 // if (cluster.isMaster) {
 // 	console.log(`Master ${process.pid} is running`)
@@ -69,7 +73,14 @@ error_handler(app)
 // 	})
 // } else {
 app.listen(app.get('port'), app.get('host'), () => {
-	console.log(`Server started at http://${app.get('host')}:${app.get('port')}/api`)
+	console.log('--')
+	console.log(chalk.green(process.env.APP_NAME))
+	console.log(chalk.blue('Environment:\t') + chalk.green(process.env.APP_ENV))
+	console.log(chalk.blue('Port:\t\t') + chalk.green(process.env.APP_PORT))
+	console.log(chalk.blue('Database:\t') + chalk.green(process.env.DB_MONGOODB_URI))
+	console.log(chalk.blue('App version:\t') + chalk.green(process.env.APP_VERSION))
+	console.log(chalk.blue('Running at:\t') + chalk.green(`http://${app.get('host')}:${app.get('port')}/api`))
+	console.log('--')
 })
 // 	console.log(`Worker ${process.pid} started`)
 // }

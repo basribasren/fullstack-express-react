@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import faker from 'faker'
-import mongoose_setting from '@/config/mongoose_config.js'
+import mongooseConfig from '@/config/mongooseConfig.js'
 import seedAccount from './user/faker-account.js'
 import seedProfile from './user/faker-profile.js'
 import seedGame from './game/faker-game.js'
@@ -19,7 +19,7 @@ if (process.env.APP_ENV === 'development') {
 /**
  * connnection to database mongodb using mongoose
  */
-mongoose_setting(mongoose)
+mongooseConfig(mongoose)
 
 /**
  * generate data account

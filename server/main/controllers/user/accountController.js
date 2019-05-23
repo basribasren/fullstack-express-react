@@ -1,6 +1,6 @@
-import * as accountService from '@/main/services/user/accountService.js'
-import { generatePassword, comparePassword } from '@/main/middlewares/password-config.js'
-import { generateToken } from '@/main/middlewares/token-config.js'
+import * as accountService from '@services/user/accountService.js'
+import { generatePassword, comparePassword } from '@middlewares/password-config.js'
+import { generateToken } from '@middlewares/token-config.js'
 
 /**
  * generate data

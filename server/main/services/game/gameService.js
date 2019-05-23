@@ -1,4 +1,4 @@
-import gameModel from '@/main/models/game/gameModel.js'
+import gameModel from '@models/game/gameModel.js'
 
 /**
  * get all list game
@@ -98,7 +98,10 @@ export const remove = id => {
 		})
 }
 
-
+/**
+ * delete the collection on database
+ * @return {[type]} [description]
+ */
 export const trash = () => {
 	return gameModel.collection
 		.drop()

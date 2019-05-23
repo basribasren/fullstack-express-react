@@ -1,4 +1,4 @@
-import * as listService from '@/main/services/game/listService.js'
+import * as listService from '@services/game/listService.js'
 
 /**
  * generate data game

@@ -1,5 +1,5 @@
-import profileModel from '@/main/models/user/profileModel.js'
-
+import profileModel from '@models/user/profileModel.js'
+import { NotFoundPayload } from '@config/errorHandler.js'
 /**
  * get all list profile
  * @return {[type]} [description]
@@ -8,12 +8,11 @@ export const getAll = () => {
 	return profileModel
 		.find()
 		.sort({ date_created: -1 })
-		.skip(0)
 		.limit(1000)
-		.toArray()
 		.then(result => {
-			//give more info like total count of result
-			// and total count left data
+			if (result.length === 0) {
+				return NotFoundPayload()
+			}
 			return result
 		})
 		.catch(err => {
@@ -21,6 +20,10 @@ export const getAll = () => {
 		})
 }
 
+/**
+ * get random profile
+ * @return {[type]} [description]
+ */
 export const getRandomOne = () => {
 	return profileModel
 		.find()
@@ -114,6 +117,10 @@ export const remove = username => {
 		})
 }
 
+/**
+ * delete collection database
+ * @return {[type]} [description]
+ */
 export const dropProfile = () => {
 	return profileModel.collection
 		.drop()

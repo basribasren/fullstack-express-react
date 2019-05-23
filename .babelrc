@@ -7,7 +7,12 @@
 		{
 			"alias":
 			{
-				"@": "./server",
+				"@": "./server/",
+				"@config": "./server/config",
+				"@controllers": "./server/main/controllers",
+				"@middlewares": "./server/main/middlewares",
+				"@models": "./server/main/models",
+				"@services": "./server/main/services",
 			}
 		}]
 	]

@@ -1,26 +1,28 @@
-import * as infoService from '@/main/services/game/infoService.js'
+import * as infoService from '@services/game/infoService.js'
 
 /**
- * generate data game
+ * generate data info
  * @param  {[type]} account [description]
  * @param  {[type]} data    [description]
  * @return {[type]}         [description]
  */
 
 export const generateData = (id, data) => {
-	let info
-	info = {
-		id_game: id,
-		description: data.description,
-		screenshot: data.screenshot,
-		demo: data.demo,
-		size: data.size,
-	}
-	return info
+	return new Promise(resolve => {
+		let info
+		info = {
+			id_game: id,
+			description: data.description,
+			screenshot: data.screenshot,
+			demo: data.demo,
+			size: data.size,
+		}
+		resolve(info)
+	})
 }
 
 /**
- * get list game
+ * get list info
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
@@ -34,7 +36,7 @@ export const fetchAll = (req, res, next) => {
 }
 
 /**
- * get game by params.id
+ * get info by params.id
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
@@ -68,7 +70,7 @@ export const create = (req, res, next) => {
 }
 
 /**
- * update game by params.id
+ * update info by params.id
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
@@ -86,7 +88,7 @@ export const update = (req, res, next) => {
 }
 
 /**
- * delete game by params.id
+ * delete info by params.id
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]

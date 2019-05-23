@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import * as accountController from '@/main/controllers/user/accountController.js'
-import { verifyToken } from '@/main/middlewares/token-config.js'
+import * as accountController from '@controllers/user/accountController.js'
+import { verifyToken } from '@middlewares/token-config.js'
 
 const router = Router()
 // GET /api/auth
