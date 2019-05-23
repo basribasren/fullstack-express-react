@@ -1,5 +1,6 @@
+import Boom from '@hapi/boom'
 import profileModel from '@models/user/profileModel.js'
-import { NotFoundPayload } from '@config/errorHandler.js'
+
 /**
  * get all list profile
  * @return {[type]} [description]
@@ -10,13 +11,10 @@ export const getAll = () => {
 		.sort({ date_created: -1 })
 		.limit(1000)
 		.then(result => {
-			if (result.length === 0) {
-				return NotFoundPayload()
-			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -32,7 +30,7 @@ export const getRandomOne = () => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -48,7 +46,7 @@ export const getByUsername = username => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -64,7 +62,7 @@ export const getById = id => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -80,7 +78,7 @@ export const create = data => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -97,7 +95,7 @@ export const update = (username, data) => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -113,7 +111,7 @@ export const remove = username => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }
 
@@ -129,6 +127,6 @@ export const dropProfile = () => {
 			return
 		})
 		.catch(err => {
-			return err
+			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
 		})
 }

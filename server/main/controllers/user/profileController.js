@@ -1,6 +1,14 @@
+import Boom from '@hapi/boom'
 import * as profileService from '@services/user/profileService.js'
 import { getByUsername } from '@services/user/accountService.js'
 
+function isEmpty(obj) {
+	for (var key in obj) {
+		if (obj.hasOwnProperty(key))
+			return false;
+	}
+	return true;
+}
 /**
  * generate data profile
  * @param  {[type]} account [description]
@@ -37,7 +45,12 @@ export const generateData = (account, data) => {
 export const fetchAll = (req, res, next) => {
 	profileService
 		.getAll()
-		.then(data => res.json({ data }))
+		.then(data => {
+			if (data.length === 0) {
+				throw Boom.notFound('Data profile not Found', { statusCode: 404 })
+			}
+			res.json({ data })
+		})
 		.catch(err => next(err))
 }
 
@@ -51,8 +64,15 @@ export const fetchAll = (req, res, next) => {
 export const getOne = (req, res, next) => {
 	profileService
 		.getByUsername(req.params.username)
-		.then(data => res.json({ data }))
-		.catch(err => next(err))
+		.then(data => {
+			if (isEmpty(data)) {
+				throw Boom.notFound('Data profile not Found', { statusCode: 404 })
+			}
+			res.json({ data })
+		})
+		.catch(err => {
+			next(err)
+		})
 }
 
 /**

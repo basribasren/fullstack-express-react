@@ -1,21 +1,21 @@
 import chalk from 'chalk'
 
 const onClose = () => {
-	console.info(chalk.yellow('MongoDB connection was closed'))
+	console.info(chalk.blue('Mongoose: ') + chalk.yellow('MongoDB connection was closed'))
 	// console.log('MongoDB connection was closed')
 }
 
 const onReconnect = () => {
-	console.log('MongoDB reconnected')
+	console.log(chalk.blue('Mongoose: ') + chalk.yellow('MongoDB reconnected'))
 }
 
 const onOpen = () => {
-	console.log(chalk.green('Successfully connected to database'))
+	console.log(chalk.blue('Mongoose: ') + chalk.green('Successfully connected to database'))
 	// console.log('Successfully connected to database')
 }
 
 const onError = (err) => {
-	console.error(chalk.red('Connection Error: Could not connect to MongoDB!'))
+	console.error(chalk.blue('Mongoose: ') + chalk.red('Connection Error: Could not connect to MongoDB!'))
 	// console.log('Connection Error' + err)
 }
 
