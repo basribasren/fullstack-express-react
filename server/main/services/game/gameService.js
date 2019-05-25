@@ -1,3 +1,4 @@
+import Boom from '@hapi/boom'
 import gameModel from '@models/game/gameModel.js'
 
 /**

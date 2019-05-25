@@ -42,12 +42,10 @@ const GameSchema = new schema({
 })
 
 GameSchema.pre('save', function(next) {
-	console.log('pre save')
 	next()
 })
 
 GameSchema.pre('findOneAndUpdate', function(next) {
-	console.log('pre update')
 	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })

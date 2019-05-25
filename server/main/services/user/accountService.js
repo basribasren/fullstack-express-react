@@ -1,4 +1,12 @@
+import Boom from '@hapi/boom'
 import accountModel from '@models/user/accountModel.js'
+import { isEmpty } from '@middlewares/validation-config.js'
+
+/**
+ * NOTE
+ * chose what data will return in result
+ * do not returning password
+ */
 
 /**
  * get all list account
@@ -10,10 +18,15 @@ export const getAllAccount = () => {
 		.sort({ date_created: -1 })
 		.limit(1000)
 		.then(result => {
+			// result will return all list account
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -26,10 +39,18 @@ export const getByUsername = username => {
 	return accountModel
 		.findOne({ username: username })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with username ${username} is Not Found`)
+			}
+			//result will return all the account data by username
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -42,10 +63,15 @@ export const createAccount = data => {
 	return accountModel
 		.create(data)
 		.then(result => {
+			//result will return data has been create
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -54,19 +80,29 @@ export const createAccount = data => {
  * @param  {ObjectId} id   [description]
  * @param  {Object} data [description]
  * @return {[type]}      [description]
+ * butuh perbaikan
  */
 export const updateAccount = (id, data) => {
 	let newData = {
 		password: data.password,
-		status: data.status,
+		role: data.role,
+		active: data.active,
 	}
 	return accountModel
 		.findOneAndUpdate({ _id: id }, { $set: newData })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
+			//result will return only set data
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -79,10 +115,18 @@ export const deleteAccount = id => {
 	return accountModel
 		.findOneAndDelete({ _id: id })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
+			//result will return all data account by id
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -98,6 +142,10 @@ export const dropAccount = () => {
 			return
 		})
 		.catch(err => {
-			return err
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }

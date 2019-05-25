@@ -60,12 +60,10 @@ const InfoSchema = new schema({
 })
 
 InfoSchema.pre('save', function(next) {
-	console.log('pre save')
 	next()
 })
 
 InfoSchema.pre('findOneAndUpdate', function(next) {
-	console.log('pre update')
 	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })

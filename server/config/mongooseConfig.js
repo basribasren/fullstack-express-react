@@ -37,4 +37,5 @@ const mongooseConfig = mongoose => {
 	connection.once('reconnect', onReconnect)
 	connection.once('open', onOpen)
 }
+
 export default mongooseConfig

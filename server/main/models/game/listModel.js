@@ -33,12 +33,10 @@ const ListSchema = new schema({
 })
 
 ListSchema.pre('save', function(next) {
-	console.log('pre save')
 	next()
 })
 
 ListSchema.pre('findOneAndUpdate', function(next) {
-	console.log('pre update')
 	this.update({}, { $set: { updated_at: new Date() } })
 	next()
 })

@@ -41,7 +41,8 @@ expressConfig(app)
  */
 app.use(express.static(path.join(__dirname, 'client/dist')))
 if (process.env.APP_ENV === 'production') {
-	app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
+	console.log('set faviceon')
+	app.use(favicon(path.join(__dirname, 'client/public', 'favicon.ico')))
 }
 
 /**
@@ -52,9 +53,12 @@ app.use('/api', routes)
 /**
  * send the user to index html page inspite of the url
  */
-app.get('*', (req, res) => {
-	res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
-})
+if (process.env.APP_ENV === 'production') {
+	app.get('*', (req, res) => {
+		res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
+	})
+}
+
 
 /**
  * the default error handler, at the last

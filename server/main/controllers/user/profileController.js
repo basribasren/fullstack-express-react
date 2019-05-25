@@ -1,38 +1,38 @@
 import Boom from '@hapi/boom'
-import * as profileService from '@services/user/profileService.js'
+import { successPayload } from '@middlewares/payload-config.js'
 import { getByUsername } from '@services/user/accountService.js'
+import * as profileService from '@services/user/profileService.js'
 
-function isEmpty(obj) {
-	for (var key in obj) {
-		if (obj.hasOwnProperty(key))
-			return false;
-	}
-	return true;
-}
 /**
  * generate data profile
  * @param  {[type]} account [description]
  * @param  {[type]} data    [description]
  * @return {[type]}         [description]
  */
-export const generateData = (account, data) => {
-	return new Promise(resolve => {
+export const generateData = async (account, data) => {
+	try {
 		let result
 		result = {
-			id_account: account.id,
+			id_account: account._id,
 			username: account.username,
 			email: account.email,
 			name: data.name,
 			logo_image: data.logo_image,
 			cover_image: data.cover_image,
 			description: data.description,
-			features: data.features,
+			feature: data.feature,
 			contacts: data.contacts,
 			address: data.address,
 			milestones: data.milestones,
 		}
-		resolve(result)
-	})
+		return result
+	} catch (err) {
+		if (err.statusCode === undefined) {
+			let statusCode = err.statusCode || 409
+			throw Boom.boomify(err, { statusCode: statusCode })
+		}
+		throw err
+	}
 }
 
 /**
@@ -43,13 +43,12 @@ export const generateData = (account, data) => {
  * @return {[type]}        [description]
  */
 export const fetchAll = (req, res, next) => {
+	let payload
 	profileService
 		.getAll()
-		.then(data => {
-			if (data.length === 0) {
-				throw Boom.notFound('Data profile not Found', { statusCode: 404 })
-			}
-			res.json({ data })
+		.then(result => {
+			payload = successPayload(200, 'Load profile success', result)
+			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -62,17 +61,14 @@ export const fetchAll = (req, res, next) => {
  * @return {[type]}        [description]
  */
 export const getOne = (req, res, next) => {
+	let payload
 	profileService
 		.getByUsername(req.params.username)
-		.then(data => {
-			if (isEmpty(data)) {
-				throw Boom.notFound('Data profile not Found', { statusCode: 404 })
-			}
-			res.json({ data })
+		.then(result => {
+			payload = successPayload(200, `Profile ${result.username} has been Load`, result)
+			res.status(200).send(payload)
 		})
-		.catch(err => {
-			next(err)
-		})
+		.catch(err => next(err))
 }
 
 /**
@@ -83,6 +79,7 @@ export const getOne = (req, res, next) => {
  * @return {[type]}        [description]
  */
 export const create = (req, res, next) => {
+	let payload
 	getByUsername(req.body.username)
 		.then(account => {
 			return generateData(account, req.body)
@@ -91,9 +88,8 @@ export const create = (req, res, next) => {
 			return profileService.create(data)
 		})
 		.then(result => {
-			res.status(200).json({
-				message: `Profile ${result.username} has been Created`,
-			})
+			payload = successPayload(201, `Profile ${result.username} has been Created`, result)
+			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -106,6 +102,7 @@ export const create = (req, res, next) => {
  * @return {[type]}        [description]
  */
 export const update = (req, res, next) => {
+	let payload
 	getByUsername(req.params.username)
 		.then(account => {
 			return generateData(account, req.body)
@@ -114,7 +111,8 @@ export const update = (req, res, next) => {
 			return profileService.update(req.params.username, data)
 		})
 		.then(result => {
-			res.status(200).json({ result })
+			payload = successPayload(201, `Profile ${result.username} has been Updated`, result)
+			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -127,8 +125,12 @@ export const update = (req, res, next) => {
  * @return {[type]}        [description]
  */
 export const remove = (req, res, next) => {
+	let payload
 	profileService
 		.remove(req.params.username)
-		.then(data => res.status(204).json({ data }))
+		.then(result => {
+			payload = successPayload(204, `Profile ${result.username} has been Remove`, result)
+			res.status(204).send(payload)
+		})
 		.catch(err => next(err))
 }

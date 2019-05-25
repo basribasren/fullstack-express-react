@@ -1,5 +1,6 @@
 import Boom from '@hapi/boom'
 import profileModel from '@models/user/profileModel.js'
+import { isEmpty } from '@middlewares/validation-config.js'
 
 /**
  * get all list profile
@@ -9,12 +10,16 @@ export const getAll = () => {
 	return profileModel
 		.find()
 		.sort({ date_created: -1 })
-		.limit(1000)
+		.limit(20)
 		.then(result => {
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -30,7 +35,11 @@ export const getRandomOne = () => {
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -43,10 +52,17 @@ export const getByUsername = username => {
 	return profileModel
 		.findOne({ username: username })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with username ${username} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -59,10 +75,17 @@ export const getById = id => {
 	return profileModel
 		.findOne({ _id: id })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -78,7 +101,11 @@ export const create = data => {
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -92,10 +119,17 @@ export const update = (username, data) => {
 	return profileModel
 		.findOneAndUpdate({ username: username }, { $set: data })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data profile with username ${username} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -108,10 +142,17 @@ export const remove = username => {
 	return profileModel
 		.findOneAndDelete({ username: username })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data profile with username ${username} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -127,6 +168,10 @@ export const dropProfile = () => {
 			return
 		})
 		.catch(err => {
-			throw Boom.badImplementation('An internal server error occurred', { statusCode: 500 })
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
