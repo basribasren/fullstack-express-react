@@ -1,5 +1,6 @@
 import Boom from '@hapi/boom'
 import listModel from '@models/game/listModel.js'
+import { isEmpty } from '@middlewares/validation-config.js'
 
 /**
  * get all list game
@@ -13,7 +14,11 @@ export const getAll = () => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -27,10 +32,17 @@ export const getById = id => {
 		.findOne({ _id: id })
 		.populate('Game')
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -46,7 +58,11 @@ export const create = data => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -60,10 +76,17 @@ export const update = (id, data) => {
 	return listModel
 		.findOneAndUpdate({ _id: id }, { $set: data })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -76,10 +99,17 @@ export const remove = id => {
 	return listModel
 		.findOneAndDelete({ _id: id })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -95,6 +125,10 @@ export const trash = () => {
 			return
 		})
 		.catch(err => {
-			return err
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }

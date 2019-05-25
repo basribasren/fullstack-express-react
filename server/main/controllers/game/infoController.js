@@ -1,3 +1,5 @@
+import Boom from '@hapi/boom'
+import { successPayload } from '@middlewares/payload-config.js'
 import * as infoService from '@services/game/infoService.js'
 
 /**
@@ -7,8 +9,8 @@ import * as infoService from '@services/game/infoService.js'
  * @return {[type]}         [description]
  */
 
-export const generateData = (id, data) => {
-	return new Promise(resolve => {
+export const generateData = async (id, data) => {
+	try {
 		let info
 		info = {
 			id_game: id,
@@ -17,8 +19,14 @@ export const generateData = (id, data) => {
 			demo: data.demo,
 			size: data.size,
 		}
-		resolve(info)
-	})
+		return info
+	} catch (err) {
+		if (err.statusCode === undefined) {
+			let statusCode = err.statusCode || 409
+			throw Boom.boomify(err, { statusCode: statusCode })
+		}
+		throw err
+	}
 }
 
 /**
@@ -31,7 +39,10 @@ export const generateData = (id, data) => {
 export const fetchAll = (req, res, next) => {
 	infoService
 		.getAll()
-		.then(data => res.json({ data }))
+		.then(result => {
+			let payload = successPayload(200, 'Load info game success', result)
+			res.status(200).send(payload)
+		})
 		.catch(err => next(err))
 }
 
@@ -45,7 +56,10 @@ export const fetchAll = (req, res, next) => {
 export const getOne = (req, res, next) => {
 	infoService
 		.getById(req.params.id)
-		.then(data => res.json({ data }))
+		.then(result => {
+			let payload = successPayload(200, `Info game ${result._id} has been loaded`, result)
+			res.status(200).send(payload)
+		})
 		.catch(err => next(err))
 }
 
@@ -62,9 +76,8 @@ export const create = (req, res, next) => {
 			return infoService.create(data)
 		})
 		.then(result => {
-			res.status(200).json({
-				message: `Info ${result._id} has been Created`,
-			})
+			let payload = successPayload(201, `Info game ${result._id} has been Created`, result)
+			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -82,7 +95,8 @@ export const update = (req, res, next) => {
 			return infoService.update(req.params.id, data)
 		})
 		.then(result => {
-			res.status(200).json({ result })
+			let payload = successPayload(201, `Info Game ${result._id} has been Updated`, result)
+			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -97,6 +111,9 @@ export const update = (req, res, next) => {
 export const remove = (req, res, next) => {
 	infoService
 		.remove(req.params.id)
-		.then(data => res.status(204).json({ data }))
+		.then(result => {
+			let payload = successPayload(204, `Info Game ${result._id} has been Remove`, result)
+			res.status(204).send(payload)
+		})
 		.catch(err => next(err))
 }

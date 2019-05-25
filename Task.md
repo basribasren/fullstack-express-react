@@ -1,7 +1,7 @@
-cek mongoose on error handle for not crash app
-cek BOOM for error payload
 cek RPC-style
+
 cek HATEOAS
+Hypermedia as the Engine of Application State is a principle that hypertext links should be used to create a better navigation through the API.
 https://19yw4b240vb03ws8qm25h366-wpengine.netdna-ssl.com/wp-content/uploads/API-Design-on-the-scale-of-Decades.pdf
 https://pages.apigee.com/rs/351-WXY-166/images/apigee-ebook-api-mgmt-2015-07.pdf
 https://www.sans.org/cyber-security-summit/archives/file/summit-archive-1510001675.pdf
@@ -34,7 +34,6 @@ Use a caching server like Varnish or Nginx (see also Nginx Caching) to greatly i
 https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/
 https://varnish-cache.org/
 
-Hypermedia as the Engine of Application State is a principle that hypertext links should be used to create a better navigation through the API.
 
 11. Swagger for Documentation
 

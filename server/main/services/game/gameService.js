@@ -1,5 +1,6 @@
 import Boom from '@hapi/boom'
 import gameModel from '@models/game/gameModel.js'
+import { isEmpty } from '@middlewares/validation-config.js'
 
 /**
  * get all list game
@@ -12,7 +13,11 @@ export const getAll = () => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -26,10 +31,17 @@ export const getById = id => {
 		.findOne({ _id: id })
 		.populate('Info')
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -45,24 +57,35 @@ export const create = data => {
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
 /**
  * update id_info on game
- * @param  {[type]} id_game [description]
+ * @param  {[type]} id [description]
  * @param  {[type]} id_info [description]
  * @return {[type]}         [description]
  */
-export const udpateIdInfo = (id_game, id_info) => {
+export const udpateIdInfo = (id, id_info) => {
 	return gameModel
-		.findOneAndUpdate({ _id: id_game }, { $set: { id_info: id_info } })
+		.findOneAndUpdate({ _id: id }, { $set: { id_info: id_info } })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -76,10 +99,17 @@ export const update = (id, data) => {
 	return gameModel
 		.findOneAndUpdate({ _id: id }, { $set: data })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -92,10 +122,17 @@ export const remove = id => {
 	return gameModel
 		.findOneAndDelete({ _id: id })
 		.then(result => {
+			if (isEmpty(result)) {
+				throw Boom.notFound(`Data with id ${id} is Not Found`)
+			}
 			return result
 		})
 		.catch(err => {
-			throw new Error(err)
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }
 
@@ -111,6 +148,10 @@ export const trash = () => {
 			return
 		})
 		.catch(err => {
-			return err
+			if (err.statusCode === undefined) {
+				let statusCode = err.statusCode || 409
+				throw Boom.boomify(err, { statusCode: statusCode })
+			}
+			throw err
 		})
 }

@@ -1,3 +1,5 @@
+import Boom from '@hapi/boom'
+import { successPayload } from '@middlewares/payload-config.js'
 import * as gameService from '@services/game/gameService.js'
 import {
 	create as createInfo,
@@ -10,8 +12,8 @@ import {
  * @param  {[type]} data    [description]
  * @return {[type]}         [description]
  */
-export const generateDataGame = data => {
-	return new Promise(resolve => {
+export const generateDataGame = async data => {
+	try {
 		let game
 		game = {
 			title: data.title,
@@ -19,8 +21,14 @@ export const generateDataGame = data => {
 			cover_image: data.cover_image,
 			url: data.url,
 		}
-		resolve(game)
-	})
+		return game
+	} catch (err) {
+		if (err.statusCode === undefined) {
+			let statusCode = err.statusCode || 409
+			throw Boom.boomify(err, { statusCode: statusCode })
+		}
+		throw err
+	}
 }
 
 /**
@@ -29,16 +37,24 @@ export const generateDataGame = data => {
  * @param  {[type]} data [description]
  * @return {[type]}      [description]
  */
-export const generateDataInfo = (id, data) => {
-	let info
-	info = {
-		id_game: id,
-		description: data.description,
-		screenshot: data.screenshot,
-		demo: data.demo,
-		size: data.size,
+export const generateDataInfo = async (id, data) => {
+	try {
+		let info
+		info = {
+			id_game: id,
+			description: data.description,
+			screenshot: data.screenshot,
+			demo: data.demo,
+			size: data.size,
+		}
+		return info
+	} catch (err) {
+		if (err.statusCode === undefined) {
+			let statusCode = err.statusCode || 409
+			throw Boom.boomify(err, { statusCode: statusCode })
+		}
+		throw err
 	}
-	return info
 }
 
 /**
@@ -51,7 +67,10 @@ export const generateDataInfo = (id, data) => {
 export const fetchAll = (req, res, next) => {
 	gameService
 		.getAll()
-		.then(data => res.json({ data }))
+		.then(result => {
+			let payload = successPayload(200, 'Load game success', result)
+			res.status(200).send(payload)
+		})
 		.catch(err => next(err))
 }
 
@@ -65,7 +84,10 @@ export const fetchAll = (req, res, next) => {
 export const getOne = (req, res, next) => {
 	gameService
 		.getById(req.params.id)
-		.then(data => res.json({ data }))
+		.then(result => {
+			let payload = successPayload(200, `Game ${result._id} has been load`, result)
+			res.status(200).send(payload)
+		})
 		.catch(err => next(err))
 }
 
@@ -76,28 +98,25 @@ export const getOne = (req, res, next) => {
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-export const create = (req, res, next) => {
-	generateDataGame(req.body)
-		.then(game => {
-			// create game
-			let data = gameService.create(game)
-			return data
-		})
-		.then(data => {
-			// create info
-			let info = generateDataInfo(data._id, req.body)
-			return createInfo(info)
-		})
-		.then(info => {
-			// update id_info in game
-			return gameService.udpateIdInfo(info.id_game, info._id)
-		})
-		.then(result => {
-			res.status(201).json({
-				message: `game ${result.title} has been Created`,
-			})
-		})
-		.catch(err => next(err))
+export const create = async (req, res, next) => {
+	try {
+		// generate data game
+		let game = await generateDataGame(req.body)
+		// create game
+		let gameCreated = await gameService.create(game)
+		// generate data info
+		let info = await generateDataInfo(gameCreated._id, req.body)
+		// create info
+		let infoCreated = await createInfo(info)
+		// update id_info in game
+		let gameUpdated = await gameService.udpateIdInfo(infoCreated.id_game, infoCreated._id)
+		// generate payload
+		let payload = successPayload(201, `Game ${gameUpdated._id} has been Created`, gameUpdated)
+		// return payload
+		res.status(201).send(payload)
+	} catch (err) {
+		next(err)
+	}
 }
 
 /**
@@ -113,7 +132,8 @@ export const update = (req, res, next) => {
 			return gameService.update(req.params.id, data)
 		})
 		.then(result => {
-			res.status(200).json({ result })
+			let payload = successPayload(201, `Game ${result._id} has been Updated`, result)
+			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
 }
@@ -128,9 +148,12 @@ export const update = (req, res, next) => {
 export const remove = (req, res, next) => {
 	gameService
 		.remove(req.params.id)
-		.then(result => {
-			return removeInfo(result.id_info)
+		.then(data => {
+			return removeInfo(data.id_info)
 		})
-		.then(data => res.status(204).json({ data }))
+		.then(result => {
+			let payload = successPayload(204, `Profile ${result._id} has been Remove`, result)
+			res.status(204).send(payload)
+		})
 		.catch(err => next(err))
 }
