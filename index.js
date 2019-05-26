@@ -10,8 +10,10 @@ import mongooseConfig from '@config/mongooseConfig.js'
 import loggerConfig from '@config/loggerConfig.js'
 import expressConfig from '@config/expressConfig.js'
 import { errorHandler } from '@config/errorHandler.js'
+import swaggerConfig from '@config/swaggerConfig.js'
+
 // import routes
-import routes from '@/main/routes/index.js'
+import routes from '@routes/index.js'
 
 // const numCPUs = require('os').cpus().length
 const app = express()
@@ -46,10 +48,19 @@ if (process.env.APP_ENV === 'production') {
 }
 
 /**
+ * Routes for API documentation
+ */
+let config = swaggerConfig
+app.get('/api/v1/swagger.json', (req, res) => {
+	res.setHeader('Content-Type', 'application/json')
+	res.send(config)
+})
+app.use('/api/v1/docs', express.static('./server/docs'))
+
+/**
  * routes API
  */
 app.use('/api', routes)
-
 /**
  * send the user to index html page inspite of the url
  */
@@ -58,7 +69,6 @@ if (process.env.APP_ENV === 'production') {
 		res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
 	})
 }
-
 
 /**
  * the default error handler, at the last

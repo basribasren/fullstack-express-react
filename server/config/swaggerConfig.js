@@ -1,6 +1,5 @@
-const path = require('path')
-const swaggerJSDoc = require('swagger-jsdoc')
-require('dotenv').config()
+import path from 'path'
+import swaggerJSDoc from 'swagger-jsdoc'
 
 /**
  * Swagger definition.
@@ -10,10 +9,24 @@ const swaggerDefinition = {
 		title: process.env.APP_NAME,
 		version: process.env.APP_VERSION,
 		description: process.env.APP_DESCRIPTION,
+		termsOfService: 'http://swagger.io/terms/',
+		contact: {
+			email: 'basri.basreen@gmail.com',
+		},
+		license: {
+			name: 'Apache 2.0',
+			url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
+		},
 	},
-	basePath: '/api',
+	basePath: '/',
+	securityDefinitions: {
+		token: {
+			type: 'string',
+			name: 'x-auth-token',
+			in: 'header',
+		},
+	},
 }
-
 /**
  * Options for the swagger docs.
  */
@@ -22,10 +35,8 @@ const swaggerOptions = {
 	swaggerDefinition: swaggerDefinition,
 	// path to the API docs
 	apis: [
-		path.join(__dirname, '../routes/index.js'),
-		path.join(__dirname, '../docs/*.js'),
-		path.join(__dirname, '../docs/*.yml'),
-		path.join(__dirname, '../docs/*.yaml'),
+		path.join(__dirname, '/../main/routes/game/*.js'),
+		path.join(__dirname, '/../main/routes/user/*.js'),
 	],
 }
 
@@ -34,4 +45,4 @@ const swaggerOptions = {
  */
 const swaggerSpec = swaggerJSDoc(swaggerOptions)
 
-module.exports = swaggerSpec
+export default swaggerSpec

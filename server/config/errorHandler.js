@@ -22,8 +22,30 @@ import { errorPayload } from '@middlewares/payload-config.js'
  *
  */
 
+export const errorHandler = app => {
+	app.use(function(err, req, res, next) {
+		if (err.code !== 'EBADCSRFTOKEN') return next(err)
+
+		// handle CSRF token errors here
+		res.status(403)
+		res.send('form tampered with')
+	})
+	app.use(function(req, res, next) {
+		let err = Boom.notFound('Request not Found')
+		next(err)
+	})
+	app.use(function(err, req, res, next) {
+		// set locals, only providing error in development
+		res.locals.message = err.message
+		res.locals.error = req.app.get('env') === 'development' ? err : {}
+
+		let payload = errorPayload(err)
+		res.status(err.output.statusCode).json(payload)
+	})
+}
+
 /**
-BOOM OUTPUT
+Example BOOM OUTPUT
 {
 	output: {
 		statusCode: 404,
@@ -36,26 +58,3 @@ BOOM OUTPUT
 	},
 }
 */
-
-export const errorHandler = app => {
-	app.use(function(err, req, res, next) {
-		if (err.code !== 'EBADCSRFTOKEN') return next(err)
-
-		// handle CSRF token errors here
-		res.status(403)
-		res.send('form tampered with')
-	})
-	app.use(function(req, res, next) {
-		let err = Boom.notFound('Request not Found')
-		// let err = new Error('Request not Found')
-		next(err)
-	})
-	app.use(function(err, req, res, next) {
-		// set locals, only providing error in development
-		res.locals.message = err.message
-		res.locals.error = req.app.get('env') === 'development' ? err : {}
-
-		let payload = errorPayload(err)
-		res.status(err.output.statusCode).json(payload)
-	})
-}

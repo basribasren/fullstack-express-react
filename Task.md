@@ -1,3 +1,5 @@
+CRASH ON UPDATE ACCOUNT
+
 cek RPC-style
 
 cek HATEOAS
@@ -34,8 +36,6 @@ Use a caching server like Varnish or Nginx (see also Nginx Caching) to greatly i
 https://www.nginx.com/resources/wiki/start/topics/examples/reverseproxycachingexample/
 https://varnish-cache.org/
 
-
-11. Swagger for Documentation
 
 8. Filter, Search and Sort
 

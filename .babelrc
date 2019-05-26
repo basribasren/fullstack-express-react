@@ -12,6 +12,7 @@
 				"@controllers": "./server/main/controllers",
 				"@middlewares": "./server/main/middlewares",
 				"@models": "./server/main/models",
+				"@routes": "./server/main/routes",
 				"@services": "./server/main/services",
 			}
 		}]

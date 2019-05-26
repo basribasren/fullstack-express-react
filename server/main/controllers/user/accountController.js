@@ -56,6 +56,7 @@ export const fetchAll = (req, res, next) => {
  */
 export const login = async (req, res, next) => {
 	try {
+		console.log(req.body)
 		let account = await accountService.getByUsername(req.body.username)
 		let isMatch = await comparePassword(req.body.password, account.password)
 		if (isMatch) {
