@@ -35,8 +35,7 @@ const swaggerOptions = {
 	swaggerDefinition: swaggerDefinition,
 	// path to the API docs
 	apis: [
-		path.join(__dirname, '/../main/routes/game/*.js'),
-		path.join(__dirname, '/../main/routes/user/*.js'),
+		path.join(__dirname, '/../docs/swagger-config/*.js'),
 	],
 }
 

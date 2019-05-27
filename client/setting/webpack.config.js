@@ -9,7 +9,7 @@ module.exports = merge(baseWebpackConfig, {
 
 	devServer: {
 		proxy: {
-			'/api': 'http://localhost:3000'
+			'/api/v1': 'http://localhost:3000/api/v1'
 			// proxy URLs to backend development server
 		},
 		historyApiFallback: true,
@@ -42,7 +42,7 @@ module.exports = merge(baseWebpackConfig, {
 
 		new webpack.DefinePlugin({
 			'process.env': {
-				API_PATH: JSON.stringify('http://localhost:3000/api/')
+				API_PATH: JSON.stringify('http://localhost:3000/api/v1/')
 			}
 		}),
 		new FriendlyErrorsPlugin(),

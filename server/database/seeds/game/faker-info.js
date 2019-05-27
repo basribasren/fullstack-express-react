@@ -1,5 +1,5 @@
-import { getAll } from '@/main/services/game/gameService.js'
-import { create, trash } from '@/main/services/game/infoService.js'
+import { getAll } from '@modules/game/gameService.js'
+import { create, trash } from '@modules/game-info/infoService.js'
 
 const createInfo = (faker, game) => {
 	const info = {
@@ -12,13 +12,15 @@ const createInfo = (faker, game) => {
 	return create(info)
 }
 
-const seedInfo = async (faker, number) => {
+const seedInfo = async faker => {
 	try {
 		await trash()
 
 		let games = await getAll()
 
-		const promiseArray = games.map(game => createInfo(faker, game))
+		const promiseArray = games.map(game => {
+			createInfo(faker, game)
+		})
 
 		return await Promise.all(promiseArray)
 

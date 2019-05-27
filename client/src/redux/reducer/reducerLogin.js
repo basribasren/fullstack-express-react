@@ -19,13 +19,13 @@ export default function(state = initialState, action) {
 		case DO_LOGIN:
 			return {
 				...state,
-				id_account: action.payload._id,
-				date_create: action.payload.created_at,
-				// token: action.payload.id,
-				// expired: action.payload.ttl,
-				username: action.payload.username,
-				role: action.payload.role,
-				isAuthenticated: false
+				token: action.token,
+				id_account: action.account._id,
+				date_create: action.account.created_at,
+				// expired: action.account.ttl,
+				username: action.account.username,
+				role: action.account.role,
+				isAuthenticated: true
 			}
 		case DO_LOGOUT:
 			return {

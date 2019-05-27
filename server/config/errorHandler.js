@@ -1,5 +1,5 @@
 import Boom from '@hapi/boom'
-import { errorPayload } from '@middlewares/payload-config.js'
+import { errorPayload } from '@helpers/payload.js'
 
 /**
  * Use HTTP status codes

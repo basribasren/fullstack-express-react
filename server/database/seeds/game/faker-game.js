@@ -1,4 +1,4 @@
-import { create, trash } from '@/main/services/game/gameService.js'
+import { create, trash } from '@modules/game/gameService.js'
 
 const seedGame = async (faker, number) => {
 	try {

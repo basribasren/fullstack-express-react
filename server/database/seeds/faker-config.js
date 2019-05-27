@@ -21,23 +21,13 @@ if (process.env.APP_ENV === 'development') {
  */
 mongooseConfig(mongoose)
 
-/**
- * generate data account
- */
-const seedUser = async () => {
-	await seedAccount(faker, 10)
-	await seedProfile(faker, 10)
+async function runAll() {
+	let account = await seedAccount(faker, 10)
+	let profile = await seedProfile(faker)
+	let game = await seedGame(faker, 100)
+	let info = await seedInfo(faker)
+	let list = await seedList(faker)
 	return process.exit(1)
 }
-const seedGames = async () => {
-	await seedGame(faker, 10)
-	await seedInfo(faker, 10)
-	return process.exit(1)
-}
-const seedLists = async () => {
-	await seedList(faker, 10)
-	return process.exit(1)
-}
-// seedUser()
-// seedGames()
-seedLists()
+
+runAll()

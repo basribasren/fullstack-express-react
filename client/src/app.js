@@ -14,6 +14,7 @@ import Sidebar from 'components/Sidebar/Sidebar'
 import Snackbar from 'components/Snackbar/Snackbar'
 
 import publicSwitch from 'switch/public'
+import adminSwitch from 'switch/admin'
 import {
 	getStatusConnection,
 	getMetadataConnection,
@@ -100,8 +101,13 @@ class AppShell extends React.Component {
 
 	render() {
 		const { classes, connection, authentication, snackbar, ...rest } = this.props
-		let content = <div className={classes.map}>{publicSwitch}</div>
+		let content
 
+		if (authentication.isAuthenticated) {
+			content = <div className={classes.map}>{adminSwitch}</div>
+		} else {
+			content = <div className={classes.map}>{publicSwitch}</div>
+		}
 		return (
 			<div className={classes.root}>
 				<CssBaseline />

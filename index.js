@@ -13,7 +13,7 @@ import { errorHandler } from '@config/errorHandler.js'
 import swaggerConfig from '@config/swaggerConfig.js'
 
 // import routes
-import routes from '@routes/index.js'
+import routes from '@modules/index.js'
 
 // const numCPUs = require('os').cpus().length
 const app = express()
@@ -43,7 +43,6 @@ expressConfig(app)
  */
 app.use(express.static(path.join(__dirname, 'client/dist')))
 if (process.env.APP_ENV === 'production') {
-	console.log('set faviceon')
 	app.use(favicon(path.join(__dirname, 'client/public', 'favicon.ico')))
 }
 
@@ -55,7 +54,7 @@ app.get('/api/v1/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json')
 	res.send(config)
 })
-app.use('/api/v1/docs', express.static('./server/docs'))
+app.use('/api/v1/docs', express.static('./server/docs/swagger-ui'))
 
 /**
  * routes API

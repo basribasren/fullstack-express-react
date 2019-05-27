@@ -6,7 +6,6 @@ import {
 import axios from 'axios'
 
 export const login = (username, password) => dispatch => {
-	console.log(username)
 	return axios
 		.request({
 			method: 'post',
@@ -19,9 +18,10 @@ export const login = (username, password) => dispatch => {
 		.then(response => {
 			dispatch({
 				type: DO_LOGIN,
-				payload: response.data,
+				token: response.data.data.token,
+				account: response.data.data.account,
 			})
-			return response.data
+			return response.data.data
 		})
 		.catch(error => {
 			throw new Error(error)
@@ -29,18 +29,21 @@ export const login = (username, password) => dispatch => {
 }
 
 export const logout = access_token => dispatch => {
-	return axios
-		.request({
-			method: 'post',
-			url: process.env.API_PATH + `auth/logout?access_token=${access_token}`
-		})
-		.then(response => {
-			dispatch({
-				type: DO_LOGOUT,
-			})
-			return response
-		})
-		.catch(error => {
-			return error
-		})
+	// return axios
+	// 	.request({
+	// 		method: 'post',
+	// 		url: process.env.API_PATH + `auth/logout?access_token=${access_token}`
+	// 	})
+	// 	.then(response => {
+	// 		dispatch({
+	// 			type: DO_LOGOUT,
+	// 		})
+	// 		return response
+	// 	})
+	// 	.catch(error => {
+	// 		return error
+	// 	})
+	return dispatch({
+		type: DO_LOGOUT,
+	})
 }

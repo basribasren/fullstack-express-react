@@ -1,3 +1,7 @@
+ENDpoint login create session
+enspoint logout?access_token=${access_token}
+create index dtabase when up running(because not index is create by default)
+token is failed on doc-logout {becasue req.header('x-auth-token') no in swagger}
 CRASH ON UPDATE ACCOUNT
 
 cek RPC-style

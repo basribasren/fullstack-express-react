@@ -13,6 +13,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import ChevronRightIcon from '@material-ui/icons/ChevronRight'
 
 import publicRoutes from 'routes/public'
+import adminRoutes from 'routes/admin'
 import SidebarLink from './SidebarLink'
 import { logout } from 'redux/action/actionLogin'
 
@@ -66,11 +67,22 @@ class Sidebar extends React.Component {
 
 	render() {
 		const { classes, theme, data, ...rest } = this.props
-		let SidebarMenu = <SidebarLink 
+		let SidebarMenu
+
+		if (data.isAuthenticated) {
+			SidebarMenu = <SidebarLink 
+					link={adminRoutes}
+					color="blue"
+					handleLogout={()=>this.handleLogout()}
+					{...rest}
+				/>
+		} else {
+			SidebarMenu = <SidebarLink 
 				link={publicRoutes}
 				color="blue"
 				{...rest}
 			/>
+		}
 		return (
 			<div>
 				<Drawer

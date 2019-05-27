@@ -1,5 +1,5 @@
-import { getAllAccount } from '@/main/services/user/accountService.js'
-import { create, dropProfile } from '@/main/services/user/profileService.js'
+import { getAllUser } from '@modules/user/userService.js'
+import { create, dropProfile } from '@modules/profile/profileService.js'
 
 const createProfile = (faker, account) => {
 	const contacts = [{
@@ -35,7 +35,7 @@ const createProfile = (faker, account) => {
 		},
 	}]
 	const profile = {
-		id_account: account._id,
+		id_user: account._id,
 		username: account.username,
 		email: account.email,
 		name: faker.name.findName(),
@@ -49,11 +49,11 @@ const createProfile = (faker, account) => {
 	}
 	return create(profile)
 }
-const seedProfile = async (faker, number) => {
+const seedProfile = async faker => {
 	try {
 		await dropProfile()
 
-		let accounts = await getAllAccount()
+		let accounts = await getAllUser()
 
 		const promiseArray = accounts.map(account => createProfile(faker, account))
 

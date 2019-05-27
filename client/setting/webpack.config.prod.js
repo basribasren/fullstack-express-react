@@ -14,7 +14,7 @@ module.exports = merge(baseWebpackConfig, {
 		concatenateModules: false,
 		runtimeChunk: true,
 		noEmitOnErrors: true,
-		namedChunks: true,    
+		namedChunks: true,
 		moduleIds: 'hashed',
 		chunkIds: 'named',
 		mergeDuplicateChunks: false,
@@ -61,10 +61,10 @@ module.exports = merge(baseWebpackConfig, {
 		// 	swDest: 'sw.js',
 		// 	importWorkboxFrom: 'local'
 		// }), 
-		
+
 		new webpack.DefinePlugin({
 			'process.env': {
-				API_PATH: JSON.stringify('http://localhost:3000/')
+				API_PATH: JSON.stringify('http://localhost:3000/api/v1/')
 			}
 		}),
 		// Using workbox with injectManifest to create serive worker

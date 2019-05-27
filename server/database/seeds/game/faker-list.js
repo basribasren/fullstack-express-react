@@ -1,6 +1,6 @@
-import { getAll } from '@/main/services/game/gameService.js'
-import { getRandomOne } from '@/main/services/user/profileService.js'
-import { create, trash } from '@/main/services/game/listService.js'
+import { getAll } from '@modules/game/gameService.js'
+import { getRandomOne } from '@modules/profile/profileService.js'
+import { create, trash } from '@modules/game-list/listService.js'
 
 const createList = (faker, games, profile) => {
 	const lists = []
@@ -14,7 +14,7 @@ const createList = (faker, games, profile) => {
 	return create(list)
 }
 
-const seedInfo = async (faker, number) => {
+const seedInfo = async faker => {
 	try {
 		await trash()
 

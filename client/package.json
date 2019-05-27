@@ -6,8 +6,8 @@
     "scripts": {
         "test": "eslint .",
         "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./setting/webpack.config.prod.js --color --progress",
-        "serve": "cross-env NODE_ENV=development webpack-dev-server --config ./setting/webpack.config.js --color --progress",
-        "analyze": "cross-env NODE_ENV=production webpack --config ./setting/webpack.config.analyze.js --color --progress"
+        "serve": "rimraf dist && cross-env NODE_ENV=development webpack-dev-server --config ./setting/webpack.config.js --color --progress",
+        "analyze": "rimraf dist && cross-env NODE_ENV=production webpack --config ./setting/webpack.config.analyze.js --color --progress"
     },
     "devDependencies": {
         "babel-loader": "^8.0.5",

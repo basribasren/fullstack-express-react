@@ -1,9 +1,9 @@
-import { generatePassword } from '@/main/middlewares/password-config.js'
-import { createAccount, dropAccount } from '@/main/services/user/accountService.js'
+import { generatePassword } from '@helpers/password.js'
+import { createUser, dropUser } from '@modules/user/userService.js'
 
 const seedAccount = async (faker, number) => {
 	try {
-		await dropAccount()
+		await dropUser()
 		let hashPassword = await generatePassword('helloworld')
 		for (var i = 0; i < number; i++) {
 			const account = {
@@ -13,7 +13,7 @@ const seedAccount = async (faker, number) => {
 				role: 'admin',
 				active: faker.random.boolean(),
 			}
-			await createAccount(account)
+			await createUser(account)
 		}
 		return
 	} catch (err) {
