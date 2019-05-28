@@ -20,11 +20,19 @@ const swaggerDefinition = {
 	},
 	basePath: '/',
 	securityDefinitions: {
-		token: {
-			type: 'string',
-			name: 'x-auth-token',
-			in: 'header',
+		BasicAuth: {
+			type: 'http',
+			scheme: 'basic',
 		},
+		BearerAuth: {
+			type: 'bearer',
+			scheme: 'basic',
+		},
+		ApiKeyAuth: {
+			type: 'apiKey',
+			in: 'header',
+			name: 'x-auth-token',
+		}
 	},
 }
 /**

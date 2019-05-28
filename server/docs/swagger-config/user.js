@@ -14,7 +14,7 @@
  *       401:
  *         description: Unauthorized
  *     security:
- *       - token: []
+ *       - ApiKeyAuth: []
  *     x-swagger-router-controller: 'account'
  */
 

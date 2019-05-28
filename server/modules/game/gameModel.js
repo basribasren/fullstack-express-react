@@ -9,7 +9,7 @@ const GameSchema = new schema({
 	id_info: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Info',
-		// unique: [true, 'id has already been taken'],
+		unique: [true, 'id has already been taken'],
 	},
 	title: {
 		type: String,
