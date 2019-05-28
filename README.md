@@ -2,10 +2,52 @@
 
 [![Build Status](https://travis-ci.org/basribasren/boilerplate-react-redux.svg?branch=master)](https://travis-ci.org/basribasren/boilerplate-react-redux) [![Build status](https://ci.appveyor.com/api/projects/status/weuboxr8dwbpp0q2?svg=true)](https://ci.appveyor.com/project/basribasren/boilerplate-react-redux) [![dependencies Status](https://david-dm.org/basribasren/boilerplate-react-redux/status.svg)](https://david-dm.org/basribasren/boilerplate-react-redux) ![GitHub All Releases](https://img.shields.io/github/downloads/basribasren/boilerplate-react-redux/total.svg) [![GitHub license](https://img.shields.io/github/license/basribasren/boilerplate-react-redux.svg)](https://github.com/basribasren/boilerplate-react-redux/blob/master/LICENSE) [![GitHub last commit](https://img.shields.io/github/last-commit/basribasren/boilerplate-react-redux.svg)](https://github.com/basribasren/boilerplate-react-redux/commits/master)
 
-boilerplate for create web or progressive web app using react and redux.
-Tools : React, Redux, Webpack, Eslint, Babel, Workbox, Material-UI, material-dashboard theme.
+Boilerplate for Full stack web development with Swagger-ui for API Documentation, ExpressJs for Server and ReactJs for Client
+Tools : Swagger-ui, Swagger-jsdocs, Babel, Eslint, Prettier, Express, Mongoose, React, Redux, Webpack, Workbox, Material-UI.
 
-## Ecosystem
+## Ecosystem Global
+
+<!-- prettier-ignore -->
+| Project | Status | Description |
+|---------|--------|-------------|
+| [babel]          | [![babel-status]][babel-package] | Babel is a compiler for writing next generation JavaScript. |
+| [prettier]          | [![prettier-status]][prettier-package] | Prettier is an opinionated code formatter. |
+| [eslint]          | [![eslint-status]][eslint-package] | A fully pluggable tool for identifying and reporting on patterns in JavaScript. |
+
+[babel]: https://github.com/babel/babel
+[babel-status]: https://img.shields.io/npm/v/babel.svg
+[babel-package]: https://npmjs.com/package/babel
+[prettier]: https://github.com/prettier/prettier
+[prettier-status]: https://img.shields.io/npm/v/prettier.svg
+[prettier-package]: https://npmjs.com/package/prettier
+[eslint]: https://github.com/eslint/eslint
+[eslint-status]: https://img.shields.io/npm/v/eslint.svg
+[eslint-package]: https://npmjs.com/package/eslint
+
+## Ecosystem Server
+
+<!-- prettier-ignore -->
+| Project | Status | Description |
+|---------|--------|-------------|
+| [express]          | [![express-status]][express-package] | Fast, unopinionated, minimalist web framework for node. |
+| [mongoose]          | [![mongoose-status]][mongoose-package] | Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. |
+| [swagger-ui]          | [![swagger-ui-status]][swagger-ui-package] | A fully pluggable tool for identifying and reporting on patterns in JavaScript. |
+| [jsonwebtoken]          | [![jsonwebtoken-status]][jsonwebtoken-package] | An implementation of JSON Web Tokens. |
+
+[express]: https://github.com/expressjs/express
+[express-status]: https://img.shields.io/npm/v/express.svg
+[express-package]: https://npmjs.com/package/express
+[mongoose]: https://github.com/Automattic/mongoose
+[mongoose-status]: https://img.shields.io/npm/v/mongoose.svg
+[mongoose-package]: https://npmjs.com/package/mongoose
+[swagger-ui]: https://github.com/swagger-api/swagger-ui
+[swagger-ui-status]: https://img.shields.io/npm/v/swagger-ui.svg
+[swagger-ui-package]: https://npmjs.com/package/swagger-ui
+[jsonwebtoken]: https://github.com/auth0/node-jsonwebtoken
+[jsonwebtoken-status]: https://img.shields.io/npm/v/jsonwebtoken.svg
+[jsonwebtoken-package]: https://npmjs.com/package/jsonwebtoken
+
+## Ecosystem Client
 
 <!-- prettier-ignore -->
 | Project | Status | Description |
@@ -13,11 +55,8 @@ Tools : React, Redux, Webpack, Eslint, Babel, Workbox, Material-UI, material-das
 | [react]          | [![react-status]][react-package] | A declarative, efficient, and flexible JavaScript library for building user interfaces. |
 | [redux]          | [![redux-status]][redux-package] | Predictable state container for JavaScript apps. |
 | [materialui]          | [![materialui-status]][materialui-package] | React components that implement Google's Material Design. |
-| [babel]          | [![babel-status]][babel-package] | Babel is a compiler for writing next generation JavaScript. |
 | [webpack]          | [![webpack-status]][webpack-package] | A bundler for javascript and friends. |
 | [workbox]          | [![workbox-status]][workbox-package] | JavaScript libraries for Progressive Web Apps. |
-| [prettier]          | [![prettier-status]][prettier-package] | Prettier is an opinionated code formatter. |
-| [eslint]          | [![eslint-status]][eslint-package] | A fully pluggable tool for identifying and reporting on patterns in JavaScript. |
 
 [react]: https://github.com/facebook/react
 [react-status]: https://img.shields.io/npm/v/react.svg
@@ -28,53 +67,51 @@ Tools : React, Redux, Webpack, Eslint, Babel, Workbox, Material-UI, material-das
 [materialui]: https://github.com/mui-org/material-ui
 [materialui-status]: https://img.shields.io/npm/v/material-ui.svg
 [materialui-package]: https://npmjs.com/package/material-ui
-[babel]: https://github.com/babel/babel
-[babel-status]: https://img.shields.io/npm/v/babel.svg
-[babel-package]: https://npmjs.com/package/babel
 [webpack]: https://github.com/webpack/webpack
 [webpack-status]: https://img.shields.io/npm/v/webpack.svg
 [webpack-package]: https://npmjs.com/package/webpack
 [workbox]: https://github.com/googlechrome/workbox
 [workbox-status]: https://img.shields.io/npm/v/workbox.svg
 [workbox-package]: https://npmjs.com/package/workbox
-[prettier]: https://github.com/prettier/prettier
-[prettier-status]: https://img.shields.io/npm/v/prettier.svg
-[prettier-package]: https://npmjs.com/package/prettier
-[eslint]: https://github.com/eslint/eslint
-[eslint-status]: https://img.shields.io/npm/v/eslint.svg
-[eslint-package]: https://npmjs.com/package/eslint
 
 ## Folder Structure
 
 After creation, your project should look like this:
 
 ```
-my-app/
+fullstack-express-react/
 ├── node_modules/
-├── public/
-│   └── index.html
-│   └── favicon.ico
-├── setting/
-├── src/
-│   └── components/
-│   └── redux/
-│   └── routes/
-│   └── views/
-│   └── app.js
-│   └── index.js
-│   └── sw.js
-├── .babelrc.js
+├── bin/
+├── client/
+│   └── dist/		will contain client in production mode
+│   └── public/		
+│   └── setting/	will contain configuration for webpack, dll
+│   └── src/		will contain client in development mode
+│   └── .babelrc.js
+│   └── .package.json
+│   └── .README.md
+├── server/
+│   └── config/		will contain configuration for server
+│   └── database/ 	will contain migration and seed
+│   └── docs/	 	will contain swagge-ui and api docs
+│   └── dist/		will contain server in production mode
+│   └── helpers/	
+│   └── log/		will contain log
+│   └── modules/	will contain model, service, controller, route with hierarchy Structure
+├── .babelrc
 ├── .editorconfig
 ├── .env
+├── .env.example
 ├── .eslintignore
 ├── .eslintrc.js
 ├── .gitignore
 ├── .prettierignore
+├── .prettierrc
 ├── .travis.yml
 ├── .appveyor.yml
+├── index.js
 ├── LICENSE
 ├── README.md
-├── server.js
 ├── package.json
 
 ```
@@ -83,30 +120,18 @@ my-app/
 
 In the project directory, you can run:
 
-### `yarn start`
+    "client-build": "cd client && npm run build",
+    "client-dev": "npm run serve --prefix client",
 
-Runs the result of build command with simple express server.<br>
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+    "server-build": "rimraf dist && mkdir dist && babel index.js --out-dir server/dist",
+    "server-dev": "nodemon .",
 
-### `yarn test`
+    "development": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-### `yarn serve`
-
-Runs the app in development mode using `webpack-dev-server`<br>
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
-
-### `yarn analyze`
-
-Runs the app in production mode and get detail bundles `webpack-bundle-analyzer`<br>
-Open [http://localhost:8080](http://localhost:8080) to view it in the browser.
+    "start": "node server/dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-prebuild": "npm install npm@latest -g && cd client && npm install --production=false",
+    "heroku-postbuild": "concurrently \"npm run server-build\" \"npm run client-build\""
 
 ## Maintainers
 
