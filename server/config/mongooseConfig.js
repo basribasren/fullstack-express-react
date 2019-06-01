@@ -30,6 +30,9 @@ const mongooseConfig = mongoose => {
 	})
 	const connection = mongoose.connection
 	connection.on('error', console.error.bind(console, 'connection error:'))
+	// mongoose.connection.on('error', () => {
+	// 	throw new Error(`unable to connect to database: ${config.db}`)s
+	// })
 	connection.once('close', onClose)
 	connection.once('reconnect', onReconnect)
 	connection.once('open', onOpen)

@@ -19,8 +19,7 @@ export const generateData = async (id_profile, data) => {
 		return list_game
 	} catch (err) {
 		if (err.statusCode === undefined) {
-			let statusCode = err.statusCode || 409
-			throw Boom.boomify(err, { statusCode: statusCode })
+			throw Boom.boomify(err, { statusCode: 409 })
 		}
 		throw err
 	}

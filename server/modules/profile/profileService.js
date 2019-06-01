@@ -16,8 +16,7 @@ export const getAll = () => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -36,8 +35,7 @@ export const getRandomOne = () => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -59,8 +57,7 @@ export const getByUsername = username => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -82,8 +79,7 @@ export const getById = id => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -102,8 +98,7 @@ export const create = data => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -126,8 +121,7 @@ export const update = (username, data) => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -149,8 +143,7 @@ export const remove = username => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -169,8 +162,7 @@ export const dropProfile = () => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})

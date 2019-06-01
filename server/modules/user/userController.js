@@ -21,8 +21,7 @@ export const generateData = async data => {
 		return result
 	} catch (err) {
 		if (err.statusCode === undefined) {
-			let statusCode = err.statusCode || 409
-			throw Boom.boomify(err, { statusCode: statusCode })
+			throw Boom.boomify(err, { statusCode: 409 })
 		}
 		throw err
 	}

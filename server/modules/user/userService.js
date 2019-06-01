@@ -22,8 +22,7 @@ export const getAllUser = () => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -45,8 +44,7 @@ export const getByUsername = username => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -65,8 +63,7 @@ export const createUser = data => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -95,8 +92,7 @@ export const updateUser = (id, data) => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -118,8 +114,7 @@ export const deleteUser = id => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})
@@ -138,8 +133,7 @@ export const dropUser = () => {
 		})
 		.catch(err => {
 			if (err.statusCode === undefined) {
-				let statusCode = err.statusCode || 409
-				throw Boom.boomify(err, { statusCode: statusCode })
+				throw Boom.boomify(err, { statusCode: 409 })
 			}
 			throw err
 		})

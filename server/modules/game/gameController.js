@@ -24,8 +24,7 @@ export const generateDataGame = async data => {
 		return game
 	} catch (err) {
 		if (err.statusCode === undefined) {
-			let statusCode = err.statusCode || 409
-			throw Boom.boomify(err, { statusCode: statusCode })
+			throw Boom.boomify(err, { statusCode: 409 })
 		}
 		throw err
 	}
@@ -50,8 +49,7 @@ export const generateDataInfo = async (id, data) => {
 		return info
 	} catch (err) {
 		if (err.statusCode === undefined) {
-			let statusCode = err.statusCode || 409
-			throw Boom.boomify(err, { statusCode: statusCode })
+			throw Boom.boomify(err, { statusCode: 409 })
 		}
 		throw err
 	}

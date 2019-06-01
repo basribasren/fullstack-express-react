@@ -1,4 +1,5 @@
 import Boom from '@hapi/boom'
+import { validationResult } from 'express-validator/check'
 import { getByUsername } from './userService.js'
 import {
 	create as createSession,
@@ -17,7 +18,21 @@ import { successPayload } from '@helpers/payload.js'
  */
 export const login = async (req, res, next) => {
 	try {
+		const errors = validationResult(req);
+		if (!errors.isEmpty()) {
+			console.log(errors.array())
+			let listError = []
+			errors.array().map(err => {
+				listError.push(err.msg)
+			})
+			let newError = new Error(listError)
+			console.log(newError)
+			throw Boom.boomify(newError, { statusCode: 422 })
+		}
 		let account = await getByUsername(req.body.username)
+		if (!account) {
+			throw Boom.unauthorized('Username not match')
+		}
 		let isMatch = await comparePassword(req.body.password, account.password)
 		if (isMatch) {
 			let token = generateToken(account)

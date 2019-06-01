@@ -2,20 +2,19 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import mongoose from 'mongoose'
-// import cluster from 'cluster'
 import dotenv from 'dotenv'
 import chalk from 'chalk'
 // import configuration
-import mongooseConfig from '@config/mongooseConfig.js'
-import loggerConfig from '@config/loggerConfig.js'
-import expressConfig from '@config/expressConfig.js'
+import clusterConfig from '@config/clusterConfig.js'
 import { errorHandler } from '@config/errorHandler.js'
+import expressConfig from '@config/expressConfig.js'
+import loggerConfig from '@config/loggerConfig.js'
+import mongooseConfig from '@config/mongooseConfig.js'
+import { generatedTransporter } from '@config/nodemailerConfig.js'
 import swaggerConfig from '@config/swaggerConfig.js'
-
 // import routes
 import routes from '@modules/index.js'
 
-// const numCPUs = require('os').cpus().length
 const app = express()
 
 dotenv.config()
@@ -47,6 +46,12 @@ if (process.env.APP_ENV === 'production') {
 }
 
 /**
+ * generate setting nodemailer
+ * @type {[type]}
+ */
+let transporter = generatedTransporter()
+
+/**
  * Routes for API documentation
  */
 let config = swaggerConfig
@@ -74,17 +79,18 @@ if (process.env.APP_ENV === 'production') {
  */
 errorHandler(app)
 
-// if (cluster.isMaster) {
-// 	console.log(`Master ${process.pid} is running`)
-// 	// Fork workers.
-// 	for (let i = 0; i < numCPUs; i++) {
-// 		cluster.fork()
-// 	}
+/**
+ * Server with cluster
+ */
+// clusterConfig(app)
 
-// 	cluster.on('exit', (worker, code, signal) => {
-// 		console.log(`worker ${worker.process.pid} died`)
-// 	})
-// } else {
+/**
+ * Server without cluster
+ * @param  {[type]} app.get('port') [description]
+ * @param  {[type]} app.get('host') [description]
+ * @param  {[type]} (               [description]
+ * @return {[type]}                 [description]
+ */
 app.listen(app.get('port'), app.get('host'), () => {
 	console.log('--')
 	console.log(chalk.green(process.env.APP_NAME))
@@ -95,5 +101,3 @@ app.listen(app.get('port'), app.get('host'), () => {
 	console.log(chalk.blue('Running at:\t') + chalk.green(`http://${app.get('host')}:${app.get('port')}/api`))
 	console.log('--')
 })
-// 	console.log(`Worker ${process.pid} started`)
-// }

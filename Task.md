@@ -1,3 +1,44 @@
+Server on ERROR HANDLER
+
+server.on('error', onError);
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(`Port ${port} requires elevated privileges`);
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(`Port ${port} is already in use`);
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+----
+devconnector have usefull schema
+
+---
+express-api-ex6-starter have usefull api docs configuration
+
+---
+express-rest-api have use full validation-params
+
+---
+express-cart have usefull feature
+
+---
+
 
 cek HATEOAS
 Hypermedia as the Engine of Application State is a principle that hypertext links should be used to create a better navigation through the API.
