@@ -1,14 +1,14 @@
 import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
-import mongoose from 'mongoose'
 import dotenv from 'dotenv'
 import chalk from 'chalk'
 // import configuration
 import clusterConfig from '@config/clusterConfig.js'
 import { errorHandler } from '@config/errorHandler.js'
 import expressConfig from '@config/expressConfig.js'
-import loggerConfig from '@config/loggerConfig.js'
+// import {morganConfig} from '@config/morganConfig.js'
+import winstonLogger from '@config/winstonConfig.js'
 import mongooseConfig from '@config/mongooseConfig.js'
 import { generatedTransporter } from '@config/nodemailerConfig.js'
 import swaggerConfig from '@config/swaggerConfig.js'
@@ -17,20 +17,28 @@ import routes from '@modules/index.js'
 
 const app = express()
 
-dotenv.config()
 /**
- * [if in development mode, use logger]
+ * use winston logger
+ * @type {[type]}
+ */
+const logger = winstonLogger
+
+/**
+ * load environment configuration from .env
+ */
+dotenv.config()
+
+/**
+ * use morgan logger
  * @param  {[type]} process.env.APP_ENV [description]
  * @return {[type]}                     [description]
  */
-if (process.env.APP_ENV === 'development') {
-	loggerConfig(app)
-}
+// morganConfig(app)
 
 /**
  * connnection to database mongodb using mongoose
  */
-mongooseConfig(mongoose)
+mongooseConfig()
 
 /**
  * express default configuration
@@ -92,6 +100,10 @@ errorHandler(app)
  * @return {[type]}                 [description]
  */
 app.listen(app.get('port'), app.get('host'), () => {
+	logger.info('running', {
+		additional: 'properties',
+		are: 'passed along'
+	})
 	console.log('--')
 	console.log(chalk.green(process.env.APP_NAME))
 	console.log(chalk.blue('Environment:\t') + chalk.green(process.env.APP_ENV))

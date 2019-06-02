@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import mongoose from 'mongoose'
 
 const onClose = () => {
 	console.info(chalk.blue('Mongoose: ') + chalk.yellow('MongoDB connection was closed'))
@@ -16,7 +17,7 @@ const onError = () => {
 	console.error(chalk.blue('Mongoose: ') + chalk.red('Connection Error: Could not connect to MongoDB!'))
 }
 
-const mongooseConfig = mongoose => {
+const mongooseConfig = () => {
 	if (process.env.APP_ENV === 'development') {
 		mongoose.set('debug', true)
 	}

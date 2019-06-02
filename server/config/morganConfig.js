@@ -2,7 +2,7 @@ import morgan from 'morgan'
 import fs from 'fs'
 import path from 'path'
 
-const loggerConfig = app => {
+export const morganLogger = app => {
 	// log only 4xx and 5xx responses to console
 	app.use(
 		morgan('dev', {
@@ -15,12 +15,10 @@ const loggerConfig = app => {
 	app.use(
 		morgan('common', {
 			stream: fs.createWriteStream(
-				path.join(__dirname, '..', '/log/access.log'), {
+				path.join(__dirname, '..', '/logs/morgan-access.log'), {
 					flags: 'a',
 				}
 			),
 		})
 	)
 }
-
-export default loggerConfig

@@ -20,13 +20,11 @@ export const login = async (req, res, next) => {
 	try {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			console.log(errors.array())
 			let listError = []
 			errors.array().map(err => {
 				listError.push(err.msg)
 			})
 			let newError = new Error(listError)
-			console.log(newError)
 			throw Boom.boomify(newError, { statusCode: 422 })
 		}
 		let account = await getByUsername(req.body.username)

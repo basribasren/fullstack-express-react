@@ -71,3 +71,31 @@ api registry - for documentation
 api gateway - seperate logic and security
 
 cek for express-gateway framework
+
+
+ logging (morgan vs winston)
+    validation (express-validator, joi)
+    auth (passport jwt, local, social)
+    session storage (redis vs keeping it in database?)
+    database (mongo/mongoose vs pg/knex/bookshelf/sequelize, graphql)
+    storage (s3 vs gcs)
+    ajax requests (request vs axios)
+    mail (mailgun, sendgrid, mailchimp)
+    error handlers
+    rate limiting
+    geo ip
+
+
+     body-parser
+    compression
+    serve-favicon
+    express-session
+    csurf
+    helmet
+    cors
+    dotenv
+    moment
+    selfsigned
+    chalk
+    debug
+
