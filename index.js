@@ -2,49 +2,61 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
-// import configuration
-import clusterConfig from '@config/clusterConfig.js'
+
+// import clusterConfig from '@config/clusterConfig.js'
 import { errorHandler } from '@config/errorHandler.js'
 import expressConfig from '@config/expressConfig.js'
 import mongooseConfig from '@config/mongooseConfig.js'
 // import { morganLogger } from '@config/morganConfig.js'
 import { generatedTransporter } from '@config/nodemailerConfig.js'
+import redisConfig from '@config/redisConfig.js'
 import swaggerConfig from '@config/swaggerConfig.js'
 import winstonLogger from '@config/winstonConfig.js'
-// import routes
+
 import routes from '@modules/index.js'
 
 const app = express()
 
-
 /**
- * load environment configuration from .env
+ *  ******************************************************************
+ *  load environment configuration from .env
+ *  ******************************************************************
  */
 dotenv.config()
 
 /**
- * use winston logger
- * @type {[type]}
+ *  ******************************************************************
+ *  use winston logger
+ *  ******************************************************************
  */
 const logger = winstonLogger
 
 /**
- * use morgan logger
+ *  ******************************************************************
+ *  use morgan logger
+ *  ******************************************************************
  */
 // morganLogger(app)
 
 /**
- * connnection to database mongodb using mongoose
+ *  ******************************************************************
+ *  connnection to database mongodb using mongoose
+ *  ******************************************************************
  */
 mongooseConfig()
 
+let client = redisConfig()
 /**
- * express default configuration
+ *  ******************************************************************
+ *  express default configuration
+ *  ******************************************************************
  */
 expressConfig(app)
 
 /**
- * Setting the app static folder
+ *  ******************************************************************
+ *  static folder for client
+ *  ******************************************************************
  */
 app.use(express.static(path.join(__dirname, 'client/dist')))
 if (process.env.APP_ENV === 'production') {
@@ -52,15 +64,18 @@ if (process.env.APP_ENV === 'production') {
 }
 
 /**
- * generate setting nodemailer
- * @type {[type]}
+ *  ******************************************************************
+ *  generate and verify nodemailer transporter
+ *  ******************************************************************
  */
-let transporter = generatedTransporter()
+const transporter = generatedTransporter()
 
 /**
- * Routes for API documentation
+ *  ******************************************************************
+ *  generate configuration and routes for API documentation
+ *  ******************************************************************
  */
-let config = swaggerConfig
+const config = swaggerConfig
 app.get('/api/v1/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json')
 	res.send(config)
@@ -68,11 +83,16 @@ app.get('/api/v1/swagger.json', (req, res) => {
 app.use('/api/v1/docs', express.static('./server/docs/swagger-ui'))
 
 /**
- * routes API
+ *  ******************************************************************
+ *  routes for all api endpoint
+ *  ******************************************************************
  */
 app.use('/api', routes)
+
 /**
- * send the user to index html page inspite of the url
+ *  ******************************************************************
+ *  send the user to index html page inspite of the url
+ *  ******************************************************************
  */
 if (process.env.APP_ENV === 'production') {
 	app.get('*', (req, res) => {
@@ -81,24 +101,27 @@ if (process.env.APP_ENV === 'production') {
 }
 
 /**
- * the default error handler, at the last
+ *  ******************************************************************
+ *  the default error handler, at the last
+ *  ******************************************************************
  */
 errorHandler(app)
 
 /**
- * Server with cluster
+ *  ******************************************************************
+ *  server with cluster configuration
+ *  ******************************************************************
  */
 // clusterConfig(app)
 
 /**
- * Server without cluster
- * @param  {[type]} app.get('port') [description]
- * @param  {[type]} app.get('host') [description]
- * @param  {[type]} (               [description]
- * @return {[type]}                 [description]
+ *  ******************************************************************
+ *  server without cluster configuration
+ *  ******************************************************************
  */
 app.listen(app.get('port'), app.get('host'), () => {
 	logger.info(`running at: http://${app.get('host')}:${app.get('port')}/api`, {
 		service: 'server',
+		method: null,
 	})
 })

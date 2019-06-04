@@ -11,35 +11,33 @@ import path from 'path'
 const filenameError = path.join(__dirname, '..', '/logs/winston-error.json')
 const filenameCombined = path.join(__dirname, '..', '/logs/winston-combined.json')
 
-// Logging levels
-const config = {
-	levels: {
-		error: 0,
-		debug: 1,
-		warn: 2,
-		data: 3,
-		info: 4,
-		verbose: 5,
-		silly: 6,
-		custom: 7
-	},
-	colors: {
-		error: 'red',
-		debug: 'blue',
-		warn: 'yellow',
-		data: 'grey',
-		info: 'green',
-		verbose: 'cyan',
-		silly: 'magenta',
-		custom: 'yellow'
-	}
+const levels = {
+	error: 0,
+	debug: 1,
+	warn: 2,
+	data: 3,
+	info: 4,
+	verbose: 5,
+	silly: 6,
+	custom: 7,
+}
+
+const colors = {
+	error: 'red',
+	debug: 'blue',
+	warn: 'yellow',
+	data: 'grey',
+	info: 'green',
+	verbose: 'cyan',
+	silly: 'magenta',
+	custom: 'yellow',
 }
 
 const winstonLogger = createLogger({
 	level: 'info',
 	format: format.combine(
 		format.timestamp({
-			format: 'YYYY-MM-DD HH:mm:ss'
+			format: 'YYYY-MM-DD HH:mm:ss',
 		}),
 		// format.label({ label: '[my-label]' }),
 		format.errors({ stack: true }),
@@ -48,18 +46,18 @@ const winstonLogger = createLogger({
 	),
 	transports: [
 		/**
-		 *-Write to all logs with level `info` and below to `combined.log` 
+		 *-Write to all logs with level `info` and below to `combined.log`.
 		 *-Write all logs error(and below) to `error.log`.
 		 */
 		new transports.File({
 			filename: filenameError,
-			level: 'error'
+			level: 'error',
 		}),
 		new transports.File({
 			maxsize: 5210000,
 			maxfiles: 5,
-			filename: filenameCombined
-		})
+			filename: filenameCombined,
+		}),
 	],
 })
 /**
@@ -67,12 +65,14 @@ const winstonLogger = createLogger({
  * with the colorized simple format.
  */
 if (process.env.APP_ENV !== 'production') {
-	winstonLogger.add(new transports.Console({
-		format: format.combine(
-			format.colorize(),
-			format.simple()
-		)
-	}))
+	winstonLogger.add(
+		new transports.Console({
+			format: format.combine(
+				format.colorize(),
+				format.simple(),
+			)
+		})
+	)
 }
 
 export default winstonLogger

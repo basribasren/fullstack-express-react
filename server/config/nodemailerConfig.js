@@ -1,4 +1,3 @@
-import Boom from '@hapi/boom'
 import nodemailer from 'nodemailer'
 import mg from 'nodemailer-mailgun-transport'
 import winstonLogger from '@config/winstonConfig.js'
@@ -19,7 +18,10 @@ export const generatedTransporter = () => {
 		}
 		// create reusable transporter object using the default SMTP transport
 		let transporter = nodemailer.createTransport(mg(auth))
-
+		logger.info('generate transporter success', {
+			service: 'nodemailer',
+			method: null,
+		})
 		return transporter
 	} catch (err) {
 		logger.error('generate transporter failed', {
@@ -27,38 +29,6 @@ export const generatedTransporter = () => {
 			method: null,
 		})
 		throw new Error('generate transporter failed!')
-	}
-}
-
-/**
- * verify configuration of transporter
- * @param  {[type]} transporter [description]
- * @return {[type]}             [description]
- */
-export const verifyTransporter = transporter => {
-	try {
-		// verify connection configuration
-		transporter.verify(success => {
-			if (!success) {
-				logger.error('verify transporter failed', {
-					service: 'nodemailer',
-					method: null,
-				})
-				throw new Error('verify transporter failed')
-			} else {
-				logger.error('verify transporter success', {
-					service: 'nodemailer',
-					method: null,
-				})
-				return
-			}
-		})
-	} catch (err) {
-		logger.error('transporter is not found', {
-			service: 'nodemailer',
-			method: null,
-		})
-		throw new Error('verify transporter failed')
 	}
 }
 
@@ -77,6 +47,6 @@ export const idleTransporter = transporter => {
 		})
 	} catch (err) {
 		console.log(err)
-		throw new Error('ferivy transporter failed')
+		throw new Error('verify transporter failed')
 	}
 }
