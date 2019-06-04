@@ -8,8 +8,8 @@ import path from 'path'
  */
 
 // setting the filename, where the logs you write
-const filenameError = path.join(__dirname, '..', '/logs/winston-error.log')
-const filenameCombined = path.join(__dirname, '..', '/logs/winston-combined.log')
+const filenameError = path.join(__dirname, '..', '/logs/winston-error.json')
+const filenameCombined = path.join(__dirname, '..', '/logs/winston-combined.json')
 
 // Logging levels
 const config = {
@@ -41,7 +41,7 @@ const winstonLogger = createLogger({
 		format.timestamp({
 			format: 'YYYY-MM-DD HH:mm:ss'
 		}),
-		format.label({ label: '[my-label]' }),
+		// format.label({ label: '[my-label]' }),
 		format.errors({ stack: true }),
 		format.splat(),
 		format.json()

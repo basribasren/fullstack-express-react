@@ -38,7 +38,7 @@ export const fetchAll = (req, res, next) => {
 	userService
 		.getAllUser()
 		.then(result => {
-			let payload = successPayload(200, 'Load User success', result)
+			let payload = successPayload(200, 'Load User success', result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -55,7 +55,7 @@ export const getByUsername = (req, res, next) => {
 	userService
 		.getByUsername(req.body.username)
 		.then(result => {
-			let payload = successPayload(200, `User ${result.username} has been Loaded`, result)
+			let payload = successPayload(200, `User ${result.username} has been Loaded`, result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -74,7 +74,7 @@ export const create = (req, res, next) => {
 			return userService.createUser(data)
 		})
 		.then(result => {
-			let payload = successPayload(200, `User ${result.username} has been Created`, result)
+			let payload = successPayload(200, `User ${result.username} has been Created`, result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -93,7 +93,7 @@ export const update = (req, res, next) => {
 			return userService.updateUser(req.params.id, data)
 		})
 		.then(result => {
-			let payload = successPayload(201, `User ${req.body.username} has been Update`, result)
+			let payload = successPayload(201, `User ${req.body.username} has been Update`, result, req.url, req.method)
 			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
@@ -110,7 +110,7 @@ export const remove = (req, res, next) => {
 	userService
 		.deleteUser(req.params.id)
 		.then(result => {
-			let payload = successPayload(204, `User ${result.username} has been Remove`, result)
+			let payload = successPayload(204, `User ${result.username} has been Remove`, result, req.url, req.method)
 			res.status(204).send(payload)
 		})
 		.catch(err => next(err))

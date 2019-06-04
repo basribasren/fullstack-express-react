@@ -1,6 +1,9 @@
+import Boom from '@hapi/boom'
 import nodemailer from 'nodemailer'
 import mg from 'nodemailer-mailgun-transport'
+import winstonLogger from '@config/winstonConfig.js'
 
+const logger = winstonLogger
 /**
  * generate transporter using mailgun
  * @return {[type]} [description]
@@ -18,10 +21,12 @@ export const generatedTransporter = () => {
 		let transporter = nodemailer.createTransport(mg(auth))
 
 		return transporter
-
 	} catch (err) {
-		console.log(err)
-		throw new Error('generate transporter failed')
+		logger.error('generate transporter failed', {
+			service: 'nodemailer',
+			method: null,
+		})
+		throw new Error('generate transporter failed!')
 	}
 }
 
@@ -33,18 +38,27 @@ export const generatedTransporter = () => {
 export const verifyTransporter = transporter => {
 	try {
 		// verify connection configuration
-		transporter.verify(function(error, success) {
-			if (error) {
-				console.log(error)
-				throw new Error('ferivy transporter failed')
+		transporter.verify(success => {
+			if (!success) {
+				logger.error('verify transporter failed', {
+					service: 'nodemailer',
+					method: null,
+				})
+				throw new Error('verify transporter failed')
 			} else {
-				console.log(success)
-				return console.log("Server is ready to take our messages")
+				logger.error('verify transporter success', {
+					service: 'nodemailer',
+					method: null,
+				})
+				return
 			}
 		})
 	} catch (err) {
-		console.log(err)
-		throw new Error('ferivy transporter failed')
+		logger.error('transporter is not found', {
+			service: 'nodemailer',
+			method: null,
+		})
+		throw new Error('verify transporter failed')
 	}
 }
 
@@ -53,9 +67,9 @@ export const verifyTransporter = transporter => {
  * @param  {[type]} transporter [description]
  * @return {[type]}             [description]
  */
-export const idleTransporter = (transporter) => {
+export const idleTransporter = transporter => {
 	try {
-		transporter.on("idle", function() {
+		transporter.on('idle', function() {
 			// send next message from the pending queue
 			while (transporter.isIdle() && messages.length) {
 				transporter.sendMail(messages.shift())

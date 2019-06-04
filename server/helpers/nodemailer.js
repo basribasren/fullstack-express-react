@@ -1,3 +1,7 @@
+import winstonLogger from '@config/winstonConfig.js'
+
+const logger = winstonLogger
+
 /**
  * generate header of message
  * @param  {[type]} from [description]
@@ -145,9 +149,16 @@ export const generateMessage = (data) => {
 		let body = bodyMessage(data.title, data.content, data.type)
 
 		let message = Object.assign(header, body)
-		console.log(message)
+		logger.info('generate message successful', {
+			service: 'nodemailer',
+			method: null,
+		})
 		return message
 	} catch (err) {
+		logger.error('generate message failed', {
+			service: 'nodemailer',
+			method: null,
+		})
 		throw new Error('Create Message Error')
 	}
 }
@@ -160,9 +171,16 @@ export const generateMessage = (data) => {
 export const sendMail = async (transporter, message) => {
 	try {
 		let info = await transporter.sendMail(message)
-		console.log("Message sent: %s", info.messageId)
+		logger.info('send message successful %s', info.messageId, {
+			service: 'nodemailer',
+			method: null,
+		})
 		return info
 	} catch (err) {
+		logger.error('send message failed', {
+			service: 'nodemailer',
+			method: null,
+		})
 		throw new Error('Sending Email Failed')
 	}
 }

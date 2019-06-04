@@ -5,7 +5,7 @@
         "node_modules/",
         "dist/",
         "client/",
-        "another/"
+        "server/logs"
     ],
     "verbose": true,
     "execMap":

@@ -77,6 +77,8 @@ const expressConfig = app => {
 	// Set Port
 	app.set('host', process.env.APP_HOST || 'localhost')
 	app.set('port', process.env.APP_PORT || 3000)
+
+	return app
 }
 
 export default expressConfig

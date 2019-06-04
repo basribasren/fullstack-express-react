@@ -11,27 +11,33 @@ const store = new MongooseStore(bruteModel);
  * @param  {[type]} message [description]
  * @return {[type]}         [description]
  */
-const generateError = (message) => {
-	return errorPayload({
+const generateError = (err) => {
+	let error = {
 		output: {
 			statusCode: 423,
 			payload: {
-				message: message,
+				message: err.message,
 				error: 'Locked',
 				headers: {},
 			},
 		},
-	})
+	}
+	return errorPayload(error, err.url, err.method)
 }
 
 const failCallback = (req, res, next, nextValidRequestDate) => {
-	let payload = generateError("You've made too many failed attempts in a short period of time, please try again " + moment(nextValidRequestDate).fromNow())
+	let time = moment(nextValidRequestDate).fromNow()
+	let payload = generateError({
+		message: `You've made too many failed attempts in a short period of time, please try again ${time}`,
+		url: req.url,
+		method: req.method
+	})
 	return res.status(401).send(payload)
 }
 
 // No more than 1000 login attempts per day per IP
 export const loginRateLimit = new ExpressBrute(store, {
-	freeRetries: 100,
+	freeRetries: 5,
 	attachResetToRequest: false,
 	refreshTimeoutOnRequest: false,
 	minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time)

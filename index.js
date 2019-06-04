@@ -2,20 +2,25 @@ import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
 import dotenv from 'dotenv'
-import chalk from 'chalk'
 // import configuration
 import clusterConfig from '@config/clusterConfig.js'
 import { errorHandler } from '@config/errorHandler.js'
 import expressConfig from '@config/expressConfig.js'
-// import {morganConfig} from '@config/morganConfig.js'
-import winstonLogger from '@config/winstonConfig.js'
 import mongooseConfig from '@config/mongooseConfig.js'
+// import { morganLogger } from '@config/morganConfig.js'
 import { generatedTransporter } from '@config/nodemailerConfig.js'
 import swaggerConfig from '@config/swaggerConfig.js'
+import winstonLogger from '@config/winstonConfig.js'
 // import routes
 import routes from '@modules/index.js'
 
 const app = express()
+
+
+/**
+ * load environment configuration from .env
+ */
+dotenv.config()
 
 /**
  * use winston logger
@@ -24,16 +29,9 @@ const app = express()
 const logger = winstonLogger
 
 /**
- * load environment configuration from .env
- */
-dotenv.config()
-
-/**
  * use morgan logger
- * @param  {[type]} process.env.APP_ENV [description]
- * @return {[type]}                     [description]
  */
-// morganConfig(app)
+// morganLogger(app)
 
 /**
  * connnection to database mongodb using mongoose
@@ -100,16 +98,7 @@ errorHandler(app)
  * @return {[type]}                 [description]
  */
 app.listen(app.get('port'), app.get('host'), () => {
-	logger.info('running', {
-		additional: 'properties',
-		are: 'passed along'
+	logger.info(`running at: http://${app.get('host')}:${app.get('port')}/api`, {
+		service: 'server',
 	})
-	console.log('--')
-	console.log(chalk.green(process.env.APP_NAME))
-	console.log(chalk.blue('Environment:\t') + chalk.green(process.env.APP_ENV))
-	console.log(chalk.blue('Port:\t\t') + chalk.green(process.env.APP_PORT))
-	console.log(chalk.blue('Database:\t') + chalk.green(process.env.DB_MONGOODB_URI))
-	console.log(chalk.blue('App version:\t') + chalk.green(process.env.APP_VERSION))
-	console.log(chalk.blue('Running at:\t') + chalk.green(`http://${app.get('host')}:${app.get('port')}/api`))
-	console.log('--')
 })

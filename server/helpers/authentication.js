@@ -5,17 +5,18 @@ import { errorPayload } from '@helpers/payload.js'
  * @param  {[type]} message [description]
  * @return {[type]}         [description]
  */
-const generateError = (message) => {
-	return errorPayload({
+const generateError = (err) => {
+	let newError = {
 		output: {
 			statusCode: 401,
 			payload: {
-				message: message,
+				message: err.message,
 				error: 'Authentication',
 				headers: {},
 			},
 		},
-	})
+	}
+	return errorPayload(newError, err.url, err.method)
 }
 
 /**
@@ -25,22 +26,25 @@ const generateError = (message) => {
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-export const verifyRole = async (req, res, next) => {
+export const verifyRole = (req, res, next) => {
 	const role = req.session.role
 	if (!role) {
-		let payload = generateError('No role, authorization denied')
+		let payload = generateError({
+			message: 'role not found, authentication denied',
+			url: req.url,
+			method: req.method,
+		})
 		return res.status(401).send(payload)
 	}
-	try {
-		if (role === 'admin') {
-			next()
-		} else {
-			let payload = generateError('Authorization denied')
-			return res.status(401).send(payload)
-		}
-	} catch (err) {
-		let payload = generateError('Role is not valid')
-		res.status(401).send(payload)
+	if (role === 'admin') {
+		next()
+	} else {
+		let payload = generateError({
+			message: 'role invalid, authentication denied',
+			url: req.url,
+			method: req.method,
+		})
+		return res.status(401).send(payload)
 	}
 }
 
@@ -51,22 +55,24 @@ export const verifyRole = async (req, res, next) => {
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-export const verifySelf = async (req, res, next) => {
+export const verifySelf = (req, res, next) => {
 	const id = req.session.id
 	if (!id) {
-		let payload = generateError('Authorization denied')
+		let payload = generateError({
+			message: 'id not found, authentication denied',
+			url: req.url,
+			method: req.method,
+		})
 		return res.status(401).send(payload)
 	}
-	try {
-		if (req.body.id === req.session.id) {
-			next()
-		} else {
-			let payload = generateError('Authorization denied')
-			res.status(401).send(payload)
-		}
-	} catch (err) {
-		let payload = generateError('Authorization denied')
-		res.status(401).send(payload)
-
+	if (req.body.id === req.session.id) {
+		next()
+	} else {
+		let payload = generateError({
+			message: 'id invalid, authentication denied',
+			url: req.url,
+			method: req.method,
+		})
+		return res.status(401).send(payload)
 	}
 }

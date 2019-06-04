@@ -6,17 +6,18 @@ import { errorPayload } from '@helpers/payload.js'
  * @param  {[type]} message [description]
  * @return {[type]}         [description]
  */
-const generateError = (message) => {
-	return errorPayload({
+const generateError = (err) => {
+	let error = {
 		output: {
 			statusCode: 401,
 			payload: {
-				message: message,
+				message: err.message,
 				error: 'Authentication',
 				headers: {},
 			},
 		},
-	})
+	}
+	return errorPayload(error, err.url, err.method)
 }
 
 /**
@@ -39,7 +40,11 @@ export const generateToken = user => {
 export const verifyToken = (req, res, next) => {
 	const token = req.header('x-auth-token')
 	if (!token) {
-		let payload = generateError('No token, authorization denied')
+		let payload = generateError({
+			message: 'No token, authorization denied',
+			url: req.url,
+			method: req.method,
+		})
 		return res.status(401).send(payload)
 	}
 	try {
@@ -47,7 +52,11 @@ export const verifyToken = (req, res, next) => {
 		req.user = data.user
 		next()
 	} catch (err) {
-		let payload = generateError('Token is not valid')
+		let payload = generateError({
+			message: 'Token is not valid',
+			url: req.url,
+			method: req.method,
+		})
 		res.status(401).send(payload)
 	}
 }

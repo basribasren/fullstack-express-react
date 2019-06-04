@@ -66,7 +66,7 @@ export const fetchAll = (req, res, next) => {
 	gameService
 		.getAll()
 		.then(result => {
-			let payload = successPayload(200, 'Load game success', result)
+			let payload = successPayload(200, 'Load game success', result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -83,7 +83,7 @@ export const getOne = (req, res, next) => {
 	gameService
 		.getById(req.params.id)
 		.then(result => {
-			let payload = successPayload(200, `Game ${result._id} has been load`, result)
+			let payload = successPayload(200, `Game ${result._id} has been load`, result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -109,7 +109,7 @@ export const create = async (req, res, next) => {
 		// update id_info in game
 		let gameUpdated = await gameService.udpateIdInfo(infoCreated.id_game, infoCreated._id)
 		// generate payload
-		let payload = successPayload(201, `Game ${gameUpdated._id} has been Created`, gameUpdated)
+		let payload = successPayload(201, `Game ${gameUpdated._id} has been Created`, gameUpdated, req.url, req.method)
 		// return payload
 		res.status(201).send(payload)
 	} catch (err) {
@@ -130,7 +130,7 @@ export const update = (req, res, next) => {
 			return gameService.update(req.params.id, data)
 		})
 		.then(result => {
-			let payload = successPayload(201, `Game ${result._id} has been Updated`, result)
+			let payload = successPayload(201, `Game ${result._id} has been Updated`, result, req.url, req.method)
 			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
@@ -150,7 +150,7 @@ export const remove = (req, res, next) => {
 			return removeInfo(data.id_info)
 		})
 		.then(result => {
-			let payload = successPayload(204, `Profile ${result._id} has been Remove`, result)
+			let payload = successPayload(204, `Profile ${result._id} has been Remove`, result, req.url, req.method)
 			res.status(204).send(payload)
 		})
 		.catch(err => next(err))

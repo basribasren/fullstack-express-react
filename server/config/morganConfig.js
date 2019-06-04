@@ -21,4 +21,5 @@ export const morganLogger = app => {
 			),
 		})
 	)
+	return app
 }

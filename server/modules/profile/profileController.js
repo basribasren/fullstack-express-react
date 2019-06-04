@@ -45,7 +45,7 @@ export const fetchAll = (req, res, next) => {
 	profileService
 		.getAll()
 		.then(result => {
-			let payload = successPayload(200, 'Load profile success', result)
+			let payload = successPayload(200, 'Load profile success', result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -62,7 +62,7 @@ export const getOne = (req, res, next) => {
 	profileService
 		.getByUsername(req.params.username)
 		.then(result => {
-			let payload = successPayload(200, `Profile ${result.username} has been Load`, result)
+			let payload = successPayload(200, `Profile ${result.username} has been Load`, result, req.url, req.method)
 			res.status(200).send(payload)
 		})
 		.catch(err => next(err))
@@ -84,7 +84,7 @@ export const create = (req, res, next) => {
 			return profileService.create(data)
 		})
 		.then(result => {
-			let payload = successPayload(201, `Profile ${result.username} has been Created`, result)
+			let payload = successPayload(201, `Profile ${result.username} has been Created`, result, req.url, req.method)
 			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
@@ -106,7 +106,7 @@ export const update = (req, res, next) => {
 			return profileService.update(req.params.username, data)
 		})
 		.then(result => {
-			let payload = successPayload(201, `Profile ${result.username} has been Updated`, result)
+			let payload = successPayload(201, `Profile ${result.username} has been Updated`, result, req.url, req.method)
 			res.status(201).send(payload)
 		})
 		.catch(err => next(err))
@@ -123,7 +123,7 @@ export const remove = (req, res, next) => {
 	profileService
 		.remove(req.params.username)
 		.then(result => {
-			let payload = successPayload(204, `Profile ${result.username} has been Remove`, result)
+			let payload = successPayload(204, `Profile ${result.username} has been Remove`, result, req.url, req.method)
 			res.status(204).send(payload)
 		})
 		.catch(err => next(err))

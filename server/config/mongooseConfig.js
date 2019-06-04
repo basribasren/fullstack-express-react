@@ -1,20 +1,39 @@
-import chalk from 'chalk'
+import Boom from '@hapi/boom'
 import mongoose from 'mongoose'
+import winstonLogger from '@config/winstonConfig.js'
+
+const logger = winstonLogger
 
 const onClose = () => {
-	console.info(chalk.blue('Mongoose: ') + chalk.yellow('MongoDB connection was closed'))
+	logger.warn('connection was closed!', {
+		service: 'mongoose',
+		method: null,
+	})
+	return
 }
 
 const onReconnect = () => {
-	console.log(chalk.blue('Mongoose: ') + chalk.yellow('MongoDB reconnected'))
+	logger.warn('trying reconnect to database...', {
+		service: 'mongoose',
+		method: null,
+	})
+	return
 }
 
 const onOpen = () => {
-	console.log(chalk.blue('Mongoose: ') + chalk.green('Successfully connected to database'))
+	logger.info('successfully connected to database!', {
+		service: 'mongoose',
+		method: null,
+	})
+	return
 }
 
 const onError = () => {
-	console.error(chalk.blue('Mongoose: ') + chalk.red('Connection Error: Could not connect to MongoDB!'))
+	logger.error('could not connect to database!', {
+		service: 'mongoose',
+		method: null,
+	})
+	throw new Error('could not connect to database!')
 }
 
 const mongooseConfig = () => {
@@ -30,13 +49,13 @@ const mongooseConfig = () => {
 		reconnectTries: 5,
 	})
 	const connection = mongoose.connection
-	connection.on('error', console.error.bind(console, 'connection error:'))
-	// mongoose.connection.on('error', () => {
-	// 	throw new Error(`unable to connect to database: ${config.db}`)s
-	// })
+	connection.on('error', () => {
+		onError()
+	})
 	connection.once('close', onClose)
 	connection.once('reconnect', onReconnect)
 	connection.once('open', onOpen)
+	return mongoose
 }
 
 export default mongooseConfig
