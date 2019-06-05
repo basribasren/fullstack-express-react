@@ -4,8 +4,13 @@ import winstonLogger from '@config/winstonConfig.js'
 
 const logger = winstonLogger
 
+/**
+ * do not need close connection when error
+ * redis will always trying reconnect in background
+ * @return {[type]} [description]
+ */
 const onError = () => {
-	logger.info('Connected to Redis failed!', {
+	logger.error('Connected to Redis failed!', {
 		service: 'redis',
 		method: null,
 	})

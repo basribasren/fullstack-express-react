@@ -14,7 +14,7 @@ const createStore = () => {
 			service: 'mongoose',
 			method: null,
 		})
-		return mongoose.connection.close()
+		mongoose.connection.close()
 	})
 	mongoose.connection.once('open', function() {
 		const store = new MongoStore({ mongooseConnection: mongoose.connection })

@@ -46,9 +46,10 @@ const mongooseConfig = (app) => {
 		useFindAndModify: false,
 		useNewUrlParser: true,
 		useCreateIndex: true,
-		// keepAlive: true,
+		keepAlive: true,
+		autoReconnect: true,
 		reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-		reconnectInterval: 5000, // Reconnect every 500ms
+		reconnectInterval: 1000, // Reconnect every 500ms
 		poolSize: 10, // Maintain up to 10 socket connections
 	}
 	let configurationV2 = {
@@ -64,11 +65,40 @@ const mongooseConfig = (app) => {
 	mongoose.connection.on('error', () => {
 		onError()
 		mongoose.connection.close()
-		// res.status(500).json({ data: [], message: 'could not connect to database!' })
 	})
-	mongoose.connection.once('close', onClose)
-	mongoose.connection.once('reconnect', onReconnect)
-	mongoose.connection.once('open', onOpen)
+	mongoose.connection.on('connected', () => {
+		onOpen()
+	})
+	mongoose.connection.on('disconnected', () => {
+		onReconnect()
+		mongoose.connect(process.env.DB_MONGOODB_URI, configurationV1)
+	})
 }
 
 export default mongooseConfig
+/**
+states: [Object: null prototype] {
+		'0': 'disconnected',
+		'1': 'connected',
+		'2': 'connecting',
+		'3': 'disconnecting',
+		'99': 'uninitialized',
+		disconnected: 0,
+		connected: 1,
+		connecting: 2,
+		disconnecting: 3,
+		uninitialized: 99
+	}
+
+_events: [Object: null prototype] {
+	error: [Function],
+	connected: {
+		[Function: bound onceWrapper] listener: [Function]
+	},
+	close: {
+		[Function: bound onceWrapper] listener: [Function]
+	},
+	reconnected: [Function],
+	disconnected: [Function]
+}
+*/
