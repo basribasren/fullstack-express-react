@@ -5,6 +5,7 @@
 	"plugins": [
 		["module-resolver",
 		{
+			"extensions": [".ios.js", ".android.js", ".js", ".json", "jsx"],
 			"alias":
 			{
 				"@": "./server/",

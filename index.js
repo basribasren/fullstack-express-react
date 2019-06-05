@@ -10,7 +10,8 @@ import mongooseConfig from '@config/mongooseConfig.js'
 // import { morganLogger } from '@config/morganConfig.js'
 import { generatedTransporter } from '@config/nodemailerConfig.js'
 import redisConfig from '@config/redisConfig.js'
-import swaggerConfig from '@config/swaggerConfig.js'
+import sessionConfig from '@config/sessionConfig.js'
+import generateSwagger from '@config/swaggerConfig.js'
 import winstonLogger from '@config/winstonConfig.js'
 
 import routes from '@modules/index.js'
@@ -43,15 +44,28 @@ const logger = winstonLogger
  *  connnection to database mongodb using mongoose
  *  ******************************************************************
  */
-mongooseConfig()
+mongooseConfig(app)
 
+/**
+ *  ******************************************************************
+ *  connnection to redis
+ *  ******************************************************************
+ */
 let client = redisConfig()
+
 /**
  *  ******************************************************************
  *  express default configuration
  *  ******************************************************************
  */
 expressConfig(app)
+
+/**
+ *  ******************************************************************
+ *  session default configuration
+ *  ******************************************************************
+ */
+sessionConfig(app)
 
 /**
  *  ******************************************************************
@@ -75,7 +89,7 @@ const transporter = generatedTransporter()
  *  generate configuration and routes for API documentation
  *  ******************************************************************
  */
-const config = swaggerConfig
+const config = generateSwagger()
 app.get('/api/v1/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json')
 	res.send(config)

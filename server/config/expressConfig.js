@@ -4,8 +4,6 @@ import cors from 'cors'
 import methodOverride from 'method-override'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
-import session from 'express-session'
-import sessionStore from 'connect-mongodb-session'
 import responseTime from 'response-time'
 
 const expressConfig = app => {
@@ -31,27 +29,6 @@ const expressConfig = app => {
 	app.use(cookieParser())
 	// It will incorrectly register the proxy’s IP address as the client IP address unless trust proxy is configured
 	app.set('trust proxy', 1)
-	// Create a session middleware with the given options.
-	const expiryDate = new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 hours
-	const MongoStore = sessionStore(session)
-	// Session store
-	const store = new MongoStore({
-		uri: process.env.DB_MONGOODB_URI,
-		collection: 'sessions',
-	})
-	// Configure Express session
-	app.use(session({
-		secret: 'what the secret',
-		resave: true,
-		saveUninitialized: true,
-		cookie: {
-			path: '/',
-			secure: false,
-			maxAge: expiryDate,
-			httpOnly: true,
-		},
-		store: store
-	}))
 	// Allows cross-domain communication from the browser
 	app.use(cors())
 

@@ -159,7 +159,8 @@ export const generateMessage = (data) => {
 			service: 'nodemailer',
 			method: null,
 		})
-		throw new Error('Create Message Error')
+		return
+		// throw new Error('Create Message Error')
 	}
 }
 
@@ -181,6 +182,7 @@ export const sendMail = async (transporter, message) => {
 			service: 'nodemailer',
 			method: null,
 		})
-		throw new Error('Sending Email Failed')
+		return
+		// throw new Error('Sending Email Failed')
 	}
 }

@@ -30,10 +30,13 @@ module.exports = {
             "version": "16.0", // React version, default to the latest React stable release
             "flowVersion": "0.53" // Flow version
         },
-        "propWrapperFunctions": ["forbidExtraProps"] // The names of any functions used to wrap the
+        "propWrapperFunctions": ["forbidExtraProps"], // The names of any functions used to wrap the
         // propTypes object, e.g. `forbidExtraProps`.
         // If this isn't set, any propTypes wrapped in
         // a function will be skipped.
+        "import/resolver": {
+            "babel-module": {}
+        }
     },
     "rules": {
         "no-console": process.env.NODE_ENV === "production" ? "error" : "off",

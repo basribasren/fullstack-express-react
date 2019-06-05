@@ -28,7 +28,8 @@ export const generatedTransporter = () => {
 			service: 'nodemailer',
 			method: null,
 		})
-		throw new Error('generate transporter failed!')
+		return
+		// throw new Error('generate transporter failed!')
 	}
 }
 
@@ -46,7 +47,8 @@ export const idleTransporter = transporter => {
 			}
 		})
 	} catch (err) {
-		console.log(err)
-		throw new Error('verify transporter failed')
+		return
+		// console.log(err)
+		// throw new Error('verify transporter failed')
 	}
 }

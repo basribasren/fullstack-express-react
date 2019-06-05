@@ -7,16 +7,16 @@ export const errorHandler = app => {
 	 * @param  {[type]} req   [description]
 	 * @param  {[type]} res   [description]
 	 */
-	app.use((req, res, next) => {
+	app.use(function(req, res, next) {
 		let err = Boom.notFound('Request not Found')
 		next(err)
 	})
 	/**
-	 * error handler for all error
+	 * error handler for all request error
 	 * @param  {[type]} err   [description]
 	 * @param  {[type]} req   [description]
 	 */
-	app.use((err, req, res, next) => {
+	app.use(function(err, req, res, next) {
 		// set locals, only providing error in development
 		res.locals.message = err.message
 		res.locals.error = req.app.get('env') === 'development' ? err : {}
@@ -24,7 +24,6 @@ export const errorHandler = app => {
 		let payload = errorPayload(err, req.url, req.method)
 		res.status(err.output.statusCode).json(payload)
 	})
-	return app
 }
 
 /**

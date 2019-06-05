@@ -43,13 +43,22 @@ const swaggerOptions = {
 	swaggerDefinition: swaggerDefinition,
 	// path to the API docs
 	apis: [
-		path.join(__dirname, '/../docs/swagger-config/*.js'),
+		path.join(__dirname, '../docs/swagger-config/*.js'),
 	],
 }
 
 /**
  * Initialize swagger-jsdoc.
  */
-const swaggerSpec = swaggerJSDoc(swaggerOptions)
+const generateSwagger = () => {
+	try {
+		const swaggerSpec = swaggerJSDoc(swaggerOptions)
+		return swaggerSpec
+	} catch (err) {
+		return
+		// console.log('pufffffft')
+		// throw new Error('generate swagger configuration failed!')
+	}
+}
 
-export default swaggerSpec
+export default generateSwagger

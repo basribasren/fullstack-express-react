@@ -1,10 +1,10 @@
 import Boom from '@hapi/boom'
 import { validationResult } from 'express-validator/check'
 import { getByUsername } from './userService.js'
-import {
-	create as createSession,
-	remove as removeSession,
-} from '@modules/session/sessionService.js'
+// import {
+// 	create as createSession,
+// 	remove as removeSession,
+// } from '@modules/session/sessionService.js'
 import { comparePassword } from '@helpers/password.js'
 import { generateToken } from '@helpers/token.js'
 import { successPayload } from '@helpers/payload.js'
@@ -38,9 +38,9 @@ export const login = async (req, res, next) => {
 		let isMatch = await comparePassword(req.body.password, account.password)
 		if (isMatch) {
 			let token = generateToken(account)
-			let session = await createSession({ token: token })
+			// let session = await createSession({ token: token })
 			let result = {
-				session: session,
+				token: token,
 				account: account,
 			}
 			let payload = successPayload(200, 'Login success', result, req.url, req.method)
@@ -63,8 +63,8 @@ export const login = async (req, res, next) => {
 export const logout = async (req, res, next) => {
 	try {
 		let token = req.header('x-auth-token')
-		let result = await removeSession(token)
-		let payload = successPayload(200, 'Logout success', result, req.url, req.method)
+		// let result = await removeSession(token)
+		let payload = successPayload(200, 'Logout success', token, req.url, req.method)
 		res.status(200).send(payload)
 	} catch (err) {
 		next(err)
