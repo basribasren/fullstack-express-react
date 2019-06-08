@@ -1,6 +1,6 @@
 import cluster from 'cluster'
 import os from 'os'
-import winstonLogger from '@config/winstonConfig.js'
+import winstonLogger from '@config/winston.config.js'
 
 const numCPUs = os.cpus().length
 const logger = winstonLogger

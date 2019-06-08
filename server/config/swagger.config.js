@@ -45,6 +45,7 @@ const swaggerOptions = {
 	// path to the API docs
 	apis: [
 		path.join(__dirname, '../docs/swagger-config/*.js'),
+		path.join(__dirname, '../docs/swagger-config/*.yml'),
 	],
 }
 

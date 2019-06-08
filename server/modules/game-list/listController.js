@@ -8,7 +8,6 @@ import { successPayload } from '@helpers/payload.js'
  * @param  {[type]} data    [description]
  * @return {[type]}         [description]
  */
-
 export const generateData = async (id_profile, data) => {
 	try {
 		let list_game

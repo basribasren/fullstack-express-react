@@ -1,6 +1,6 @@
 import Boom from '@hapi/boom'
 import { validationResult } from 'express-validator/check'
-import { generatedTransporter } from '@config/nodemailerConfig.js'
+import { generatedTransporter } from '@config/nodemailer.config.js'
 
 import { generateMessage, sendMessage } from '@helpers/nodemailer.js'
 import { successPayload } from '@helpers/payload.js'

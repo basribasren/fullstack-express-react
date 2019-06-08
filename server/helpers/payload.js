@@ -1,4 +1,4 @@
-import winstonLogger from '@config/winstonConfig.js'
+import winstonLogger from '@config/winston.config.js'
 
 const logger = winstonLogger
 
@@ -9,8 +9,8 @@ const logger = winstonLogger
  * @param  {[type]} data    [description]
  * @return {[type]}         [description]
  */
-export const successPayload = (status, message, data, service, method) => {
-	logger.info(message, { service: service, method: method })
+export const successPayload = (status, message, data, url, method) => {
+	logger.info(message, { service: url, method: method })
 	let payload = {
 		data: data,
 		status: status,

@@ -4,16 +4,16 @@ import favicon from 'serve-favicon'
 import serveStatic from 'serve-static'
 import dotenv from 'dotenv'
 
-// import clusterConfig from '@config/clusterConfig.js'
+// import clusterConfig from '@config/cluster.config.js'
 import { errorHandler } from '@config/errorHandler.js'
-import expressConfig from '@config/expressConfig.js'
-import mongooseConfig from '@config/mongooseConfig.js'
-// import { morganLogger } from '@config/morganConfig.js'
-import { generatedTransporter } from '@config/nodemailerConfig.js'
-import redisConfig from '@config/redisConfig.js'
-import sessionConfig from '@config/sessionConfig.js'
-import generateSwagger from '@config/swaggerConfig.js'
-import winstonLogger from '@config/winstonConfig.js'
+import expressConfig from '@config/express.config.js'
+import mongooseConfig from '@config/mongoose.config.js'
+// import { morganLogger } from '@config/morgan.config.js'
+import { generatedTransporter } from '@config/nodemailer.config.js'
+import redisConfig from '@config/redis.config.js'
+import sessionConfig from '@config/session.config.js'
+import generateSwagger from '@config/swagger.config.js'
+import winstonLogger from '@config/winston.config.js'
 
 import routes from '@modules/index.js'
 
@@ -25,6 +25,15 @@ const app = express()
  *  ******************************************************************
  */
 dotenv.config()
+
+/**
+ *  ******************************************************************
+ *  set variabel
+ *  ******************************************************************
+ */
+const STATIC_FOLDER = 'client/dist'
+const STATIC_SWAGGER = 'server/docs/swagger-ui'
+const STATIC_CALLBACK = 'client/dist/index.html'
 
 /**
  *  ******************************************************************
@@ -75,10 +84,13 @@ sessionConfig(app, SESS_DRIVER)
  *  static folder for client
  *  ******************************************************************
  */
-app.use(serveStatic('./client/dist', { 'index': ['index.html', 'index.htm'], }))
-// app.use(express.static('./client/dist', { 'index': ['index.html', 'index.htm'], }))
+app.get('/robots.txt', (req, res) => {
+	res.type('text/plain')
+	res.send("User-agent: *\nDisallow: /")
+})
+app.use(serveStatic(path.resolve(__dirname, STATIC_FOLDER), { 'index': ['index.html', 'index.htm'], }))
 if (process.env.APP_ENV === 'production') {
-	app.use(favicon(path.join(__dirname, 'client/public', 'favicon.ico')))
+	app.use(favicon(path.join(__dirname, 'client/dist', 'favicon.ico')))
 }
 
 /**
@@ -98,7 +110,7 @@ app.get('/api/v1/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json')
 	res.send(config)
 })
-app.use('/api/v1/docs', serveStatic('./server/docs/swagger-ui'))
+app.use('/api/v1/docs', serveStatic(path.resolve(__dirname, STATIC_SWAGGER)))
 
 /**
  *  ******************************************************************
@@ -114,7 +126,7 @@ app.use('/api', routes)
  */
 if (process.env.APP_ENV === 'production') {
 	app.get('*', (req, res) => {
-		res.sendFile(path.resolve(__dirname, 'client/dist/index.html'))
+		res.sendFile(path.resolve(__dirname, STATIC_CALLBACK))
 	})
 }
 

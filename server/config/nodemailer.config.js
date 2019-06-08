@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer'
 import mg from 'nodemailer-mailgun-transport'
-import winstonLogger from '@config/winstonConfig.js'
+import winstonLogger from '@config/winston.config.js'
 
 const logger = winstonLogger
 /**

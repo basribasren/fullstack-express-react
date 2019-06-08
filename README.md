@@ -31,8 +31,10 @@ Tools : Swagger-ui, Swagger-jsdocs, Babel, Eslint, Prettier, Express, Mongoose, 
 |---------|--------|-------------|
 | [express]          | [![express-status]][express-package] | Fast, unopinionated, minimalist web framework for node. |
 | [mongoose]          | [![mongoose-status]][mongoose-package] | Mongoose is a MongoDB object modeling tool designed to work in an asynchronous environment. |
+| [redis]          | [![redis-status]][redis-package] | This is a complete and feature rich Redis client for node.js. It supports all Redis commands and focuses on high performance. |
 | [swagger-ui]          | [![swagger-ui-status]][swagger-ui-package] | A fully pluggable tool for identifying and reporting on patterns in JavaScript. |
 | [jsonwebtoken]          | [![jsonwebtoken-status]][jsonwebtoken-package] | An implementation of JSON Web Tokens. |
+| [nodemailer]          | [![nodemailer-status]][nodemailer-package] | Send e-mails from Node.js – easy as cake! 🍰✉️. |
 
 [express]: https://github.com/expressjs/express
 [express-status]: https://img.shields.io/npm/v/express.svg
@@ -40,12 +42,18 @@ Tools : Swagger-ui, Swagger-jsdocs, Babel, Eslint, Prettier, Express, Mongoose, 
 [mongoose]: https://github.com/Automattic/mongoose
 [mongoose-status]: https://img.shields.io/npm/v/mongoose.svg
 [mongoose-package]: https://npmjs.com/package/mongoose
+[redis]: https://github.com/NodeRedis/node_redis
+[redis-status]: https://img.shields.io/npm/v/redis.svg
+[redis-package]: https://npmjs.com/package/redis
 [swagger-ui]: https://github.com/swagger-api/swagger-ui
 [swagger-ui-status]: https://img.shields.io/npm/v/swagger-ui.svg
 [swagger-ui-package]: https://npmjs.com/package/swagger-ui
 [jsonwebtoken]: https://github.com/auth0/node-jsonwebtoken
 [jsonwebtoken-status]: https://img.shields.io/npm/v/jsonwebtoken.svg
 [jsonwebtoken-package]: https://npmjs.com/package/jsonwebtoken
+[nodemailer]: https://github.com/nodemailer/nodemailer
+[nodemailer-status]: https://img.shields.io/npm/v/nodemailer.svg
+[nodemailer-package]: https://npmjs.com/package/nodemailer
 
 ## Ecosystem Client
 

@@ -1,8 +1,9 @@
 import ExpressBrute from 'express-brute'
 import MongooseStore from 'express-brute-mongoose'
 import moment from 'moment'
-import bruteModel from '@modules/brute/bruteModel.js'
 import { errorPayload } from '@helpers/payload.js'
+
+import bruteModel from '@modules/brute/bruteModel.js'
 
 const store = new MongooseStore(bruteModel);
 
@@ -37,7 +38,7 @@ const failCallback = (req, res, next, nextValidRequestDate) => {
 
 // No more than 1000 login attempts per day per IP
 export const loginRateLimit = new ExpressBrute(store, {
-	freeRetries: 100,
+	freeRetries: 1000,
 	attachResetToRequest: false,
 	refreshTimeoutOnRequest: false,
 	minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time)
@@ -49,7 +50,7 @@ export const loginRateLimit = new ExpressBrute(store, {
 
 // Start slowing requests after 5 failed attempts to do something for the same user
 export const userRateLimit = new ExpressBrute(store, {
-	freeRetries: 5,
+	freeRetries: 100,
 	minWait: 5 * 60 * 1000, // 5 minutes
 	maxWait: 60 * 60 * 1000, // 1 hour
 	failCallback: failCallback,

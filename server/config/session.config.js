@@ -1,13 +1,8 @@
 import mongoose from 'mongoose'
 import session from 'express-session'
-/**
- * define driver in server-dev.js
- * choose just one connector by driver
- * you can comment another one
- */
 import mongoStore from 'connect-mongo'
 import redisStore from 'connect-redis'
-import winstonLogger from '@config/winstonConfig.js'
+import winstonLogger from '@config/winston.config.js'
 
 const logger = winstonLogger
 
@@ -19,6 +14,16 @@ const logger = winstonLogger
 const cekConnectionMongoose = () => {
 	let connection = mongoose.connection.readyState
 	let status
+	/**
+	 * mongoose have 5 connection state
+	 * 		states: [Object: null prototype] {
+	 * 			'0': 'disconnected',
+	 * 			'1': 'connected',
+	 * 			'2': 'connecting',
+	 * 			'3': 'disconnecting',
+	 * 			'99': 'uninitialized'
+	 * 		}
+	 */
 	if (connection === 0 || connection === 3) {
 		logger.error('generate session collection failed!', {
 			service: 'mongoose',
