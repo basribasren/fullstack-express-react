@@ -3,14 +3,6 @@ import winstonLogger from '@config/winstonConfig.js'
 
 const logger = winstonLogger
 
-const onClose = () => {
-	logger.warn('connection was closed!', {
-		service: 'mongoose',
-		method: null,
-	})
-	return
-}
-
 const onReconnect = () => {
 	logger.warn('trying reconnect to database...', {
 		service: 'mongoose',
@@ -35,14 +27,11 @@ const onError = () => {
 	return
 }
 
-const mongooseConfig = (app) => {
-	// app.use(function(req, res, next) {
-
-	// })
+const mongooseConfig = () => {
 	if (process.env.APP_ENV === 'development') {
 		mongoose.set('debug', true)
 	}
-	let configurationV1 = {
+	let configuration = {
 		useFindAndModify: false,
 		useNewUrlParser: true,
 		useCreateIndex: true,
@@ -52,16 +41,7 @@ const mongooseConfig = (app) => {
 		reconnectInterval: 1000, // Reconnect every 500ms
 		poolSize: 10, // Maintain up to 10 socket connections
 	}
-	let configurationV2 = {
-		useFindAndModify: false,
-		useNewUrlParser: true,
-		useCreateIndex: true,
-		// If not connected, return errors immediately rather than waiting for reconnect
-		bufferMaxEntries: 0,
-		connectTimeoutMS: 10000, // Give up initial connection after 10 seconds
-		socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
-	}
-	mongoose.connect(process.env.DB_MONGOODB_URI, configurationV1)
+	mongoose.connect(process.env.DB_MONGOODB_URI, configuration)
 	mongoose.connection.on('error', () => {
 		onError()
 		mongoose.connection.close()
@@ -71,8 +51,9 @@ const mongooseConfig = (app) => {
 	})
 	mongoose.connection.on('disconnected', () => {
 		onReconnect()
-		mongoose.connect(process.env.DB_MONGOODB_URI, configurationV1)
+		mongoose.connect(process.env.DB_MONGOODB_URI, configuration)
 	})
+	return mongoose
 }
 
 export default mongooseConfig

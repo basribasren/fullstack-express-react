@@ -33,8 +33,9 @@ install:
 script:
   - node --version
   - npm --version
-  - cd client && npm run build
-  - cd client && npm run test
+  - npm run client-build
+  - npm run server-build
+  - npm run test
 
 notifications:
   email:

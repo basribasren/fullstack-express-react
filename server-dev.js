@@ -1,6 +1,7 @@
 import express from 'express'
 import path from 'path'
 import favicon from 'serve-favicon'
+import serveStatic from 'serve-static'
 import dotenv from 'dotenv'
 
 // import clusterConfig from '@config/clusterConfig.js'
@@ -44,14 +45,14 @@ const logger = winstonLogger
  *  connnection to database mongodb using mongoose
  *  ******************************************************************
  */
-mongooseConfig(app)
+let mongooseConnection = mongooseConfig(app)
 
 /**
  *  ******************************************************************
  *  connnection to redis
  *  ******************************************************************
  */
-let client = redisConfig()
+let redisConnection = redisConfig()
 
 /**
  *  ******************************************************************
@@ -63,16 +64,19 @@ expressConfig(app)
 /**
  *  ******************************************************************
  *  session default configuration
+ *  -
  *  ******************************************************************
  */
-sessionConfig(app)
+const SESS_DRIVER = 'redis'
+sessionConfig(app, SESS_DRIVER)
 
 /**
  *  ******************************************************************
  *  static folder for client
  *  ******************************************************************
  */
-app.use(express.static(path.join(__dirname, 'client/dist')))
+app.use(serveStatic('./client/dist', { 'index': ['index.html', 'index.htm'], }))
+// app.use(express.static('./client/dist', { 'index': ['index.html', 'index.htm'], }))
 if (process.env.APP_ENV === 'production') {
 	app.use(favicon(path.join(__dirname, 'client/public', 'favicon.ico')))
 }
@@ -94,7 +98,7 @@ app.get('/api/v1/swagger.json', (req, res) => {
 	res.setHeader('Content-Type', 'application/json')
 	res.send(config)
 })
-app.use('/api/v1/docs', express.static('./server/docs/swagger-ui'))
+app.use('/api/v1/docs', serveStatic('./server/docs/swagger-ui'))
 
 /**
  *  ******************************************************************

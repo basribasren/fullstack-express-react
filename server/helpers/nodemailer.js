@@ -1,7 +1,3 @@
-import winstonLogger from '@config/winstonConfig.js'
-
-const logger = winstonLogger
-
 /**
  * generate header of message
  * @param  {[type]} from [description]
@@ -60,8 +56,7 @@ export const bodyMessage = (subject, content, type = 'text') => {
 		 * Send Email with AMP Template
 		 * @type {[type]}
 		 */
-		let amp = content ||
-			`'<!doctype html>
+		let amp = content || `'<!doctype html>
 		<html ⚡4email>
 			<head>
 				<meta charset="utf-8">
@@ -127,7 +122,7 @@ export const attachMessage = files => {
  * @param  {[type]} content [description]
  * @return {[type]}         [description]
  */
-export const calenderMessage = (event) => {
+export const calenderMessage = event => {
 	let content = event || 'BEGIN:VCALENDAR\r\nPRODID:-//ACME/DesktopCalendar//EN\r\nMETHOD:REQUEST\r\n...'
 	let calenderEvent = {
 		icalEvent: {
@@ -143,24 +138,15 @@ export const calenderMessage = (event) => {
  * wrap all message to one
  * @return {[type]} [description]
  */
-export const generateMessage = (data) => {
+export const generateMessage = async data => {
 	try {
 		let header = headerMessage(data.from, data.to, data.cc, data.bcc)
 		let body = bodyMessage(data.title, data.content, data.type)
 
 		let message = Object.assign(header, body)
-		logger.info('generate message successful', {
-			service: 'nodemailer',
-			method: null,
-		})
 		return message
 	} catch (err) {
-		logger.error('generate message failed', {
-			service: 'nodemailer',
-			method: null,
-		})
-		return
-		// throw new Error('Create Message Error')
+		throw new Error('generate message failed!')
 	}
 }
 
@@ -169,20 +155,12 @@ export const generateMessage = (data) => {
  * @param  {[type]} message [description]
  * @return {[type]}         [description]
  */
-export const sendMail = async (transporter, message) => {
+export const sendMessage = async (transporter, message) => {
 	try {
+		console.log(transporter)
 		let info = await transporter.sendMail(message)
-		logger.info('send message successful %s', info.messageId, {
-			service: 'nodemailer',
-			method: null,
-		})
 		return info
 	} catch (err) {
-		logger.error('send message failed', {
-			service: 'nodemailer',
-			method: null,
-		})
-		return
-		// throw new Error('Sending Email Failed')
+		throw new Error('send message failed!')
 	}
 }

@@ -52,22 +52,26 @@ export const getByUsername = username => {
 
 /**
  * create User
+ * this is not using, because we using register
  * @param  {Object} data [description]
  * @return {[type]}      [description]
  */
-export const createUser = data => {
-	return userModel
-		.create(data)
-		.then(result => {
-			return result
-		})
-		.catch(err => {
-			if (err.statusCode === undefined) {
-				throw Boom.boomify(err, { statusCode: 409 })
-			}
-			throw err
-		})
-}
+/**
+ * export const createUser = data => {
+ *	return userModel
+ *		.create(data)
+ *		.then(result => {
+ *			return result
+ *		})
+ *		.catch(err => {
+ *			if (err.statusCode === undefined) {
+ *				throw Boom.boomify(err, { statusCode: 409 })
+ *			}
+ *			throw err
+ *		})
+ * }
+ */
+
 
 /**
  * update User by _id

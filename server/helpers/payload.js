@@ -27,7 +27,6 @@ export const successPayload = (status, message, data, service, method) => {
  * @return {[type]}     [description]
  */
 export const errorPayload = (err, url, method) => {
-	console.log(err)
 	logger.error(err.output.payload.message, { service: url, method: method })
 	let payload = {
 		data: [],

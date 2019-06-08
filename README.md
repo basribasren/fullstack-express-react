@@ -109,7 +109,8 @@ fullstack-express-react/
 ├── .prettierrc
 ├── .travis.yml
 ├── .appveyor.yml
-├── index.js
+├── server-dev.js
+├── server-prod.js
 ├── LICENSE
 ├── README.md
 ├── package.json
@@ -123,13 +124,15 @@ In the project directory, you can run:
     "client-build": "cd client && npm run build",
     "client-dev": "npm run serve --prefix client",
 
-    "server-build": "rimraf dist && mkdir dist && babel index.js --out-dir server/dist",
+    "server-build": "babel serber-dev.js --out-file server-prod.js",
     "server-dev": "nodemon .",
 
     "development": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
 
-    "start": "node server/dist/index.js",
+    "start": "node server-prod.js",
+
     "test": "echo \"Error: no test specified\" && exit 1",
+
     "heroku-prebuild": "npm install npm@latest -g && cd client && npm install --production=false",
     "heroku-postbuild": "concurrently \"npm run server-build\" \"npm run client-build\""
 

@@ -35,6 +35,7 @@ const swaggerDefinition = {
 		}
 	},
 }
+
 /**
  * Options for the swagger docs.
  */
@@ -56,8 +57,6 @@ const generateSwagger = () => {
 		return swaggerSpec
 	} catch (err) {
 		return
-		// console.log('pufffffft')
-		// throw new Error('generate swagger configuration failed!')
 	}
 }
 

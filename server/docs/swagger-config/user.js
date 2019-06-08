@@ -67,16 +67,13 @@
  *     description: Sign-out with token
  *     produces:
  *       - application/json
- *     parameters:
- *       - in: path
- *         name: token
- *         description: token need to be delete session
- *         required: true
  *     responses:
  *       200:
  *         description: Successfully
  *       401:
  *         description: Conflict
+ *     security:
+ *       - ApiKeyAuth: []
  */
 
 /**

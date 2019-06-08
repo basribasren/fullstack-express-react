@@ -26,9 +26,9 @@ test_script:
   - node --version
   - npm --version
   - npm install
-  - cd client && npm run install
-  - cd client && npm run build
-  - cd client && npm run test
+  - npm run client-build
+  - npm run server-build
+  - npm run test
 
 cache:
   - node_modules

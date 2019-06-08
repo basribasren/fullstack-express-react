@@ -1,14 +1,18 @@
 import Boom from '@hapi/boom'
 import { validationResult } from 'express-validator/check'
-import { getByUsername } from './userService.js'
-// import {
-// 	create as createSession,
-// 	remove as removeSession,
-// } from '@modules/session/sessionService.js'
+import { getByUsername, createUser } from './userService.js'
+import { generateData } from './userController.js'
+
 import { comparePassword } from '@helpers/password.js'
-import { generateToken } from '@helpers/token.js'
+import { generateToken } from '@helpers/authentication.js'
 import { successPayload } from '@helpers/payload.js'
 
+/**
+ * on route, we use express validator
+ * and here we check the result of express-validator
+ * @param  {[type]} errors [description]
+ * @return {[type]}        [description]
+ */
 const cekValidation = errors => {
 	let listError = []
 	errors.array().map(err => {
@@ -17,12 +21,40 @@ const cekValidation = errors => {
 	let newError = new Error(listError)
 	return newError
 }
+
 /**
- * login
- * @param  {[type]}   req  [description]
- * @param  {[type]}   res  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
+ * REGISTER - SKENARIO
+ * @skenario 1 - cek chain validation result
+ * @skenario 2 - generate data that will save
+ * @skenario 3 - save user
+ * #skenario 4 - send email in here is bad practice
+ * so i think to seperate this function
+ */
+export const register = async (req, res, next) => {
+	try {
+		const errors = validationResult(req)
+		if (!errors.isEmpty()) {
+			let newError = cekValidation(errors)
+			throw Boom.boomify(newError, { statusCode: 422 })
+		}
+		let data = await generateData(req.body)
+		let user = await createUser(data)
+
+		let payload = successPayload(200, `User ${user.username} has been Created`, user, req.url, req.method)
+		res.status(200).send(payload)
+	} catch (err) {
+		next(err)
+	}
+}
+
+/**
+ * LOGIN - SKENARIO
+ * @skenario 1 - cek chain validation result
+ * @skenario 2 - get user by username
+ * @skenario 3 - comparing password
+ * @skenario 4 - generate token using jwt
+ * @skenario 5 - set session
+ * @skenario 6 - generate and return payload
  */
 export const login = async (req, res, next) => {
 	try {
@@ -38,12 +70,9 @@ export const login = async (req, res, next) => {
 		let isMatch = await comparePassword(req.body.password, account.password)
 		if (isMatch) {
 			let token = generateToken(account)
-			// let session = await createSession({ token: token })
-			let result = {
-				token: token,
-				account: account,
-			}
-			let payload = successPayload(200, 'Login success', result, req.url, req.method)
+			req.session.token = token
+			req.session.user = account
+			let payload = successPayload(200, 'Login success', token, req.url, req.method)
 			res.status(200).send(payload)
 		} else {
 			throw Boom.unauthorized('Password not match')
@@ -54,16 +83,20 @@ export const login = async (req, res, next) => {
 }
 
 /**
- * logout
- * @param  {[type]}   req  [description]
- * @param  {[type]}   res  [description]
- * @param  {Function} next [description]
- * @return {[type]}        [description]
+ * LOGOUT - SKENARION
+ * @skenario 1 - cek chain validation result
+ * @skenario 2 - get token from session
+ * @skenario 4 - destroy session
  */
 export const logout = async (req, res, next) => {
 	try {
-		let token = req.header('x-auth-token')
-		// let result = await removeSession(token)
+		const errors = validationResult(req)
+		if (!errors.isEmpty()) {
+			let newError = cekValidation(errors)
+			throw Boom.boomify(newError, { statusCode: 422 })
+		}
+		let token = req.header('x-auth-token') || req.session.token
+		req.session.destroy()
 		let payload = successPayload(200, 'Logout success', token, req.url, req.method)
 		res.status(200).send(payload)
 	} catch (err) {

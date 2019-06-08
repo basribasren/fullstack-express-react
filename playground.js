@@ -1,22 +1,30 @@
-// import mongoose from 'mongoose'
+import mongoose from 'mongoose'
 // import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
 // import chalk from 'chalk'
 
 
-// import mongooseConfig from '../config/mongooseConfig.js'
+import mongooseConfig from './server/config/mongooseConfig.js'
 // import accountModel from '../main/models/user/accountModel.js'
-
+import * as sessionService from './server/modules/user/sessionService.js'
 dotenv.config()
 
-// if (process.env.APP_ENV === 'development') {
-// 	mongoose.set('debug', true)
-// }
+if (process.env.APP_ENV === 'development') {
+	mongoose.set('debug', true)
+}
 
 /**
  * connnection to database mongodb using mongoose
  */
-// mongooseConfig(mongoose)
+mongooseConfig()
+
+sessionService.getByToken()
+	.then(result => {
+		return console.log(result)
+	})
+	.catch(err => {
+		return console.log(err)
+	})
 
 // const generateToken = async user => {
 // 	let token = await jwt.sign({ user }, 'secret loh', { expiresIn: '30s' })
@@ -200,16 +208,34 @@ console.log(__dirname);
  * sending mail using mailgun
  */
 
-import { generatedTransporter } from '@config/nodemailerConfig.js'
-import { generateMessage, sendMail } from '@helpers/nodemailer.js'
+// import { generatedTransporter } from '@config/nodemailerConfig.js'
+// import { generateMessage, sendMail } from '@helpers/nodemailer.js'
 
-let data = {
-	from: 'aroonzfi@gmail.com',
-	to: 'basri.keren@gamil.com',
-	title: 'pufft',
-	type: 'amp',
-}
-let transporter = generatedTransporter()
-let message = generateMessage(data)
+// let data = {
+// 	from: 'aroonzfi@gmail.com',
+// 	to: 'basri.keren@gamil.com',
+// 	title: 'pufft',
+// 	type: 'amp',
+// }
+// let transporter = generatedTransporter()
+// let message = generateMessage(data)
 
 // sendMail(transporter, message)
+
+
+// example
+// oneOf([
+//   check('programming_language').isIn(['javascript', 'java', 'php']),
+//   check('design_tools').isIn(['canva', 'photoshop', 'gimp'])
+// ])
+// isInt()
+// optional()
+// oneOf([
+//   [
+//     check('username').exists(),
+//     check('password').exists()
+//   ],
+//   check('access_token').exists()
+// ])
+// .matches(/\d/).withMessage('password must contain a number')
+//

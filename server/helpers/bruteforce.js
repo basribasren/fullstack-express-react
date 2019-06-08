@@ -37,7 +37,7 @@ const failCallback = (req, res, next, nextValidRequestDate) => {
 
 // No more than 1000 login attempts per day per IP
 export const loginRateLimit = new ExpressBrute(store, {
-	freeRetries: 5,
+	freeRetries: 100,
 	attachResetToRequest: false,
 	refreshTimeoutOnRequest: false,
 	minWait: 25 * 60 * 60 * 1000, // 1 day 1 hour (should never reach this wait time)

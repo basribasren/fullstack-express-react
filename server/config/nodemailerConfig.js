@@ -4,20 +4,20 @@ import winstonLogger from '@config/winstonConfig.js'
 
 const logger = winstonLogger
 /**
- * generate transporter using mailgun
+ * send e-mails from Node.js – easy as cake! 🍰✉️
+ * using nodemailer-mailgun-transport with nodemailer to send email using Mailgun's awesomeness! 
  * @return {[type]} [description]
  */
 export const generatedTransporter = () => {
 	try {
-		// This is your API key that you retrieve from www.mailgun.com/cp (free up to 10K monthly emails)
 		let auth = {
 			auth: {
 				api_key: process.env.MAILGUN_API_KEY,
 				domain: process.env.MAILGUN_DOMAIN,
 			},
 		}
-		// create reusable transporter object using the default SMTP transport
 		let transporter = nodemailer.createTransport(mg(auth))
+
 		logger.info('generate transporter success', {
 			service: 'nodemailer',
 			method: null,
@@ -29,7 +29,6 @@ export const generatedTransporter = () => {
 			method: null,
 		})
 		return
-		// throw new Error('generate transporter failed!')
 	}
 }
 
@@ -41,14 +40,11 @@ export const generatedTransporter = () => {
 export const idleTransporter = transporter => {
 	try {
 		transporter.on('idle', function() {
-			// send next message from the pending queue
 			while (transporter.isIdle() && messages.length) {
 				transporter.sendMail(messages.shift())
 			}
 		})
 	} catch (err) {
 		return
-		// console.log(err)
-		// throw new Error('verify transporter failed')
 	}
 }

@@ -34,6 +34,8 @@ module.exports = {
         // propTypes object, e.g. `forbidExtraProps`.
         // If this isn't set, any propTypes wrapped in
         // a function will be skipped.
+
+        // eslint-import-resolver-babel-module
         "import/resolver": {
             "babel-module": {}
         }
