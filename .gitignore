@@ -2,9 +2,11 @@
 # Edit at https://www.gitignore.io/?templates=node
 
 # 
-playground.js
+./playground.js
 bin/index.js
 docs/
+backup/
+
 
 #Production
 dist/
