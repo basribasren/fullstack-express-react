@@ -21,7 +21,13 @@ module.exports = {
 	async down(db) {
 		// TODO write the statements to rollback your migration (if possible)
 		// Example:
-		await db.collection('profiles').updateMany({ lastName: { $exists: true } }, { $unset: { lastName: "" } }, { multi: true })
+		await db.collection('profiles')
+			.updateMany({ lastName: { $exists: true } }, {
+				$unset: {
+					lastName: "",
+					firstName: "",
+				}
+			}, { multi: true })
 		// return db.collection('albums').updateOne({artist: 'The Beatles'}, {$set: {blacklisted: false}})
 	}
 }

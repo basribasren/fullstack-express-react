@@ -1,0 +1,17 @@
+components:
+  schemas:
+    ErrorPayload:
+      type: object
+      properties:
+        data:
+          type: object
+          example: {}
+        status:
+          type: number
+        message:
+          type: string
+        type:
+          type: string
+        header:
+          type: object
+          example: {}
