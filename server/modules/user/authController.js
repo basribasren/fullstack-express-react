@@ -6,21 +6,7 @@ import { generateData } from './userController.js'
 import { comparePassword } from '@helpers/password.js'
 import { generateToken } from '@helpers/authentication.js'
 import { successPayload } from '@helpers/payload.js'
-
-/**
- * on route, we use express validator
- * and here we check the result of express-validator
- * @param  {[type]} errors [description]
- * @return {[type]}        [description]
- */
-const cekValidation = errors => {
-	let listError = []
-	errors.array().map(err => {
-		listError.push(err.msg)
-	})
-	let newError = new Error(listError)
-	return newError
-}
+import { takeOurError } from '@helpers/validation.js'
 
 /**
  * REGISTER - SKENARIO
@@ -34,8 +20,8 @@ export const register = async (req, res, next) => {
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
-			let newError = cekValidation(errors)
-			throw Boom.boomify(newError, { statusCode: 422 })
+			let newError = await takeOurError(errors)
+			throw Boom.boomify(new Error(newError), { statusCode: 422 })
 		}
 		let data = await generateData(req.body)
 		let user = await createUser(data)
@@ -60,8 +46,8 @@ export const login = async (req, res, next) => {
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
-			let newError = cekValidation(errors)
-			throw Boom.boomify(newError, { statusCode: 422 })
+			let newError = await takeOurError(errors)
+			throw Boom.boomify(new Error(newError), { statusCode: 422 })
 		}
 		let account = await getByUsername(req.body.username)
 		if (!account) {
@@ -87,13 +73,14 @@ export const login = async (req, res, next) => {
  * @skenario 1 - cek chain validation result
  * @skenario 2 - get token from session
  * @skenario 4 - destroy session
+ * issue - when set wrong token, log out still success
  */
 export const logout = async (req, res, next) => {
 	try {
 		const errors = validationResult(req)
 		if (!errors.isEmpty()) {
-			let newError = cekValidation(errors)
-			throw Boom.boomify(newError, { statusCode: 422 })
+			let newError = await takeOurError(errors)
+			throw Boom.boomify(new Error(newError), { statusCode: 422 })
 		}
 		let token = req.header('x-auth-token') || req.session.token
 		req.session.destroy()

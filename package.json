@@ -8,10 +8,11 @@
         "client-dev": "npm run serve --prefix client",
         "server-build": "babel serber-dev.js --out-file server-prod.js",
         "server-dev": "nodemon .",
+        "prebuild": "concurrently \"npm install\" \"cd client && npm install\"",
         "development": "concurrently \"npm run server-dev\" \"npm run client-dev\"",
         "start": "node server-prod.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "heroku-prebuild": "npm install npm@latest -g && cd client && npm install --production=false",
+        "heroku-prebuild": "npm install npm@latest -g &&  npm run prebuild",
         "heroku-postbuild": "concurrently \"npm run server-build\" \"npm run client-build\""
     },
     "keywords": [
@@ -25,6 +26,7 @@
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
         "bull": "^3.10.0",
+        "bull-arena": "^2.6.3",
         "compression": "^1.7.3",
         "connect-mongo": "^2.0.3",
         "connect-redis": "^3.4.1",
@@ -51,6 +53,7 @@
         "serve-favicon": "^2.5.0",
         "serve-static": "^1.13.2",
         "swagger-jsdoc": "^3.2.9",
+        "uuid": "^3.3.2",
         "winston": "^3.2.1"
     },
     "devDependencies": {

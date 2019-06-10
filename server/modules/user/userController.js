@@ -63,22 +63,23 @@ export const getByUsername = (req, res, next) => {
 
 /**
  * create User
+ * this is not using, because we using register
  * @param  {[type]}   req  [description]
  * @param  {[type]}   res  [description]
  * @param  {Function} next [description]
  * @return {[type]}        [description]
  */
-export const create = (req, res, next) => {
-	generateData(req.body)
-		.then(data => {
-			return userService.createUser(data)
-		})
-		.then(result => {
-			let payload = successPayload(200, `User ${result.username} has been Created`, result, req.url, req.method)
-			res.status(200).send(payload)
-		})
-		.catch(err => next(err))
-}
+// export const create = (req, res, next) => {
+// 	generateData(req.body)
+// 		.then(data => {
+// 			return userService.createUser(data)
+// 		})
+// 		.then(result => {
+// 			let payload = successPayload(200, `User ${result.username} has been Created`, result, req.url, req.method)
+// 			res.status(200).send(payload)
+// 		})
+// 		.catch(err => next(err))
+// }
 
 /**
  * update User

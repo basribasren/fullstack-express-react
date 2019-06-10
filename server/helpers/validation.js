@@ -1,4 +1,18 @@
 /**
+ * on route, we use express validator
+ * and here we check the result of express-validator
+ * @param  {[type]} errors [description]
+ * @return {[type]}        [description]
+ */
+export const takeOurError = async errors => {
+	let message = []
+	errors.array().map(err => {
+		message.push(err.msg)
+	})
+	return message
+}
+
+/**
  * validation object is empty or not
  * @param  {[type]}  obj [description]
  * @return {Boolean}     [description]
@@ -10,6 +24,7 @@ export const isEmpty = obj => {
 	}
 	return true
 }
+
 
 /**
  * Still not Using
