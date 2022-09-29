@@ -22,7 +22,7 @@
     "author": "basri basren",
     "license": "ISC",
     "dependencies": {
-        "@hapi/boom": "^7.4.2",
+        "@hapi/boom": "^7.4.11",
         "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
         "bull": "^3.10.0",
